@@ -1,0 +1,22 @@
+{% extends 'correspondencia_app/base.html' %}
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<h2>Usuarios</h2>
+<a href="{% url 'correspondencia_app:user_create' %}" class="btn btn-sm btn-primary mb-2">Nuevo usuario</a>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Usuario</th><th>Acciones</th></tr></thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.id }}</td>
+      <td>{{ u.username }}</td>
+      <td>
+        <a href="{% url 'correspondencia_app:user_edit' u.id %}" class="btn btn-sm btn-secondary">Editar</a>
+        <a href="{% url 'correspondencia_app:user_delete' u.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+# virtualenv
+/env/
+/env*
+
+# archivos compilados
+*.pyc
+__pycache__/
+
+# carpetas de Django collectstatic
+/staticfiles/
+
+# IDEs
+.vscode/
