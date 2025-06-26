@@ -1,0 +1,14 @@
+# Python bytecode y entorno virtual
+__pycache__/
+*.py[cod]
+env/
+
+# Base de datos SQLite
+db.sqlite3
+
+# Archivos estáticos recolectados
+/staticfiles/
+
+# Configs de IDEs
+.vscode/
+.idea/
