@@ -1,33 +1,30 @@
-# correspondencia_app/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import CorrespondenciaEntrada, DocumentManager
-from .forms import EntradaForm, DocumentManagerForm
-from django.contrib import messages
+from .forms  import EntradaForm, DocumentManagerForm
 
 def login_view(request):
     if request.method == 'POST':
-        user = authenticate(request,
-                            username=request.POST['username'],
-                            password=request.POST['password'])
+        u = request.POST.get('username')
+        p = request.POST.get('password')
+        user = authenticate(request, username=u, password=p)
         if user:
             login(request, user)
-            return redirect('correspondencia_app:dashboard')
+            return redirect('dashboard')
         else:
-            messages.error(request, "Usuario o contraseña inválidos")
+            return render(request, 'correspondencia_app/login.html', {'error': 'Usuario o contraseña incorrectos'})
     return render(request, 'correspondencia_app/login.html')
 
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('correspondencia_app:login')
+    return redirect('login')
 
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
-# — Entradas —
 @login_required
 def entrada_list(request):
     entradas = CorrespondenciaEntrada.objects.all()
@@ -36,27 +33,26 @@ def entrada_list(request):
 @login_required
 def entrada_create(request):
     if request.method == 'POST':
-        form = EntradaForm(request.POST, request.FILES)
+        form = EntradaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:entrada_list')
+            return redirect('entrada_list')
     else:
         form = EntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
 @login_required
 def entrada_edit(request, pk):
-    entrada = get_object_or_404(CorrespondenciaEntrada, pk=pk)
+    obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
     if request.method == 'POST':
-        form = EntradaForm(request.POST, request.FILES, instance=entrada)
+        form = EntradaForm(request.POST, instance=obj)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:entrada_list')
+            return redirect('entrada_list')
     else:
-        form = EntradaForm(instance=entrada)
+        form = EntradaForm(instance=obj)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-# — Gestores / Document Managers —
 @login_required
 def document_manager_list(request):
     gestores = DocumentManager.objects.all()
@@ -68,19 +64,19 @@ def document_manager_create(request):
         form = DocumentManagerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:lista_del_administrador_de_documentos')
+            return redirect('document_manager_list')
     else:
         form = DocumentManagerForm()
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form})
 
 @login_required
 def document_manager_edit(request, pk):
-    gestor = get_object_or_404(DocumentManager, pk=pk)
+    obj = get_object_or_404(DocumentManager, pk=pk)
     if request.method == 'POST':
-        form = DocumentManagerForm(request.POST, instance=gestor)
+        form = DocumentManagerForm(request.POST, instance=obj)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:lista_del_administrador_de_documentos')
+            return redirect('document_manager_list')
     else:
-        form = DocumentManagerForm(instance=gestor)
+        form = DocumentManagerForm(instance=obj)
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form})
