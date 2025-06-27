@@ -31,7 +31,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'correspondencia_django.urls'  # <- Asegúrate de usar el nombre de tu proyecto
+# —————————— Aquí cambias el nombre del proyecto al módulo real ——————————
+ROOT_URLCONF = 'correspondencia_django.urls'
+WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 
 TEMPLATES = [
     {
@@ -48,8 +50,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 
 # —————————— Configuración de DB (ajusta si usas otra) ——————————
 DATABASES = {
@@ -82,5 +82,3 @@ STATIC_ROOT      = BASE_DIR / 'staticfiles'
 # —————————— Media (subida de archivos) ——————————
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# —————————— Fin de settings.py ——————————

@@ -1,15 +1,15 @@
 from django.db import models
 
 class CorrespondenciaEntrada(models.Model):
-    numero_documento       = models.CharField("Número de documento", max_length=50)
-    fecha_recepcion        = models.DateField("Fecha de recepción")
-    remitente              = models.CharField("Remitente", max_length=100)
-    destinatario           = models.CharField("Destinatario", max_length=100)
-    asunto                 = models.CharField("Asunto", max_length=200)
-    departamento_destino   = models.CharField("Departamento destino", max_length=100)
-    estado                 = models.CharField("Estado", max_length=50)
-    archivo_adjunto        = models.FileField("Archivo adjunto", upload_to='entradas/', blank=True, null=True)
-    observaciones          = models.TextField("Observaciones", blank=True)
+    numero_documento     = models.CharField("Número de documento", max_length=50)
+    fecha_recepcion      = models.DateField("Fecha de recepción")
+    remitente            = models.CharField("Remitente", max_length=100)
+    destinatario         = models.CharField("Destinatario", max_length=100)
+    asunto               = models.CharField("Asunto", max_length=200)
+    departamento_destino = models.CharField("Departamento destino", max_length=100)
+    estado               = models.CharField("Estado", max_length=50)
+    archivo_adjunto      = models.FileField("Archivo adjunto", upload_to='entradas/', blank=True, null=True)
+    observaciones        = models.TextField("Observaciones", blank=True)
 
     class Meta:
         verbose_name        = "Entrada de Correspondencia"
