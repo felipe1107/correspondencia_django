@@ -28,8 +28,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'lista_del_administrador_de_documentos' %}active{% endif %}"
-             href="{% url 'correspondencia_app:lista_del_administrador_de_documentos' %}">
+          <a class="nav-link {% if request.resolver_match.url_name == 'document_manager_list' %}active{% endif %}"
+             href="{% url 'correspondencia_app:document_manager_list' %}">
             Gestores
           </a>
         </li>
