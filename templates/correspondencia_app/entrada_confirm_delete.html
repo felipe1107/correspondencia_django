@@ -1,0 +1,11 @@
+{% extends "correspondencia_app/base.html" %}
+{% block content %}
+  <div class="container">
+    <h2>¿Eliminar entrada “{{ entrada.asunto }}”?</h2>
+    <p>Esta acción es irreversible.</p>
+    <form method="post">{% csrf_token %}
+      <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+      <a class="btn btn-secondary" href="{% url 'correspondencia_app:entrada_list' %}">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

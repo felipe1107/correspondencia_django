@@ -1,37 +1,23 @@
 {% extends "correspondencia_app/base.html" %}
-{% load static %}
-
 {% block content %}
-<div class="inner-bg p-4">
-  <h2>Lista de Entradas</h2>
-  <a href="{% url 'correspondencia_app:entrada_create' %}" class="btn btn-success mb-3">
-    Nueva Entrada
-  </a>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Asunto</th>
-        <th>Remitente</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for e in entradas %}
-      <tr>
-        <td>{{ e.id }}</td>
-        <td>{{ e.asunto }}</td>
-        <td>{{ e.remitente }}</td>
-        <td>
-          <!-- aquí podrías poner botones de editar/ver detalle, si luego los añades -->
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="4">No hay entradas aún.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+<table class="table">
+  <thead><tr>
+    <th>#</th><th>Asunto</th><th>Fecha recep.</th><th>Acciones</th>
+  </tr></thead>
+  <tbody>
+    {% for e in entradas %}
+    <tr>
+      <td>{{ e.pk }}</td>
+      <td>{{ e.asunto }}</td>
+      <td>{{ e.fecha_recepcion }}</td>
+      <td>
+        <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:entrada_edit' e.pk %}">Editar</a>
+        <a class="btn btn-sm btn-danger"  href="{% url 'correspondencia_app:entrada_delete' e.pk %}">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No hay entradas</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
