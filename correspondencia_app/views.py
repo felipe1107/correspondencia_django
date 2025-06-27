@@ -1,8 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts    import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from .models import CorrespondenciaEntrada, DocumentManager
-from .forms  import EntradaForm, DocumentManagerForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http         import HttpResponseForbidden
+from .models             import CorrespondenciaEntrada, DocumentManager
+from .forms              import EntradaForm, DocumentManagerForm
+
+# ————————— Helpers —————————
+def is_staff_user(user):
+    return user.is_staff
+
+# ————————— Autenticación —————————
 
 def login_view(request):
     # … tu lógica de login …
@@ -16,7 +23,7 @@ def logout_view(request):
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
-# ——— Entradas ———
+# ————————— Entradas —————————
 
 @login_required
 def entrada_list(request):
@@ -24,6 +31,7 @@ def entrada_list(request):
     return render(request, 'correspondencia_app/entrada_list.html', {'entradas': entradas})
 
 @login_required
+@user_passes_test(is_staff_user)
 def entrada_create(request):
     if request.method == 'POST':
         form = EntradaForm(request.POST, request.FILES)
@@ -35,6 +43,7 @@ def entrada_create(request):
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': False})
 
 @login_required
+@user_passes_test(is_staff_user)
 def entrada_edit(request, pk):
     entrada = get_object_or_404(CorrespondenciaEntrada, pk=pk)
     if request.method == 'POST':
@@ -47,6 +56,7 @@ def entrada_edit(request, pk):
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': True})
 
 @login_required
+@user_passes_test(is_staff_user)
 def entrada_delete(request, pk):
     entrada = get_object_or_404(CorrespondenciaEntrada, pk=pk)
     if request.method == 'POST':
@@ -54,7 +64,7 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
-# ——— Document Managers / Gestores ———
+# ————————— Document Managers / Gestores —————————
 
 @login_required
 def document_manager_list(request):
@@ -62,6 +72,7 @@ def document_manager_list(request):
     return render(request, 'correspondencia_app/document_manager_list.html', {'gestores': gestores})
 
 @login_required
+@user_passes_test(is_staff_user)
 def document_manager_create(request):
     if request.method == 'POST':
         form = DocumentManagerForm(request.POST, request.FILES)
@@ -70,11 +81,10 @@ def document_manager_create(request):
             return redirect('correspondencia_app:document_manager_list')
     else:
         form = DocumentManagerForm()
-    return render(request, 'correspondencia_app/document_manager_form.html', {
-        'form': form,
-        'edit': False,
-          })
+    return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': False})
+
 @login_required
+@user_passes_test(is_staff_user)
 def document_manager_edit(request, pk):
     gestor = get_object_or_404(DocumentManager, pk=pk)
     if request.method == 'POST':
@@ -84,11 +94,10 @@ def document_manager_edit(request, pk):
             return redirect('correspondencia_app:document_manager_list')
     else:
         form = DocumentManagerForm(instance=gestor)
-    return render(request, 'correspondencia_app/document_manager_form.html', {
-        'form': form,
-        'edit': True,
-    })
+    return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': True})
+
 @login_required
+@user_passes_test(is_staff_user)
 def document_manager_delete(request, pk):
     gestor = get_object_or_404(DocumentManager, pk=pk)
     if request.method == 'POST':

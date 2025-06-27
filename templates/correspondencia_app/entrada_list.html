@@ -1,9 +1,11 @@
 {% extends "correspondencia_app/base.html" %}
 {% block content %}
 <table class="table">
-  <thead><tr>
-    <th>#</th><th>Asunto</th><th>Fecha recep.</th><th>Acciones</th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th>#</th><th>Asunto</th><th>Fecha</th><th>Acciones</th>
+    </tr>
+  </thead>
   <tbody>
     {% for e in entradas %}
     <tr>
@@ -11,12 +13,16 @@
       <td>{{ e.asunto }}</td>
       <td>{{ e.fecha_recepcion }}</td>
       <td>
-        <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:entrada_edit' e.pk %}">Editar</a>
-        <a class="btn btn-sm btn-danger"  href="{% url 'correspondencia_app:entrada_delete' e.pk %}">Eliminar</a>
+        {% if request.user.is_staff %}
+          <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:entrada_edit' e.pk %}">Editar</a>
+          <a class="btn btn-sm btn-danger"  href="{% url 'correspondencia_app:entrada_delete' e.pk %}">Eliminar</a>
+        {% else %}
+          —  <!-- Sin acciones para usuarios normales -->
+        {% endif %}
       </td>
     </tr>
     {% empty %}
-    <tr><td colspan="4">No hay entradas</td></tr>
+      <tr><td colspan="4">No hay entradas</td></tr>
     {% endfor %}
   </tbody>
 </table>
