@@ -1,4 +1,7 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf    import settings
+from django.conf.urls.static import static
+from django.urls    import path, includ
 from . import views
 
 app_name = 'correspondencia_app'
@@ -7,6 +10,7 @@ urlpatterns = [
     # Autenticación
     path('login/',  views.login_view,  name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('', include('correspondencia_app.urls')),
     # Dashboard
     path('',         views.dashboard,           name='dashboard'),
 
