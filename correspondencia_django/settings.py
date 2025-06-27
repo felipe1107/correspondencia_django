@@ -31,7 +31,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tu_proyecto.urls'  # <- Asegúrate de usar el nombre de tu proyecto
+ROOT_URLCONF = 'correspondencia_django.urls'  # <- Asegúrate de usar el nombre de tu proyecto
 
 TEMPLATES = [
     {
@@ -49,7 +49,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tu_proyecto.wsgi.application'
+WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 
 # —————————— Configuración de DB (ajusta si usas otra) ——————————
 DATABASES = {
