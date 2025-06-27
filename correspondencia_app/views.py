@@ -1,16 +1,14 @@
-from django.shortcuts    import render, redirect
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http         import HttpResponseForbidden
-from .models             import CorrespondenciaEntrada, DocumentManager
-from .forms              import EntradaForm, DocumentManagerForm
+from .models import CorrespondenciaEntrada, DocumentManager
+from .forms import EntradaForm, DocumentManagerForm
 
-# ————————— Helpers —————————
+# Helper to check if user is staff (admin)
 def is_staff_user(user):
     return user.is_staff
 
-# ————————— Autenticación —————————
-
+# Authentication views
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -18,25 +16,22 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            # Django usará LOGIN_REDIRECT_URL = '/'
             return redirect(request.GET.get('next', '/'))
         else:
             error = "Credenciales inválidas"
             return render(request, 'correspondencia_app/login.html', {'error': error})
     return render(request, 'correspondencia_app/login.html')
-    # … tu lógica de login …
-    pass
 
+@login_required
 def logout_view(request):
-    # … tu lógica de logout …
-    pass
+    logout(request)
+    return redirect('correspondencia_app:login')
 
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
-# ————————— Entradas —————————
-
+# Entradas (CorrespondenciaEntrada)
 @login_required
 def entrada_list(request):
     entradas = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
@@ -76,8 +71,7 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
-# ————————— Document Managers / Gestores —————————
-
+# Document Managers (Gestores)
 @login_required
 def document_manager_list(request):
     gestores = DocumentManager.objects.all().order_by('nombre')
