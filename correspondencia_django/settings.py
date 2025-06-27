@@ -1,20 +1,23 @@
 import os
 from pathlib import Path
 
+# —————————— Ajusta según tu proyecto ——————————
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'TU_SECRET_KEY_AQUÍ'
-
+SECRET_KEY = 'tu-secret-key-aquí'
 DEBUG = True
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    # apps Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # tu app
     'correspondencia_app',
 ]
 
@@ -28,7 +31,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'correspondencia_django.urls'
+ROOT_URLCONF = 'tu_proyecto.urls'  # <- Asegúrate de usar el nombre de tu proyecto
 
 TEMPLATES = [
     {
@@ -39,7 +42,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.template.context_processors.static',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -47,8 +49,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
+WSGI_APPLICATION = 'tu_proyecto.wsgi.application'
 
+# —————————— Configuración de DB (ajusta si usas otra) ——————————
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -56,31 +59,28 @@ DATABASES = {
     }
 }
 
+# —————————— Contraseñas y validaciones ——————————
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    # … otros validadores …
 ]
 
-LANGUAGE_CODE = 'es-mx'
-TIME_ZONE = 'America/Mexico_City'
+# —————————— Internacionalización ——————————
+LANGUAGE_CODE = 'es-pan'
+TIME_ZONE = 'America/Panama'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Al final de settings.py, justo antes de STATIC configuración
-# Fuerza a Django a usar JSON para serializar la sesión
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
-
-
+# —————————— Archivos estáticos ——————————
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT      = BASE_DIR / 'staticfiles'
 
-# ← Apunta LOGIN_URL a tu vista “login” personalizada
-LOGIN_URL = 'correspondencia_app:login'
-LOGIN_REDIRECT_URL = 'correspondencia_app:dashboard'
-LOGOUT_REDIRECT_URL = 'correspondencia_app:login'
+# —————————— Media (subida de archivos) ——————————
+MEDIA_URL  = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+# —————————— Fin de settings.py ——————————

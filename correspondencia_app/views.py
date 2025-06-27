@@ -64,26 +64,30 @@ def document_manager_list(request):
 @login_required
 def document_manager_create(request):
     if request.method == 'POST':
-        form = DocumentManagerForm(request.POST)
+        form = DocumentManagerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('correspondencia_app:document_manager_list')
     else:
         form = DocumentManagerForm()
-    return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': False})
-
+    return render(request, 'correspondencia_app/document_manager_form.html', {
+        'form': form,
+        'edit': False,
+          })
 @login_required
 def document_manager_edit(request, pk):
     gestor = get_object_or_404(DocumentManager, pk=pk)
     if request.method == 'POST':
-        form = DocumentManagerForm(request.POST, instance=gestor)
+        form = DocumentManagerForm(request.POST, request.FILES, instance=gestor)
         if form.is_valid():
             form.save()
             return redirect('correspondencia_app:document_manager_list')
     else:
         form = DocumentManagerForm(instance=gestor)
-    return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': True})
-
+    return render(request, 'correspondencia_app/document_manager_form.html', {
+        'form': form,
+        'edit': True,
+    })
 @login_required
 def document_manager_delete(request, pk):
     gestor = get_object_or_404(DocumentManager, pk=pk)

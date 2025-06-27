@@ -1,9 +1,13 @@
-# correspondencia_django/urls.py
 from django.contrib import admin
 from django.urls import path, include
+from django.conf    import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('administración/', admin.site.urls),
-    path('', include(('correspondencia_app.urls', 'correspondencia_app'),
-                     namespace='correspondencia_app')),
+    path('admin/', admin.site.urls),
+    path('', include('correspondencia_app.urls', namespace='correspondencia_app')),
 ]
+
+# Sirve archivos MEDIA en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

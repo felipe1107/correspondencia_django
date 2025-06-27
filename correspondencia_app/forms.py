@@ -1,16 +1,14 @@
-from django import forms
-from .models import CorrespondenciaEntrada, DocumentManager
+from django.db import models
 
-class EntradaForm(forms.ModelForm):
-    class Meta:
-        model = CorrespondenciaEntrada
-        fields = [
-            'numero_documento', 'remitente', 'destinatario',
-            'departamento_destino', 'asunto', 'estado',
-            'fecha_recepcion', 'observaciones'
-        ]
+class DocumentManager(models.Model):
+    nombre    = models.CharField(max_length=100, blank=False)
+    email     = models.EmailField(blank=False)
+    telefono  = models.CharField(max_length=20, blank=False)
+    archivo   = models.FileField(upload_to='gestores/', blank=True, null=True)
 
-class DocumentManagerForm(forms.ModelForm):
     class Meta:
-        model = DocumentManager
-        fields = ['nombre', 'email', 'telefono']
+        verbose_name        = "Gestor de Documentos"
+        verbose_name_plural = "Gestores de Documentos"
+
+    def __str__(self):
+        return self.nombre

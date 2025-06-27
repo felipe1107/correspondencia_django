@@ -1,24 +1,37 @@
 {% extends "correspondencia_app/base.html" %}
 {% block content %}
-<table class="table">
-  <thead><tr>
-    <th>#</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Acciones</th>
-  </tr></thead>
-  <tbody>
-    {% for g in gestores %}
-    <tr>
-      <td>{{ g.pk }}</td>
-      <td>{{ g.nombre }}</td>
-      <td>{{ g.email }}</td>
-      <td>{{ g.telefono }}</td>
-      <td>
-        <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:document_manager_edit' g.pk %}">Editar</a>
-        <a class="btn btn-sm btn-danger"  href="{% url 'correspondencia_app:document_manager_delete' g.pk %}">Eliminar</a>
-      </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="5">No hay gestores</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <table class="table">
+    <thead><tr>
+      <th>#</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Archivo</th><th>Acciones</th>
+    </tr></thead>
+    <tbody>
+      {% for g in gestores %}
+      <tr>
+        <td>{{ g.pk }}</td>
+        <td>{{ g.nombre }}</td>
+        <td>{{ g.email }}</td>
+        <td>{{ g.telefono }}</td>
+        <td>
+          {% if g.archivo %}
+            <a href="{{ g.archivo.url }}" download>Descargar</a>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+        <td>
+          <a class="btn btn-sm btn-primary"
+             href="{% url 'correspondencia_app:document_manager_edit' g.pk %}">
+            Editar
+          </a>
+          <a class="btn btn-sm btn-danger"
+             href="{% url 'correspondencia_app:document_manager_delete' g.pk %}">
+            Eliminar
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6">No hay gestores</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
