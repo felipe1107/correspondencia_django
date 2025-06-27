@@ -82,3 +82,7 @@ STATIC_ROOT      = BASE_DIR / 'staticfiles'
 # —————————— Media (subida de archivos) ——————————
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+# URL al que redirecta @login_required cuando el usuario no está autenticado
+LOGIN_URL = '/login/'                   
+# (Opcional) URL a la que redirigir tras hacer login exitoso
+LOGIN_REDIRECT_URL = '/'                
