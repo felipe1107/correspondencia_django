@@ -1,6 +1,9 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Dashboard{% endblock %}
+{% extends "correspondencia_app/base.html" %}
 {% block content %}
-  <h1 class="text-center">Bienvenido, {{ request.user.username }}!</h1>
-  <p class="text-center">Selecciona una opción del menú superior.</p>
+<div class="dashboard-bg main-container">
+  <div class="content text-center">
+    <h1>Bienvenido, {{ user.username }}!</h1>
+    <p>Selecciona una opción del menú superior.</p>
+  </div>
+</div>
 {% endblock %}

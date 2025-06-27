@@ -1,28 +1,37 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Lista de Entradas{% endblock %}
+{% extends "correspondencia_app/base.html" %}
+{% load static %}
+
 {% block content %}
-  <h2>Entradas</h2>
-  <a href="{% url 'entrada_create' %}" class="btn btn-success mb-3">Nueva Entrada</a>
+<div class="inner-bg p-4">
+  <h2>Lista de Entradas</h2>
+  <a href="{% url 'correspondencia_app:entrada_create' %}" class="btn btn-success mb-3">
+    Nueva Entrada
+  </a>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>ID</th><th>Remitente</th><th>Destinatario</th><th>Asunto</th><th>Acciones</th>
+        <th>ID</th>
+        <th>Asunto</th>
+        <th>Remitente</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-    {% for e in entradas %}
+      {% for e in entradas %}
       <tr>
-        <td>{{ e.numero_documento }}</td>
-        <td>{{ e.remitente }}</td>
-        <td>{{ e.destinatario }}</td>
+        <td>{{ e.id }}</td>
         <td>{{ e.asunto }}</td>
+        <td>{{ e.remitente }}</td>
         <td>
-          <a href="{% url 'entrada_edit' e.pk %}" class="btn btn-sm btn-primary">Editar</a>
+          <!-- aquí podrías poner botones de editar/ver detalle, si luego los añades -->
         </td>
       </tr>
-    {% empty %}
-      <tr><td colspan="5">No hay entradas.</td></tr>
-    {% endfor %}
+      {% empty %}
+      <tr>
+        <td colspan="4">No hay entradas aún.</td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
+</div>
 {% endblock %}

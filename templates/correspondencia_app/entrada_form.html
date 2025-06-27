@@ -1,11 +1,14 @@
 {% extends 'correspondencia_app/base.html' %}
-{% block title %}{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Entrada{% endblock %}
+{% load static %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Entrada</h2>
+<div class="container inner-bg py-4">
+  <h2>Nueva Entrada</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="{% url 'entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+    <a href="{% url 'correspondencia_app:entrada_create' %}" class="btn btn-success">Nuevo</a>
   </form>
+</div>
 {% endblock %}

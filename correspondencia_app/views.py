@@ -1,25 +1,25 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from .models import CorrespondenciaEntrada, DocumentManager
-from .forms  import EntradaForm, DocumentManagerForm
+from .forms import EntradaForm, DocumentManagerForm
 
 def login_view(request):
+    error = None
     if request.method == 'POST':
-        u = request.POST.get('username')
-        p = request.POST.get('password')
-        user = authenticate(request, username=u, password=p)
-        if user:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('correspondencia_app:dashboard')
         else:
-            return render(request, 'correspondencia_app/login.html', {'error': 'Usuario o contraseña incorrectos'})
-    return render(request, 'correspondencia_app/login.html')
+            error = "Usuario o contraseña incorrectos"
+    return render(request, 'correspondencia_app/login.html', {'error': error})
 
-@login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('correspondencia_app:login')
 
 @login_required
 def dashboard(request):
@@ -33,24 +33,12 @@ def entrada_list(request):
 @login_required
 def entrada_create(request):
     if request.method == 'POST':
-        form = EntradaForm(request.POST)
+        form = EntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('entrada_list')
+            return redirect('correspondencia_app:entrada_list')
     else:
         form = EntradaForm()
-    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
-
-@login_required
-def entrada_edit(request, pk):
-    obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
-    if request.method == 'POST':
-        form = EntradaForm(request.POST, instance=obj)
-        if form.is_valid():
-            form.save()
-            return redirect('entrada_list')
-    else:
-        form = EntradaForm(instance=obj)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
 @login_required
@@ -64,19 +52,7 @@ def document_manager_create(request):
         form = DocumentManagerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('document_manager_list')
+            return redirect('correspondencia_app:document_manager_list')
     else:
         form = DocumentManagerForm()
-    return render(request, 'correspondencia_app/document_manager_form.html', {'form': form})
-
-@login_required
-def document_manager_edit(request, pk):
-    obj = get_object_or_404(DocumentManager, pk=pk)
-    if request.method == 'POST':
-        form = DocumentManagerForm(request.POST, instance=obj)
-        if form.is_valid():
-            form.save()
-            return redirect('document_manager_list')
-    else:
-        form = DocumentManagerForm(instance=obj)
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form})
