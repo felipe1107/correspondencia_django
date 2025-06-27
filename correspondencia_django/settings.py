@@ -10,14 +10,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    # apps Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # tu app
     'correspondencia_app',
 ]
 
@@ -31,7 +29,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# —————————— Aquí cambias el nombre del proyecto al módulo real ——————————
+# ————— Módulo raíz de tu proyecto —————
 ROOT_URLCONF = 'correspondencia_django.urls'
 WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 
@@ -51,7 +49,7 @@ TEMPLATES = [
     },
 ]
 
-# —————————— Configuración de DB (ajusta si usas otra) ——————————
+# ————— Base de datos —————
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -59,30 +57,30 @@ DATABASES = {
     }
 }
 
-# —————————— Contraseñas y validaciones ——————————
+# ————— Validación de contraseñas —————
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
-    # … otros validadores …
+    # otros validadores…
 ]
 
-# —————————— Internacionalización ——————————
+# ————— Internacionalización —————
 LANGUAGE_CODE = 'es-pan'
 TIME_ZONE = 'America/Panama'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# —————————— Archivos estáticos ——————————
+# ————— Archivos estáticos —————
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
-STATIC_ROOT      = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# —————————— Media (subida de archivos) ——————————
-MEDIA_URL  = '/media/'
+# ————— Media (subida de archivos) —————
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-# URL al que redirecta @login_required cuando el usuario no está autenticado
-LOGIN_URL = '/login/'                   
-# (Opcional) URL a la que redirigir tras hacer login exitoso
-LOGIN_REDIRECT_URL = '/'                
+
+# ————— Rutas de autenticación —————
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
