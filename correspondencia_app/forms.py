@@ -12,6 +12,7 @@ class EntradaForm(forms.ModelForm):
             'asunto',
             'departamento_destino',
             'estado',
+            'gestor',            # nuevo campo
             'archivo_adjunto',
             'observaciones',
         ]
