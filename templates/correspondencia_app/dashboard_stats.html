@@ -1,6 +1,7 @@
 {% extends "correspondencia_app/base.html" %}
-{% block title %}Dashboard Estadísticas{% endblock %}
 {% load static %}
+{% block title %}Dashboard Estadísticas{% endblock %}
+
 {% block content %}
   <div class="container py-4">
     <h2>Dashboard de Estadísticas</h2>
@@ -16,7 +17,7 @@
           <div class="card shadow-sm mb-4">
             <div class="card-header">Entradas por Gestor</div>
             <div class="card-body">
-              <canvas id="chartGestor" style="min-height: 300px;"></canvas>
+              <canvas id="chartGestor" style="min-height:300px;"></canvas>
             </div>
           </div>
         </div>
@@ -25,7 +26,7 @@
           <div class="card shadow-sm mb-4">
             <div class="card-header">Entradas por Estado</div>
             <div class="card-body">
-              <canvas id="chartEstado" style="min-height: 300px;"></canvas>
+              <canvas id="chartEstado" style="min-height:300px;"></canvas>
             </div>
           </div>
         </div>
@@ -35,49 +36,40 @@
 
   {% if by_gestor or by_estado %}
   <script>
+    // Comprueba primero en consola:
+    console.log("by_gestor =", {{ by_gestor|default:'[]'|safe }});
+    console.log("by_estado =", {{ by_estado|default:'[]'|safe }});
+
     const dataGestor = {{ by_gestor|default:'[]'|safe }};
     const dataEstado = {{ by_estado|default:'[]'|safe }};
 
+    // Etiquetas y totales
     const labelsG = dataGestor.map(o => o['gestor__nombre'] || 'Sin gestor');
     const valuesG = dataGestor.map(o => o.total);
     const labelsE = dataEstado.map(o => o.estado);
     const valuesE = dataEstado.map(o => o.total);
 
+    // Gráfico de barras
     new Chart(document.getElementById('chartGestor'), {
       type: 'bar',
       data: {
         labels: labelsG,
-        datasets: [{
-          label: 'Total Entradas',
-          data: valuesG,
-          borderWidth: 1
-        }]
+        datasets: [{ label: 'Entradas', data: valuesG, borderWidth: 1 }]
       },
       options: {
-        scales: {
-          y: { beginAtZero: true }
-        },
-        plugins: {
-          legend: { display: false },
-        }
+        scales: { y: { beginAtZero: true } },
+        plugins: { legend: { display: false } }
       }
     });
 
+    // Gráfico circular
     new Chart(document.getElementById('chartEstado'), {
       type: 'pie',
       data: {
         labels: labelsE,
-        datasets: [{
-          label: 'Entradas',
-          data: valuesE,
-          borderWidth: 1
-        }]
+        datasets: [{ label: 'Entradas', data: valuesE, borderWidth: 1 }]
       },
-      options: {
-        plugins: {
-          legend: { position: 'bottom' }
-        }
-      }
+      options: { plugins: { legend: { position: 'bottom' } } }
     });
   </script>
   {% endif %}
