@@ -6,12 +6,18 @@ from django.http            import HttpResponse
 from django.contrib         import messages
 from django.db              import models
 import csv
+import openpyxl
+from openpyxl.utils        import get_column_letter
 
 from .models import CorrespondenciaEntrada, DocumentManager
 from .forms  import EntradaForm, DocumentManagerForm
 
+# Permiso para staff
+
 def is_staff_user(user):
     return user.is_staff
+
+# Login/logout
 
 def login_view(request):
     if request.method == 'POST':
@@ -31,13 +37,17 @@ def logout_view(request):
     messages.info(request, "Has cerrado sesión")
     return redirect('correspondencia_app:login')
 
+# Dashboard
+
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
+# Listar Entradas
+
 @login_required
 def entrada_list(request):
-    q  = request.GET.get('q', '')
+    q = request.GET.get('q', '')
     qs = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
     if q:
         qs = qs.filter(
@@ -50,6 +60,8 @@ def entrada_list(request):
         'entradas': page_obj,
         'q': q,
     })
+
+# Crear Entrada
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -64,6 +76,8 @@ def entrada_create(request):
     else:
         form = EntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': False})
+
+# Editar Entrada
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -80,6 +94,8 @@ def entrada_edit(request, pk):
         form = EntradaForm(instance=entrada)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': True})
 
+# Eliminar Entrada
+
 @login_required
 @user_passes_test(is_staff_user)
 def entrada_delete(request, pk):
@@ -89,6 +105,8 @@ def entrada_delete(request, pk):
         messages.success(request, "Entrada eliminada")
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
+
+# Exportar CSV
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -105,9 +123,41 @@ def export_entradas_csv(request):
         ])
     return response
 
+# Exportar XLSX
+
+@login_required
+@user_passes_test(is_staff_user)
+def export_entradas_xlsx(request):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Entradas'
+    headers = ['ID','Número','Asunto','Fecha recepción','Remitente','Destinatario','Estado','Gestor']
+    ws.append(headers)
+    for e in CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion'):
+        ws.append([
+            e.pk,
+            e.numero_documento,
+            e.asunto,
+            e.fecha_recepcion.strftime('%Y-%m-%d'),
+            e.remitente,
+            e.destinatario,
+            e.estado,
+            e.gestor.nombre if e.gestor else ''
+        ])
+    for i in range(1, len(headers) + 1):
+        ws.column_dimensions[get_column_letter(i)].auto_size = True
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename=entradas.xlsx'
+    wb.save(response)
+    return response
+
+# Listar Gestores
+
 @login_required
 def document_manager_list(request):
-    q  = request.GET.get('q', '')
+    q = request.GET.get('q', '')
     qs = DocumentManager.objects.all().order_by('nombre')
     if q:
         qs = qs.filter(
@@ -120,6 +170,8 @@ def document_manager_list(request):
         'gestores': page_obj,
         'q': q,
     })
+
+# Crear Gestor
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -134,6 +186,8 @@ def document_manager_create(request):
     else:
         form = DocumentManagerForm()
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': False})
+
+# Editar Gestor
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -150,6 +204,8 @@ def document_manager_edit(request, pk):
         form = DocumentManagerForm(instance=gestor)
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': True})
 
+# Eliminar Gestor
+
 @login_required
 @user_passes_test(is_staff_user)
 def document_manager_delete(request, pk):
@@ -160,6 +216,8 @@ def document_manager_delete(request, pk):
         return redirect('correspondencia_app:document_manager_list')
     return render(request, 'correspondencia_app/document_manager_confirm_delete.html', {'gestor': gestor})
 
+# Exportar Gestores CSV
+
 @login_required
 @user_passes_test(is_staff_user)
 def export_gestores_csv(request):
@@ -169,4 +227,25 @@ def export_gestores_csv(request):
     writer.writerow(['ID','Nombre','Email','Teléfono'])
     for g in DocumentManager.objects.all().order_by('nombre'):
         writer.writerow([g.pk, g.nombre, g.email, g.telefono])
+    return response
+
+# Exportar Gestores XLSX
+
+@login_required
+@user_passes_test(is_staff_user)
+def export_gestores_xlsx(request):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Gestores'
+    headers = ['ID','Nombre','Email','Teléfono']
+    ws.append(headers)
+    for g in DocumentManager.objects.all().order_by('nombre'):
+        ws.append([g.pk, g.nombre, g.email, g.telefono])
+    for i in range(1, len(headers) + 1):
+        ws.column_dimensions[get_column_letter(i)].auto_size = True
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename=gestores.xlsx'
+    wb.save(response)
     return response
