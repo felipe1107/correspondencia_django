@@ -1,37 +1,65 @@
+{% load static %}
 {% extends "correspondencia_app/base.html" %}
 {% block content %}
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Archivo</th><th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for g in gestores %}
-    <tr>
-      <td>{{ g.pk }}</td>
-      <td>{{ g.nombre }}</td>
-      <td>{{ g.email }}</td>
-      <td>{{ g.telefono }}</td>
-      <td>
-        {% if g.archivo %}
-          <a href="{{ g.archivo.url }}" download>Descargar</a>
-        {% else %}
-          —
-        {% endif %}
-      </td>
-      <td>
-        {% if request.user.is_staff %}
-          <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:document_manager_edit' g.pk %}">Editar</a>
-          <a class="btn btn-sm btn-danger"  href="{% url 'correspondencia_app:document_manager_delete' g.pk %}">Eliminar</a>
-        {% else %}
-          —  <!-- usuarios normales sólo ven y descargan -->
-        {% endif %}
-      </td>
-    </tr>
-    {% empty %}
+  <h1>Gestores</h1>
+
+  <form method="get" class="mb-3">
+    <div class="input-group">
+      <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar nombre o email...">
+      <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Archivo</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for g in gestores %}
+      <tr>
+        <td>{{ g.pk }}</td>
+        <td>{{ g.nombre }}</td>
+        <td>{{ g.email }}</td>
+        <td>{{ g.telefono }}</td>
+        <td>
+          {% if g.archivo %}
+            <a href="{{ g.archivo.url }}" download>Descargar</a>
+          {% else %}&mdash;{% endif %}
+        </td>
+        <td>
+          {% if request.user.is_staff %}
+            <a class="btn btn-sm btn-primary" href="{% url 'correspondencia_app:document_manager_edit' g.pk %}">Editar</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'correspondencia_app:document_manager_delete' g.pk %}">Eliminar</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
       <tr><td colspan="6">No hay gestores</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if gestores.has_other_pages %}
+  <nav>
+    <ul class="pagination">
+      {% if gestores.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ q }}&page={{ gestores.previous_page_number }}">« Anterior</a>
+        </li>
+      {% endif %}
+      {% for num in gestores.paginator.page_range %}
+        <li class="page-item {% if gestores.number == num %}active{% endif %}">
+          <a class="page-link" href="?q={{ q }}&page={{ num }}">{{ num }}</a>
+        </li>
+      {% endfor %}
+      {% if gestores.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ q }}&page={{ gestores.next_page_number }}">Siguiente »</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
 {% endblock %}

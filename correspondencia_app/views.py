@@ -1,25 +1,24 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts       import render, redirect, get_object_or_404
+from django.contrib.auth    import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import CorrespondenciaEntrada, DocumentManager
-from .forms import EntradaForm, DocumentManagerForm
+from django.core.paginator  import Paginator
+from django.db              import models
+from .models                import CorrespondenciaEntrada, DocumentManager
+from .forms                 import EntradaForm, DocumentManagerForm
 
-# Helper to check if user is staff (admin)
 def is_staff_user(user):
     return user.is_staff
 
-# Authentication views
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
             return redirect(request.GET.get('next', '/'))
         else:
-            error = "Credenciales inválidas"
-            return render(request, 'correspondencia_app/login.html', {'error': error})
+            return render(request, 'correspondencia_app/login.html', {'error': 'Credenciales inválidas'})
     return render(request, 'correspondencia_app/login.html')
 
 @login_required
@@ -31,11 +30,21 @@ def logout_view(request):
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
-# Entradas (CorrespondenciaEntrada)
 @login_required
 def entrada_list(request):
-    entradas = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
-    return render(request, 'correspondencia_app/entrada_list.html', {'entradas': entradas})
+    q  = request.GET.get('q', '')
+    qs = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
+    if q:
+        qs = qs.filter(
+            models.Q(asunto__icontains=q) |
+            models.Q(remitente__icontains=q)
+        )
+    paginator = Paginator(qs, 10)
+    page_obj  = paginator.get_page(request.GET.get('page'))
+    return render(request, 'correspondencia_app/entrada_list.html', {
+        'entradas': page_obj,
+        'q': q,
+    })
 
 @login_required
 @user_passes_test(is_staff_user)
@@ -71,11 +80,21 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
-# Document Managers (Gestores)
 @login_required
 def document_manager_list(request):
-    gestores = DocumentManager.objects.all().order_by('nombre')
-    return render(request, 'correspondencia_app/document_manager_list.html', {'gestores': gestores})
+    q  = request.GET.get('q', '')
+    qs = DocumentManager.objects.all().order_by('nombre')
+    if q:
+        qs = qs.filter(
+            models.Q(nombre__icontains=q) |
+            models.Q(email__icontains=q)
+        )
+    paginator = Paginator(qs, 10)
+    page_obj  = paginator.get_page(request.GET.get('page'))
+    return render(request, 'correspondencia_app/document_manager_list.html', {
+        'gestores': page_obj,
+        'q': q,
+    })
 
 @login_required
 @user_passes_test(is_staff_user)
