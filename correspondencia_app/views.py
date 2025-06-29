@@ -2,9 +2,12 @@ from django.shortcuts       import render, redirect, get_object_or_404
 from django.contrib.auth    import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator  import Paginator
+from django.http            import HttpResponse
 from django.db              import models
-from .models                import CorrespondenciaEntrada, DocumentManager
-from .forms                 import EntradaForm, DocumentManagerForm
+import csv
+
+from .models import CorrespondenciaEntrada, DocumentManager
+from .forms  import EntradaForm, DocumentManagerForm
 
 def is_staff_user(user):
     return user.is_staff
@@ -17,8 +20,7 @@ def login_view(request):
         if user:
             login(request, user)
             return redirect(request.GET.get('next', '/'))
-        else:
-            return render(request, 'correspondencia_app/login.html', {'error': 'Credenciales inválidas'})
+        return render(request, 'correspondencia_app/login.html', {'error': 'Credenciales inválidas'})
     return render(request, 'correspondencia_app/login.html')
 
 @login_required
@@ -40,7 +42,7 @@ def entrada_list(request):
             models.Q(remitente__icontains=q)
         )
     paginator = Paginator(qs, 10)
-    page_obj  = paginator.get_page(request.GET.get('page'))
+    page_obj = paginator.get_page(request.GET.get('page'))
     return render(request, 'correspondencia_app/entrada_list.html', {
         'entradas': page_obj,
         'q': q,
@@ -81,6 +83,17 @@ def entrada_delete(request, pk):
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
 @login_required
+@user_passes_test(is_staff_user)
+def export_entradas_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['ID','Número','Asunto','Fecha recepción','Remitente','Destinatario','Estado'])
+    for e in CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion'):
+        writer.writerow([e.pk, e.numero_documento, e.asunto, e.fecha_recepcion, e.remitente, e.destinatario, e.estado])
+    return response
+
+@login_required
 def document_manager_list(request):
     q  = request.GET.get('q', '')
     qs = DocumentManager.objects.all().order_by('nombre')
@@ -90,7 +103,7 @@ def document_manager_list(request):
             models.Q(email__icontains=q)
         )
     paginator = Paginator(qs, 10)
-    page_obj  = paginator.get_page(request.GET.get('page'))
+    page_obj = paginator.get_page(request.GET.get('page'))
     return render(request, 'correspondencia_app/document_manager_list.html', {
         'gestores': page_obj,
         'q': q,
@@ -129,3 +142,14 @@ def document_manager_delete(request, pk):
         gestor.delete()
         return redirect('correspondencia_app:document_manager_list')
     return render(request, 'correspondencia_app/document_manager_confirm_delete.html', {'gestor': gestor})
+
+@login_required
+@user_passes_test(is_staff_user)
+def export_gestores_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="gestores.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['ID','Nombre','Email','Teléfono'])
+    for g in DocumentManager.objects.all().order_by('nombre'):
+        writer.writerow([g.pk, g.nombre, g.email, g.telefono])
+    return response

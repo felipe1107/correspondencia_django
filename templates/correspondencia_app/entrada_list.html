@@ -3,6 +3,10 @@
 {% block content %}
   <h1>Entradas</h1>
 
+  <a href="{% url 'correspondencia_app:export_entradas_csv' %}" class="btn btn-success mb-3">
+    Exportar CSV
+  </a>
+
   <form method="get" class="mb-3">
     <div class="input-group">
       <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar asunto o remitente...">
@@ -12,9 +16,7 @@
 
   <table class="table">
     <thead>
-      <tr>
-        <th>#</th><th>Asunto</th><th>Fecha</th><th>Archivo</th><th>Acciones</th>
-      </tr>
+      <tr><th>#</th><th>Asunto</th><th>Fecha</th><th>Archivo</th><th>Acciones</th></tr>
     </thead>
     <tbody>
       {% for e in entradas %}
