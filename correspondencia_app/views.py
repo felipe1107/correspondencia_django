@@ -3,6 +3,7 @@ from django.contrib.auth    import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator  import Paginator
 from django.http            import HttpResponse
+from django.contrib         import messages
 from django.db              import models
 import csv
 
@@ -19,13 +20,15 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect(request.GET.get('next', '/'))
-        return render(request, 'correspondencia_app/login.html', {'error': 'Credenciales inválidas'})
+            messages.success(request, f"Bienvenido, {user.username}")
+            return redirect(request.GET.get('next', 'correspondencia_app:dashboard'))
+        messages.error(request, "Usuario o contraseña incorrectos")
     return render(request, 'correspondencia_app/login.html')
 
 @login_required
 def logout_view(request):
     logout(request)
+    messages.info(request, "Has cerrado sesión")
     return redirect('correspondencia_app:login')
 
 @login_required
@@ -55,7 +58,9 @@ def entrada_create(request):
         form = EntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Entrada creada correctamente")
             return redirect('correspondencia_app:entrada_list')
+        messages.error(request, "Por favor corrige los errores en el formulario")
     else:
         form = EntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': False})
@@ -68,7 +73,9 @@ def entrada_edit(request, pk):
         form = EntradaForm(request.POST, request.FILES, instance=entrada)
         if form.is_valid():
             form.save()
+            messages.success(request, "Entrada actualizada")
             return redirect('correspondencia_app:entrada_list')
+        messages.error(request, "Por favor corrige los errores en el formulario")
     else:
         form = EntradaForm(instance=entrada)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form, 'edit': True})
@@ -79,6 +86,7 @@ def entrada_delete(request, pk):
     entrada = get_object_or_404(CorrespondenciaEntrada, pk=pk)
     if request.method == 'POST':
         entrada.delete()
+        messages.success(request, "Entrada eliminada")
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
@@ -88,9 +96,13 @@ def export_entradas_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
     writer = csv.writer(response)
-    writer.writerow(['ID','Número','Asunto','Fecha recepción','Remitente','Destinatario','Estado'])
+    writer.writerow(['ID','Número','Asunto','Fecha recepción','Remitente','Destinatario','Estado','Gestor'])
     for e in CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion'):
-        writer.writerow([e.pk, e.numero_documento, e.asunto, e.fecha_recepcion, e.remitente, e.destinatario, e.estado])
+        writer.writerow([
+            e.pk, e.numero_documento, e.asunto, e.fecha_recepcion,
+            e.remitente, e.destinatario, e.estado,
+            e.gestor.nombre if e.gestor else ''
+        ])
     return response
 
 @login_required
@@ -116,7 +128,9 @@ def document_manager_create(request):
         form = DocumentManagerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Gestor creado correctamente")
             return redirect('correspondencia_app:document_manager_list')
+        messages.error(request, "Por favor corrige los errores en el formulario")
     else:
         form = DocumentManagerForm()
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': False})
@@ -129,7 +143,9 @@ def document_manager_edit(request, pk):
         form = DocumentManagerForm(request.POST, request.FILES, instance=gestor)
         if form.is_valid():
             form.save()
+            messages.success(request, "Gestor actualizado")
             return redirect('correspondencia_app:document_manager_list')
+        messages.error(request, "Por favor corrige los errores en el formulario")
     else:
         form = DocumentManagerForm(instance=gestor)
     return render(request, 'correspondencia_app/document_manager_form.html', {'form': form, 'edit': True})
@@ -140,6 +156,7 @@ def document_manager_delete(request, pk):
     gestor = get_object_or_404(DocumentManager, pk=pk)
     if request.method == 'POST':
         gestor.delete()
+        messages.success(request, "Gestor eliminado")
         return redirect('correspondencia_app:document_manager_list')
     return render(request, 'correspondencia_app/document_manager_confirm_delete.html', {'gestor': gestor})
 
