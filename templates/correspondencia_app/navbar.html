@@ -1,34 +1,30 @@
-{% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'correspondencia_app:dashboard' %}">
-      <img src="{% static 'img/logo.png' %}" height="30" alt="Logo"> Gestor
-    </a>
-    <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false"
-            aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{% url 'correspondencia_app:dashboard_stats' %}">Gestor Doc</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsMain">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarsMain">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
-             href="{% url 'correspondencia_app:dashboard' %}">Inicio</a>
+          <a class="nav-link" href="{% url 'correspondencia_app:dashboard_stats' %}">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'entrada_list' %}active{% endif %}"
-             href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a>
+          <a class="nav-link" href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'document_manager_list' %}active{% endif %}"
-             href="{% url 'correspondencia_app:document_manager_list' %}">Gestores</a>
+          <a class="nav-link" href="{% url 'correspondencia_app:document_manager_list' %}">Gestores</a>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'correspondencia_app:logout' %}">Salir</a>
-        </li>
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">{{ user.username }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'correspondencia_app:logout' %}">Salir</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
