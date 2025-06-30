@@ -1,0 +1,18 @@
+{% extends "correspondencia_app/base.html" %}
+{% block title %}DEBUG Entradas{% endblock %}
+{% block content %}
+  <h2>DEBUG: Últimas Entradas</h2>
+  <ul class="list-group">
+    {% for e in entradas %}
+      <li class="list-group-item">
+        <strong>pk={{ e.pk }}</strong> —
+        #={{ e.numero_documento }} —
+        Asunto: {{ e.asunto }} —
+        Gestor: {{ e.gestor.nombre if e.gestor else '—' }} —
+        Fecha: {{ e.fecha_recepcion }}
+      </li>
+    {% empty %}
+      <li class="list-group-item">No hay entradas.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

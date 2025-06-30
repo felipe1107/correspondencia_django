@@ -201,3 +201,9 @@ def export_gestores_xlsx(request):
     resp['Content-Disposition'] = 'attachment; filename=gestores.xlsx'
     wb.save(resp)
     return resp
+@login_required
+def debug_entradas(request):
+    entradas = CorrespondenciaEntrada.objects.order_by('-pk')[:10]
+    return render(request, 'correspondencia_app/debug_entradas.html', {
+        'entradas': entradas
+    })

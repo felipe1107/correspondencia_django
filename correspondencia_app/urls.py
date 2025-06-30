@@ -26,4 +26,6 @@ urlpatterns = [
     path('gestores/<int:pk>/eliminar/',views.document_manager_delete, name='document_manager_delete'),
     path('gestores/exportar-csv/',    views.export_gestores_csv,     name='export_gestores_csv'),
     path('gestores/exportar-xlsx/',   views.export_gestores_xlsx,    name='export_gestores_xlsx'),
+    # justo después de las demás rutas
+    path('debug/entradas/', views.debug_entradas, name='debug_entradas'),
 ]
