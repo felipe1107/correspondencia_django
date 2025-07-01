@@ -1,59 +1,51 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
-class DocumentManager(models.Model):
+class Gestor(models.Model):
     nombre = models.CharField(max_length=100)
-    email = models.EmailField()
-    telefono = models.CharField(max_length=20)
+    # ... demás campos de Gestor ...
 
     def __str__(self):
         return self.nombre
 
-    class Meta:
-        verbose_name = 'Gestor'
-        verbose_name_plural = 'Gestores'
-        ordering = ['nombre']  # Ahora siempre ordena alfabéticamente
 
 class CorrespondenciaEntrada(models.Model):
-    numero_documento = models.PositiveIntegerField(unique=True)
+    numero_documento = models.IntegerField(
+        unique=True,
+        editable=False,
+        verbose_name="Número de entrada"
+    )
     asunto = models.CharField(max_length=200)
-    remitente = models.CharField(max_length=100)
-    destinatario = models.CharField(max_length=100)
     gestor = models.ForeignKey(
-        DocumentManager,
+        Gestor,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        related_name="entradas"
+    )
+    fecha_recepcion = models.DateField(
+        default=timezone.now,
+        editable=False,
+        verbose_name="Fecha de recepción"
     )
     archivo_adjunto = models.FileField(
-        upload_to='entradas/',
+        upload_to="entradas/",
         null=True,
         blank=True
     )
-    estado = models.CharField(
-        max_length=20,
-        choices=(
-            ('Pendiente', 'Pendiente'),
-            ('Recibido', 'Recibido'),
-            ('Enviado', 'Enviado'),
-        ),
-        default='Pendiente'
-    )
-    fecha_recepcion = models.DateField(default=timezone.now)
+    # ... cualquier otro campo que tengas ...
 
     def save(self, *args, **kwargs):
-        # Si no tiene número, le asignamos el siguiente
+        # Si aún no tiene número, calculamos el siguiente
         if not self.numero_documento:
-            último = CorrespondenciaEntrada.objects.aggregate(
-                models.Max('numero_documento')
-            )['numero_documento__max'] or 0
-            self.numero_documento = último + 1
+            ultimo = (
+                CorrespondenciaEntrada.objects
+                .aggregate(models.Max("numero_documento"))
+                .get("numero_documento__max") or 0
+            )
+            self.numero_documento = ultimo + 1
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.numero_documento} – {self.asunto}"
-
-    class Meta:
-        verbose_name = 'Entrada'
-        verbose_name_plural = 'Entradas'
-        ordering = ['-fecha_recepcion']  # Las más recientes primero

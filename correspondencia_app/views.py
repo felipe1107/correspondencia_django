@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Max
 from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.views.generic import (
-    ListView, CreateView, UpdateView, DeleteView
-)
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import CorrespondenciaEntrada, DocumentManager
 from .forms import EntradaForm, DocumentManagerForm
@@ -16,11 +15,34 @@ class StaffRequiredMixin(UserPassesTestMixin):
         return self.request.user.is_staff
 
 # -----------------------------------
+# Login / Logout
+# -----------------------------------
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('correspondencia_app:dashboard')
+        else:
+            return render(request, 'correspondencia_app/login.html', {
+                'error': 'Usuario o contraseña incorrectos'
+            })
+    return render(request, 'correspondencia_app/login.html')
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('correspondencia_app:login')
+
+# -----------------------------------
 # Dashboard con estadísticas
 # -----------------------------------
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def dashboard_stats(request):
+def dashboard(request):
     total_entradas = CorrespondenciaEntrada.objects.count()
     total_gestores = DocumentManager.objects.count()
     return render(request, 'correspondencia_app/dashboard.html', {
