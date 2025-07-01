@@ -1,75 +1,19 @@
 {% extends "correspondencia_app/base.html" %}
 {% load static %}
-
 {% block content %}
-  <div class="container py-4">
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">
-          {% if edit %}Editar Entrada{% else %}Nueva Entrada{% endif %}
-        </h4>
-      </div>
-      <div class="card-body">
-        <form method="post" enctype="multipart/form-data" novalidate>
-          {% csrf_token %}
-
-          <!-- Campo auto generado -->
-          <div class="mb-3">
-            <label class="form-label">Número de documento</label>
-            <input type="text" class="form-control" value="{{ form.instance.numero_documento }}" readonly>
-          </div>
-
-          <!-- Fecha automática -->
-          <div class="mb-3">
-            <label class="form-label">Fecha de recepción</label>
-            <input type="text" class="form-control"
-                   value="{{ form.instance.fecha_recepcion|date:'d/m/Y' }}"
-                   readonly>
-          </div>
-
-          <!-- Resto de campos -->
-          {{ form.remitente.label_tag }} 
-          {{ form.remitente }}
-          {{ form.remitente.errors }}
-
-          {{ form.destinatario.label_tag }} 
-          {{ form.destinatario }}
-          {{ form.destinatario.errors }}
-
-          {{ form.asunto.label_tag }} 
-          {{ form.asunto }}
-          {{ form.asunto.errors }}
-
-          {{ form.departamento_destino.label_tag }} 
-          {{ form.departamento_destino }}
-          {{ form.departamento_destino.errors }}
-
-          {{ form.estado.label_tag }} 
-          {{ form.estado }}
-          {{ form.estado.errors }}
-
-          {{ form.gestor.label_tag }}
-          {{ form.gestor }}
-          {{ form.gestor.errors }}
-
-          {{ form.archivo_adjunto.label_tag }}
-          {{ form.archivo_adjunto }}
-          {{ form.archivo_adjunto.errors }}
-
-          {{ form.observaciones.label_tag }}
-          {{ form.observaciones }}
-          {{ form.observaciones.errors }}
-
-          <div class="mt-4">
-            <button type="submit" class="btn btn-primary">
-              {% if edit %}Guardar cambios{% else %}Crear Entrada{% endif %}
-            </button>
-            <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary ms-2">
-              Cancelar
-            </a>
-          </div>
-        </form>
-      </div>
+  <h2 class="mb-4">{{ view.object|yesno:"Editar entrada,Nueva entrada" }}</h2>
+  <form method="post" enctype="multipart/form-data" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+      {{ form.as_p }}
     </div>
-  </div>
+    <div class="col-12 text-end">
+      <button type="submit" class="btn btn-primary">
+        Guardar
+      </button>
+      <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">
+        Cancelar
+      </a>
+    </div>
+  </form>
 {% endblock %}
