@@ -1,25 +1,20 @@
 from django.contrib import admin
-from .models import CorrespondenciaEntrada, DocumentManager
+from .models import CorrespondenciaEntrada, Gestor
 
 @admin.register(CorrespondenciaEntrada)
 class CorrespondenciaEntradaAdmin(admin.ModelAdmin):
     list_display = (
-        'numero_documento',
-        'asunto',
-        'remitente',
-        'destinatario',
-        'gestor',
-        'fecha_recepcion',
+        "numero_documento",
+        "asunto",
+        "gestor",
+        "fecha_recepcion",
+        "archivo_adjunto",
     )
-    list_filter = (
-        'gestor',
-        'fecha_recepcion',
-    )
-    search_fields = ('numero_documento', 'asunto', 'remitente', 'destinatario')
-    ordering = ('-fecha_recepcion',)
+    search_fields = ("asunto", "gestor__nombre")
+    list_filter = ("gestor", "fecha_recepcion")
+    readonly_fields = ("numero_documento", "fecha_recepcion")
 
-@admin.register(DocumentManager)
-class DocumentManagerAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'email', 'telefono')
-    search_fields = ('nombre', 'email')
-    ordering = ('nombre',)
+@admin.register(Gestor)
+class GestorAdmin(admin.ModelAdmin):
+    list_display = ("nombre",)
+    search_fields = ("nombre",)
