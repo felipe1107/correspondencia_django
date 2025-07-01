@@ -4,22 +4,18 @@ from . import views
 app_name = 'correspondencia_app'
 
 urlpatterns = [
-    # Login / Logout
-    path('login/',  views.login_view,  name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('login/',  views.login_view,     name='login'),
+    path('logout/', views.logout_view,    name='logout'),
 
-    # Dashboard
-    path('',        views.dashboard,   name='dashboard'),
+    path('',               views.dashboard,     name='dashboard'),
 
-    # Entradas
-    path('entradas/',                 views.EntradaListView.as_view(),   name='entrada_list'),
-    path('entradas/nuevo/',           views.EntradaCreateView.as_view(), name='entrada_create'),
-    path('entradas/<int:pk>/editar/', views.EntradaUpdateView.as_view(), name='entrada_edit'),
-    path('entradas/<int:pk>/eliminar/', views.EntradaDeleteView.as_view(), name='entrada_delete'),
+    path('entradas/',       views.entrada_list,   name='entrada_list'),
+    path('entradas/nuevo/', views.entrada_create, name='entrada_create'),
+    path('entradas/<int:pk>/editar/', views.entrada_edit,   name='entrada_edit'),
+    path('entradas/<int:pk>/eliminar/', views.entrada_delete, name='entrada_delete'),
 
-    # Gestores
-    path('gestores/',                   views.DocumentManagerListView.as_view(),   name='document_manager_list'),
-    path('gestores/nuevo/',             views.DocumentManagerCreateView.as_view(), name='document_manager_create'),
-    path('gestores/<int:pk>/editar/',   views.DocumentManagerUpdateView.as_view(), name='document_manager_edit'),
-    path('gestores/<int:pk>/eliminar/', views.DocumentManagerDeleteView.as_view(), name='document_manager_delete'),
+    path('gestores/',       views.gestor_list,   name='gestor_list'),
+    path('gestores/nuevo/', views.gestor_create, name='gestor_create'),
+    path('gestores/<int:pk>/editar/',   views.gestor_edit,   name='gestor_edit'),
+    path('gestores/<int:pk>/eliminar/', views.gestor_delete, name='gestor_delete'),
 ]
