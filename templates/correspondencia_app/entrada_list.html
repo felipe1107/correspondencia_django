@@ -2,10 +2,9 @@
 {% load static %}
 
 {% block content %}
-  <!-- Encabezado con acciones -->
   <div class="d-flex justify-content-between align-items-center py-3">
     <h1>Entradas</h1>
-    {% if request.user.is_staff %}
+    {% if user.is_staff %}
       <div>
         <a href="{% url 'correspondencia_app:entrada_create' %}" class="btn btn-primary me-2">
           <i class="bi bi-plus-lg"></i> Nueva Entrada
@@ -20,22 +19,11 @@
     {% endif %}
   </div>
 
-  <!-- Búsqueda -->
-  <div class="row mb-3">
-    <div class="col-md-8">
-      <form method="get" class="d-flex">
-        <input
-          name="q"
-          class="form-control me-2"
-          placeholder="Buscar asunto o remitente..."
-          value="{{ q }}"
-        >
-        <button class="btn btn-outline-primary">Buscar</button>
-      </form>
-    </div>
-  </div>
+  <form method="get" class="d-flex mb-3">
+    <input name="q" class="form-control me-2" placeholder="Buscar asunto o remitente..." value="{{ q }}">
+    <button class="btn btn-outline-primary">Buscar</button>
+  </form>
 
-  <!-- Tabla -->
   <div class="table-responsive">
     <table class="table table-hover align-middle">
       <thead class="table-light">
@@ -45,58 +33,33 @@
       </thead>
       <tbody>
         {% for e in entradas %}
-        <tr>
-          <td>{{ e.numero_documento }}</td>
-          <td>{{ e.asunto }}</td>
-          <td>
-            {% if e.gestor %}
-              {{ e.gestor.nombre }}
-            {% else %}
-              &mdash;
-            {% endif %}
-          </td>
-          <td>{{ e.fecha_recepcion|date:"d/m/Y" }}</td>
-          <td>
-            {% if e.archivo_adjunto %}
-              <a href="{{ e.archivo_adjunto.url }}" class="link-primary">Descargar</a>
-            {% else %}
-              &mdash;
-            {% endif %}
-          </td>
-          <td class="text-end">
-            {% if request.user.is_staff %}
-              <a href="{% url 'correspondencia_app:entrada_edit' e.pk %}" class="btn btn-sm btn-outline-primary me-1">
-                <i class="bi bi-pencil"></i>
-              </a>
-              <a href="{% url 'correspondencia_app:entrada_delete' e.pk %}" class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </a>
-            {% endif %}
-          </td>
-        </tr>
+          <tr>
+            <td>{{ e.numero_documento }}</td>
+            <td>{{ e.asunto }}</td>
+            <td>{% if e.gestor %}{{ e.gestor.nombre }}{% else %}&mdash;{% endif %}</td>
+            <td>{{ e.fecha_recepcion|date:"d/m/Y" }}</td>
+            <td>
+              {% if e.archivo_adjunto %}
+                <a href="{{ e.archivo_adjunto.url }}" class="link-primary">Descargar</a>
+              {% else %}&mdash;{% endif %}
+            </td>
+            <td class="text-end">
+              {% if user.is_staff %}
+                <a href="{% url 'correspondencia_app:entrada_edit' e.pk %}" class="btn btn-sm btn-outline-primary me-1">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <a href="{% url 'correspondencia_app:entrada_delete' e.pk %}" class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash"></i>
+                </a>
+              {% endif %}
+            </td>
+          </tr>
         {% empty %}
-        <tr><td colspan="6" class="text-center">No hay entradas</td></tr>
+          <tr><td colspan="6" class="text-center">No hay entradas</td></tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <!-- Paginación -->
-  {% if entradas.has_other_pages %}
-  <nav class="mt-3">
-    <ul class="pagination justify-content-center">
-      {% if entradas.has_previous %}
-        <li class="page-item"><a class="page-link" href="?q={{ q }}&page={{ entradas.previous_page_number }}">&laquo;</a></li>
-      {% endif %}
-      {% for num in entradas.paginator.page_range %}
-        <li class="page-item {% if entradas.number == num %}active{% endif %}">
-          <a class="page-link" href="?q={{ q }}&page={{ num }}">{{ num }}</a>
-        </li>
-      {% endfor %}
-      {% if entradas.has_next %}
-        <li class="page-item"><a class="page-link" href="?q={{ q }}&page={{ entradas.next_page_number }}">&raquo;</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-  {% endif %}
+  {% include "correspondencia_app/_pagination.html" with page_obj=entradas q=q %}
 {% endblock %}

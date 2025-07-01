@@ -8,7 +8,7 @@
         <strong>pk={{ e.pk }}</strong> —
         #={{ e.numero_documento }} —
         Asunto: {{ e.asunto }} —
-        Gestor: {{ e.gestor.nombre if e.gestor else '—' }} —
+        Gestor: {% if e.gestor %}{{ e.gestor.nombre }}{% else %}&mdash;{% endif %} —
         Fecha: {{ e.fecha_recepcion }}
       </li>
     {% empty %}
