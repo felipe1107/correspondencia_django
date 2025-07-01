@@ -18,10 +18,10 @@ urlpatterns = [
     path('entradas/exportar-xlsx/',     views.export_entradas_xlsx,         name='export_entradas_xlsx'),
 
     # Gestores
-    path('gestores/',                   views.document_manager_list,        name='document_manager_list'),
-    path('gestores/nuevo/',             views.document_manager_create,      name='document_manager_create'),
-    path('gestores/<int:pk>/editar/',   views.document_manager_edit,        name='document_manager_edit'),
-    path('gestores/<int:pk>/eliminar/', views.document_manager_delete,      name='document_manager_delete'),
+   path('gestores/',                   views.GestorListView.as_view(),   name='document_manager_list'),
+   path('gestores/nuevo/',             views.GestorCreateView.as_view(), name='document_manager_create'),
+   path('gestores/<int:pk>/editar/',   views.GestorUpdateView.as_view(), name='document_manager_edit'),
+   path('gestores/<int:pk>/eliminar/', views.GestorDeleteView.as_view(), name='document_manager_delete'),
 
     # Debug
     path('debug/entradas/',             views.debug_entradas,               name='debug_entradas'),
