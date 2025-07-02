@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import CorrespondenciaEntrada, Gestor
 from .forms import EntradaForm, GestorForm
+
 
 def login_view(request):
     if request.method == 'POST':
         usuario = request.POST.get('username')
-        clave   = request.POST.get('password')
+        clave = request.POST.get('password')
         user = authenticate(request, username=usuario, password=clave)
         if user:
             login(request, user)
@@ -42,12 +41,14 @@ def staff_required(view_func):
     return user_passes_test(lambda u: u.is_staff, login_url='correspondencia_app:login')(view_func)
 
 
+# Entradas
+
 @staff_required
 def entrada_list(request):
     q = request.GET.get('q', '')
     qs = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
     if q:
-        qs = qs.filter(asunto__icontains=q)  # ajusta filtros a tu modelo
+        qs = qs.filter(asunto__icontains=q)
     return render(request, 'correspondencia_app/entrada_list.html', {
         'entradas': qs,
         'q': q,
@@ -87,6 +88,8 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'object': obj})
 
+
+# Gestores
 
 @staff_required
 def gestor_list(request):
