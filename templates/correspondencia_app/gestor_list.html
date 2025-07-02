@@ -1,30 +1,40 @@
 {% extends 'base.html' %}
-{% block title %}Lista de Gestores{% endblock %}
+
+{% block title %}Listado de Gestores{% endblock %}
 
 {% block content %}
-  <h2>Gestores</h2>
-  <a class="btn btn-primary mb-2" href="{% url 'correspondencia_app:gestor_create' %}">Nuevo Gestor</a>
-  <table class="table table-bordered">
+<h2>Gestores</h2>
+
+<form method="get" class="mb-3">
+    <input type="text" name="q" placeholder="Buscar por nombre" value="{{ q }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<table class="table table-bordered">
     <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Departamento</th>
-        <th>Acciones</th>
-      </tr>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Departamento</th>
+            <th>Acciones</th>
+        </tr>
     </thead>
     <tbody>
-      {% for gestor in gestores %}
-      <tr>
-        <td>{{ gestor.nombre }}</td>
-        <td>{{ gestor.departamento }}</td>
-        <td>
-          <a class="btn btn-sm btn-warning" href="{% url 'correspondencia_app:gestor_edit' gestor.id %}">Editar</a>
-          <a class="btn btn-sm btn-danger" href="{% url 'correspondencia_app:gestor_delete' gestor.id %}">Eliminar</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="3">No hay gestores registrados.</td></tr>
-      {% endfor %}
+        {% for gestor in gestores %}
+        <tr>
+            <td>{{ gestor.nombre }}</td>
+            <td>{{ gestor.correo }}</td>
+            <td>{{ gestor.departamento }}</td>
+            <td>
+                <a href="{% url 'correspondencia_app:gestor_edit' gestor.id %}">Editar</a> |
+                <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay gestores registrados.</td>
+        </tr>
+        {% endfor %}
     </tbody>
-  </table>
+</table>
 {% endblock %}
