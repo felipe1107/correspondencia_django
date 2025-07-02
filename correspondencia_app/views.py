@@ -1,8 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.db.models.functions import TruncMonth
-from django.db.models import Count
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
 
@@ -10,86 +7,53 @@ from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, Gestor
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
+# Vistas para Entradas
 @login_required
-def entradas_por_mes(request):
-    datos = (
-        CorrespondenciaEntrada.objects
-        .annotate(mes=TruncMonth("fecha_recepcion"))
-        .values("mes")
-        .annotate(total=Count("id"))
-        .order_by("mes")
-    )
-
-    etiquetas = [dato["mes"].strftime("%B") for dato in datos]
-    cantidades = [dato["total"] for dato in datos]
-
-    return JsonResponse({
-        "labels": etiquetas,
-        "data": cantidades,
-    })
-
-@login_required
-def salidas_por_mes(request):
-    datos = (
-        CorrespondenciaSalida.objects
-        .annotate(mes=TruncMonth("fecha_envio"))
-        .values("mes")
-        .annotate(total=Count("id"))
-        .order_by("mes")
-    )
-
-    etiquetas = [dato["mes"].strftime("%B") for dato in datos]
-    cantidades = [dato["total"] for dato in datos]
-
-    return JsonResponse({
-        "labels": etiquetas,
-        "data": cantidades,
-    })
-
-@login_required
-def lista_entradas(request):
+def entrada_list(request):
     entradas = CorrespondenciaEntrada.objects.all()
-    return render(request, 'correspondencia_app/lista_entradas.html', {'entradas': entradas})
+    return render(request, 'correspondencia_app/entrada_list.html', {'entradas': entradas})
 
 @login_required
-def crear_entrada(request):
+def entrada_create(request):
     if request.method == 'POST':
         form = CorrespondenciaEntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:lista_entradas')
+            return redirect('correspondencia_app:entrada_list')
     else:
         form = CorrespondenciaEntradaForm()
-    return render(request, 'correspondencia_app/crear_entrada.html', {'form': form})
+    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
+# Vistas para Salidas
 @login_required
-def lista_salidas(request):
+def salida_list(request):
     salidas = CorrespondenciaSalida.objects.all()
-    return render(request, 'correspondencia_app/lista_salidas.html', {'salidas': salidas})
+    return render(request, 'correspondencia_app/salida_list.html', {'salidas': salidas})
 
 @login_required
-def crear_salida(request):
+def salida_create(request):
     if request.method == 'POST':
         form = CorrespondenciaSalidaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:lista_salidas')
+            return redirect('correspondencia_app:salida_list')
     else:
         form = CorrespondenciaSalidaForm()
-    return render(request, 'correspondencia_app/crear_salida.html', {'form': form})
+    return render(request, 'correspondencia_app/salida_form.html', {'form': form})
 
+# Vistas para Gestores
 @login_required
-def lista_gestores(request):
+def gestor_list(request):
     gestores = Gestor.objects.all()
-    return render(request, 'correspondencia_app/lista_gestores.html', {'gestores': gestores})
+    return render(request, 'correspondencia_app/gestor_list.html', {'gestores': gestores})
 
 @login_required
-def crear_gestor(request):
+def gestor_create(request):
     if request.method == 'POST':
         form = GestorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:lista_gestores')
+            return redirect('correspondencia_app:gestor_list')
     else:
         form = GestorForm()
-    return render(request, 'correspondencia_app/crear_gestor.html', {'form': form})
+    return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
