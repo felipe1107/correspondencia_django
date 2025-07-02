@@ -48,6 +48,7 @@ TEMPLATES = [
         },
     },
 ]
+
 # ————— Base de datos —————
 DATABASES = {
     'default': {
