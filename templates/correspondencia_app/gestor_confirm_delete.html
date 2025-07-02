@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar Gestor{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">¿Estás seguro de que deseas eliminar este gestor?</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <p><strong>{{ object.nombre }}</strong></p>
+  <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+  <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

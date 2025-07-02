@@ -1,40 +1,46 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Listado de Gestores{% endblock %}
+{% block title %}Gestores{% endblock %}
 
 {% block content %}
-<h2>Gestores</h2>
+<h2 class="mb-4">Listado de Gestores</h2>
 
-<form method="get" class="mb-3">
-    <input type="text" name="q" placeholder="Buscar por nombre" value="{{ q }}">
-    <button type="submit">Buscar</button>
+<form method="get" class="mb-4">
+  <div class="input-group">
+    <input type="text" name="q" class="form-control" placeholder="Buscar gestor..." value="{{ q }}">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a href="{% url 'correspondencia_app:gestor_create' %}" class="btn btn-success ms-2">+ Nuevo Gestor</a>
+  </div>
 </form>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Departamento</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for gestor in gestores %}
-        <tr>
-            <td>{{ gestor.nombre }}</td>
-            <td>{{ gestor.correo }}</td>
-            <td>{{ gestor.departamento }}</td>
-            <td>
-                <a href="{% url 'correspondencia_app:gestor_edit' gestor.id %}">Editar</a> |
-                <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}">Eliminar</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">No hay gestores registrados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th>Departamento</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gestor in gestores %}
+    <tr>
+      <td>{{ gestor.nombre }}</td>
+      <td>{{ gestor.correo }}</td>
+      <td>{{ gestor.telefono }}</td>
+      <td>{{ gestor.departamento }}</td>
+      <td>
+        <a href="{% url 'correspondencia_app:gestor_edit' gestor.id %}" class="btn btn-sm btn-warning">Editar</a>
+        <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No se encontraron gestores.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

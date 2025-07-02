@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form.instance.pk|yesno:"Editar Gestor,Nuevo Gestor" }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ form.instance.pk|yesno:"Editar Gestor,Nuevo Gestor" }}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    {{ form.as_p }}
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
