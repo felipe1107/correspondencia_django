@@ -1,19 +1,16 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'correspondencia_app/base.html' %}
+{% block title %}Nueva Entrada - Sistema de Correspondencia{% endblock %}
+
 {% block content %}
-  <h2 class="mb-4">{{ view.object|yesno:"Editar entrada,Nueva entrada" }}</h2>
-  <form method="post" enctype="multipart/form-data" class="row g-3">
+<div class="card shadow p-4">
+  <h4 class="mb-4">Registrar Nueva Entrada</h4>
+
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="col-md-6">
-      {{ form.as_p }}
-    </div>
-    <div class="col-12 text-end">
-      <button type="submit" class="btn btn-primary">
-        Guardar
-      </button>
-      <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">
-        Cancelar
-      </a>
-    </div>
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
   </form>
+</div>
 {% endblock %}
