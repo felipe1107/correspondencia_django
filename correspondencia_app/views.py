@@ -1,133 +1,116 @@
+# correspondencia_app/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import CorrespondenciaEntrada, Gestor
-from .forms import EntradaForm, GestorForm
+from django.contrib.auth.decorators import login_required
+from .models import Gestor, CorrespondenciaEntrada, CorrespondenciaSalida
+from .forms import GestorForm, CorrespondenciaEntradaForm, CorrespondenciaSalidaForm
 
-# Vista de login
+# LOGIN
 def login_view(request):
-    if request.method == 'POST':
-        usuario = request.POST.get('username')
-        clave = request.POST.get('password')
-        user = authenticate(request, username=usuario, password=clave)
-        if user:
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('correspondencia_app:dashboard')
+            return redirect("inicio")
         else:
-            return render(request, 'correspondencia_app/login.html', {
-                'error': 'Usuario o clave inválidos'
-            })
-    return render(request, 'correspondencia_app/login.html')
+            return render(request, "correspondencia_app/login.html", {"error": "Credenciales inválidas"})
+    return render(request, "correspondencia_app/login.html")
 
-# Vista de logout
 def logout_view(request):
     logout(request)
-    return redirect('correspondencia_app:login')
+    return redirect("login")
 
-# Decorador para restringir a usuarios staff
-def staff_required(view_func):
-    return user_passes_test(lambda u: u.is_staff, login_url='correspondencia_app:login')(view_func)
-
-# Vista del dashboard
+# INICIO
 @login_required
-def dashboard(request):
-    total_entradas = CorrespondenciaEntrada.objects.count()
-    total_gestores = Gestor.objects.count()
-    recientes = CorrespondenciaEntrada.objects.order_by('-pk')[:5]
-    return render(request, 'correspondencia_app/dashboard.html', {
-        'total_entradas': total_entradas,
-        'total_gestores': total_gestores,
-        'recientes': recientes,
-    })
+def inicio(request):
+    return render(request, "correspondencia_app/inicio.html")
 
-# Lista de entradas
-@staff_required
-def entrada_list(request):
-    q = request.GET.get('q', '')
-    qs = CorrespondenciaEntrada.objects.all().order_by('-fecha_recepcion')
-    if q:
-        qs = qs.filter(asunto__icontains=q)
-    return render(request, 'correspondencia_app/entrada_list.html', {
-        'entradas': qs,
-        'q': q,
-    })
-
-# Crear nueva entrada
-@staff_required
-def entrada_create(request):
-    if request.method == 'POST':
-        form = EntradaForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('correspondencia_app:entrada_list')
-    else:
-        form = EntradaForm()
-    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
-
-# Editar entrada existente
-@staff_required
-def entrada_edit(request, pk):
-    obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
-    if request.method == 'POST':
-        form = EntradaForm(request.POST, request.FILES, instance=obj)
-        if form.is_valid():
-            form.save()
-            return redirect('correspondencia_app:entrada_list')
-    else:
-        form = EntradaForm(instance=obj)
-    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
-
-# Eliminar entrada
-@staff_required
-def entrada_delete(request, pk):
-    obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('correspondencia_app:entrada_list')
-    return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'object': obj})
-
-# Lista de gestores
-@staff_required
+# GESTORES
+@login_required
 def gestor_list(request):
-    q = request.GET.get('q', '')
-    qs = Gestor.objects.all().order_by('nombre')
-    if q:
-        qs = qs.filter(nombre__icontains=q)
-    return render(request, 'correspondencia_app/gestor_list.html', {
-        'gestores': qs,
-        'q': q,
-    })
+    gestores = Gestor.objects.all()
+    return render(request, "correspondencia_app/gestor_list.html", {"gestores": gestores})
 
-# Crear nuevo gestor
-@staff_required
+@login_required
 def gestor_create(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = GestorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:gestor_list')
+            return redirect("gestor_list")
     else:
         form = GestorForm()
-    return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
+    return render(request, "correspondencia_app/gestor_form.html", {"form": form})
 
-# Editar gestor
-@staff_required
-def gestor_edit(request, pk):
-    obj = get_object_or_404(Gestor, pk=pk)
-    if request.method == 'POST':
-        form = GestorForm(request.POST, instance=obj)
+@login_required
+def gestor_delete(request, pk):
+    gestor = get_object_or_404(Gestor, pk=pk)
+    if request.method == "POST":
+        gestor.delete()
+        return redirect("gestor_list")
+    return render(request, "correspondencia_app/gestor_confirm_delete.html", {"gestor": gestor})
+
+# ENTRADAS
+@login_required
+def entrada_list(request):
+    query = request.GET.get("q")
+    if query:
+        entradas = CorrespondenciaEntrada.objects.filter(asunto__icontains=query)
+    else:
+        entradas = CorrespondenciaEntrada.objects.all()
+    return render(request, "correspondencia_app/entrada_list.html", {"entradas": entradas})
+
+@login_required
+def entrada_create(request):
+    if request.method == "POST":
+        form = CorrespondenciaEntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:gestor_list')
+            return redirect("entrada_list")
     else:
-        form = GestorForm(instance=obj)
-    return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
+        form = CorrespondenciaEntradaForm()
+    return render(request, "correspondencia_app/entrada_form.html", {"form": form})
 
-# Eliminar gestor
-@staff_required
-def gestor_delete(request, pk):
-    obj = get_object_or_404(Gestor, pk=pk)
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('correspondencia_app:gestor_list')
-    return render(request, 'correspondencia_app/gestor_confirm_delete.html', {'object': obj})
+# SALIDAS (Paso 2)
+@login_required
+def salida_list(request):
+    query = request.GET.get("q")
+    if query:
+        salidas = CorrespondenciaSalida.objects.filter(asunto__icontains=query)
+    else:
+        salidas = CorrespondenciaSalida.objects.all()
+    return render(request, "correspondencia_app/salida_list.html", {"salidas": salidas})
+
+@login_required
+def salida_create(request):
+    if request.method == "POST":
+        form = CorrespondenciaSalidaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("salida_list")
+    else:
+        form = CorrespondenciaSalidaForm()
+    return render(request, "correspondencia_app/salida_form.html", {"form": form})
+
+@login_required
+def salida_update(request, pk):
+    salida = get_object_or_404(CorrespondenciaSalida, pk=pk)
+    if request.method == "POST":
+        form = CorrespondenciaSalidaForm(request.POST, request.FILES, instance=salida)
+        if form.is_valid():
+            form.save()
+            return redirect("salida_list")
+    else:
+        form = CorrespondenciaSalidaForm(instance=salida)
+    return render(request, "correspondencia_app/salida_form.html", {"form": form})
+
+@login_required
+def salida_delete(request, pk):
+    salida = get_object_or_404(CorrespondenciaSalida, pk=pk)
+    if request.method == "POST":
+        salida.delete()
+        return redirect("salida_list")
+    return render(request, "correspondencia_app/salida_confirm_delete.html", {"salida": salida})

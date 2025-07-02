@@ -1,20 +1,29 @@
-from django import forms
-from .models import CorrespondenciaEntrada, Gestor
+# correspondencia_app/forms.py
 
-class EntradaForm(forms.ModelForm):
-    class Meta:
-        model = CorrespondenciaEntrada
-        # ajusta los campos que necesites en el formulario de entrada
-        fields = [
-            'asunto',
-            'gestor',
-            'archivo_adjunto',
-        ]
+from django import forms
+from .models import Gestor, CorrespondenciaEntrada, CorrespondenciaSalida
 
 class GestorForm(forms.ModelForm):
     class Meta:
         model = Gestor
-        # ajusta los campos que necesites en el formulario de gestor
+        fields = ['nombre', 'correo']
+
+class CorrespondenciaEntradaForm(forms.ModelForm):
+    class Meta:
+        model = CorrespondenciaEntrada
+        fields = ['asunto', 'gestor', 'fecha_recepcion', 'archivo_adjunto']
+
+class CorrespondenciaSalidaForm(forms.ModelForm):
+    class Meta:
+        model = CorrespondenciaSalida
         fields = [
-            'nombre',
+            'numero_documento',
+            'fecha_envio',
+            'remitente',
+            'destinatario',
+            'asunto',
+            'departamento_origen',
+            'estado',
+            'archivo_adjunto',
+            'observaciones'
         ]
