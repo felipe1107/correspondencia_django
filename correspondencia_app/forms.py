@@ -1,17 +1,5 @@
-# correspondencia_app/forms.py
-
 from django import forms
-from .models import Gestor, CorrespondenciaEntrada, CorrespondenciaSalida
-
-class GestorForm(forms.ModelForm):
-    class Meta:
-        model = Gestor
-        fields = ['nombre', 'correo']
-
-class CorrespondenciaEntradaForm(forms.ModelForm):
-    class Meta:
-        model = CorrespondenciaEntrada
-        fields = ['asunto', 'gestor', 'fecha_recepcion', 'archivo_adjunto']
+from .models import CorrespondenciaSalida
 
 class CorrespondenciaSalidaForm(forms.ModelForm):
     class Meta:
@@ -25,5 +13,5 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
             'departamento_origen',
             'estado',
             'archivo_adjunto',
-            'observaciones'
+            'observaciones',
         ]
