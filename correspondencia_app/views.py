@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import CorrespondenciaEntrada, Gestor
 from .forms import EntradaForm, GestorForm
 
-
+# Vista de login
 def login_view(request):
     if request.method == 'POST':
         usuario = request.POST.get('username')
@@ -19,12 +19,16 @@ def login_view(request):
             })
     return render(request, 'correspondencia_app/login.html')
 
-
+# Vista de logout
 def logout_view(request):
     logout(request)
     return redirect('correspondencia_app:login')
 
+# Decorador para restringir a usuarios staff
+def staff_required(view_func):
+    return user_passes_test(lambda u: u.is_staff, login_url='correspondencia_app:login')(view_func)
 
+# Vista del dashboard
 @login_required
 def dashboard(request):
     total_entradas = CorrespondenciaEntrada.objects.count()
@@ -36,13 +40,7 @@ def dashboard(request):
         'recientes': recientes,
     })
 
-
-def staff_required(view_func):
-    return user_passes_test(lambda u: u.is_staff, login_url='correspondencia_app:login')(view_func)
-
-
-# Entradas
-
+# Lista de entradas
 @staff_required
 def entrada_list(request):
     q = request.GET.get('q', '')
@@ -54,7 +52,7 @@ def entrada_list(request):
         'q': q,
     })
 
-
+# Crear nueva entrada
 @staff_required
 def entrada_create(request):
     if request.method == 'POST':
@@ -66,7 +64,7 @@ def entrada_create(request):
         form = EntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-
+# Editar entrada existente
 @staff_required
 def entrada_edit(request, pk):
     obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
@@ -79,7 +77,7 @@ def entrada_edit(request, pk):
         form = EntradaForm(instance=obj)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-
+# Eliminar entrada
 @staff_required
 def entrada_delete(request, pk):
     obj = get_object_or_404(CorrespondenciaEntrada, pk=pk)
@@ -88,9 +86,7 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'object': obj})
 
-
-# Gestores
-
+# Lista de gestores
 @staff_required
 def gestor_list(request):
     q = request.GET.get('q', '')
@@ -102,7 +98,7 @@ def gestor_list(request):
         'q': q,
     })
 
-
+# Crear nuevo gestor
 @staff_required
 def gestor_create(request):
     if request.method == 'POST':
@@ -114,7 +110,7 @@ def gestor_create(request):
         form = GestorForm()
     return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
 
-
+# Editar gestor
 @staff_required
 def gestor_edit(request, pk):
     obj = get_object_or_404(Gestor, pk=pk)
@@ -127,7 +123,7 @@ def gestor_edit(request, pk):
         form = GestorForm(instance=obj)
     return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
 
-
+# Eliminar gestor
 @staff_required
 def gestor_delete(request, pk):
     obj = get_object_or_404(Gestor, pk=pk)
