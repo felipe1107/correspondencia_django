@@ -1,7 +1,17 @@
 from django import forms
-from .models import CorrespondenciaSalida
+from .models import Gestor, CorrespondenciaEntrada, CorrespondenciaSalida
 
-class CorrespondenciaSalidaForm(forms.ModelForm):
+class GestorForm(forms.ModelForm):
+    class Meta:
+        model = Gestor
+        fields = ['nombre', 'correo']
+
+class EntradaForm(forms.ModelForm):
+    class Meta:
+        model = CorrespondenciaEntrada
+        fields = ['asunto', 'gestor', 'fecha_recepcion', 'archivo_adjunto']
+
+class SalidaForm(forms.ModelForm):
     class Meta:
         model = CorrespondenciaSalida
         fields = [
@@ -13,5 +23,5 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
             'departamento_origen',
             'estado',
             'archivo_adjunto',
-            'observaciones',
+            'observaciones'
         ]

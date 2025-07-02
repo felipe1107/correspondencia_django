@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -24,12 +24,15 @@
               <a class="nav-link" href="{% url 'correspondencia_app:dashboard' %}">Dashboard</a>
             </li>
             {% if user.is_staff %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'correspondencia_app:gestor_list' %}">Gestores</a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'correspondencia_app:entrada_list' %}">📥 Entradas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'correspondencia_app:salida_lista' %}">📤 Salidas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'correspondencia_app:gestor_list' %}">👤 Gestores</a>
+              </li>
             {% endif %}
           {% endif %}
         </ul>
