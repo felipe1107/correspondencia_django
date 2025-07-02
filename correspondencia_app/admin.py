@@ -1,19 +1,19 @@
 from django.contrib import admin
-from .models import Gestor, CorrespondenciaEntrada, CorrespondenciaSalida
-
-@admin.register(Gestor)
-class GestorAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'correo')
-    search_fields = ('nombre', 'correo')
+from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 
 @admin.register(CorrespondenciaEntrada)
 class CorrespondenciaEntradaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'asunto', 'gestor', 'fecha_recepcion')
-    list_filter = ('fecha_recepcion',)
-    search_fields = ('numero_documento', 'asunto', 'gestor__nombre')
+    list_display = ('numero_documento', 'fecha_recepcion', 'remitente', 'destinatario', 'asunto', 'departamento_destino', 'estado')
+    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
+    list_filter = ('fecha_recepcion', 'estado', 'departamento_destino')
 
 @admin.register(CorrespondenciaSalida)
 class CorrespondenciaSalidaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'asunto', 'fecha_envio', 'remitente', 'destinatario', 'estado')
-    list_filter = ('fecha_envio', 'estado')
-    search_fields = ('numero_documento', 'asunto', 'remitente', 'destinatario')
+    list_display = ('numero_documento', 'fecha_envio', 'remitente', 'destinatario', 'asunto', 'departamento_origen', 'estado')
+    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
+    list_filter = ('fecha_envio', 'estado', 'departamento_origen')
+
+@admin.register(Gestor)
+class GestorAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'departamento', 'telefono', 'correo')
+    search_fields = ('nombre', 'departamento', 'correo')

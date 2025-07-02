@@ -75,7 +75,7 @@ USE_TZ = True
 # ————— Archivos estáticos —————
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR /'correspondencia_app''staticfiles'
 
 # ————— Media (subida de archivos) —————
 MEDIA_URL = '/media/'
@@ -84,3 +84,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ————— Rutas de autenticación —————
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'

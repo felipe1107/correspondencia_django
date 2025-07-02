@@ -1,0 +1,11 @@
+{% extends 'correspondencia_app/base.html' %}
+
+{% block content %}
+<h2>Registrar Correspondencia Entrante</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'listar_entradas' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

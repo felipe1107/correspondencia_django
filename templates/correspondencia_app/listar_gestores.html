@@ -1,0 +1,28 @@
+{% extends 'correspondencia_app/base.html' %}
+
+{% block content %}
+<h2>Gestores</h2>
+<a class="btn btn-primary mb-3" href="{% url 'crear_gestor' %}">Registrar nuevo gestor</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Departamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gestor in gestores %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ gestor.nombre }}</td>
+            <td>{{ gestor.correo }}</td>
+            <td>{{ gestor.telefono }}</td>
+            <td>{{ gestor.departamento }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

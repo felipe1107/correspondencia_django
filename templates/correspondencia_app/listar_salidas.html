@@ -1,0 +1,28 @@
+{% extends 'correspondencia_app/base.html' %}
+
+{% block content %}
+<h2>Correspondencia Saliente</h2>
+<a class="btn btn-primary mb-3" href="{% url 'crear_salida' %}">Registrar nueva salida</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Fecha</th>
+            <th>Destinatario</th>
+            <th>Asunto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for salida in salidas %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ salida.numero_documento }}</td>
+            <td>{{ salida.fecha_envio }}</td>
+            <td>{{ salida.destinatario }}</td>
+            <td>{{ salida.asunto }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

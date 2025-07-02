@@ -1,16 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('', include('correspondencia_app.urls', namespace='correspondencia_app')),
+    path('', include(('correspondencia_app.urls', 'correspondencia_app'), namespace='correspondencia_app')),
+    path('login/', auth_views.LoginView.as_view(template_name='correspondencia_app/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]
-
-# Para servir archivos subidos en desarrollo
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

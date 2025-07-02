@@ -1,29 +1,23 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Ingresar - Sistema de Correspondencia{% endblock %}
+{% load static %}
 
-{% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <h2 class="mb-4 text-center">Iniciar Sesión</h2>
-    <form method="post" class="card p-4 shadow-sm">
-      {% csrf_token %}
-      {% if form.errors %}
-        <div class="alert alert-danger">
-          Por favor, corrige los errores debajo.
-        </div>
-      {% endif %}
-      <div class="mb-3">
-        <label for="id_username" class="form-label">Usuario</label>
-        {{ form.username }}
-      </div>
-      <div class="mb-3">
-        <label for="id_password" class="form-label">Contraseña</label>
-        {{ form.password }}
-      </div>
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Ingresar</button>
-      </div>
-    </form>
-  </div>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'correspondencia_app/css/estilos.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Iniciar Sesión</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Ingresar</button>
+        </form>
+        {% if form.errors %}
+            <p style="color: red;">Usuario o contraseña incorrectos.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
