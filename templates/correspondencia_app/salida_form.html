@@ -1,13 +1,11 @@
 {% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2>Nueva Correspondencia de Salida</h2>
-
+<h2>Nueva Correspondencia Saliente</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'salida_lista' %}" class="btn btn-secondary">Cancelar</a>
 </form>
-
-<a href="{% url 'salida_lista' %}">Volver</a>
 {% endblock %}

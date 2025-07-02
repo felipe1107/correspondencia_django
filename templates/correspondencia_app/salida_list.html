@@ -1,25 +1,20 @@
 {% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2>Correspondencia de Salida</h2>
-
-<form method="get" action="">
-    <input type="text" name="q" placeholder="Buscar por número, asunto o destinatario">
-    <button type="submit">Buscar</button>
-</form>
-
-<a href="{% url 'salida_nueva' %}">Nueva Correspondencia</a>
-
-<table>
+<h2>Correspondencia Saliente</h2>
+<a href="{% url 'salida_nueva' %}" class="btn btn-primary mb-3">+ Nueva salida</a>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Número</th>
-            <th>Fecha de Envío</th>
+            <th>Fecha</th>
             <th>Remitente</th>
             <th>Destinatario</th>
             <th>Asunto</th>
+            <th>Departamento</th>
+            <th>Estado</th>
             <th>Archivo</th>
-            <th>Acciones</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -29,21 +24,17 @@
             <td>{{ salida.fecha_envio }}</td>
             <td>{{ salida.remitente }}</td>
             <td>{{ salida.destinatario }}</td>
-            <td>{{ salida.asunto }}</td>
+            <td>{{ salida.asunto|truncatewords:5 }}</td>
+            <td>{{ salida.departamento_origen }}</td>
+            <td>{{ salida.estado }}</td>
             <td>
                 {% if salida.archivo_adjunto %}
-                    <a href="{{ salida.archivo_adjunto.url }}">Ver</a>
-                {% else %}
-                    No adjunto
+                    <a href="{{ salida.archivo_adjunto.url }}" target="_blank">Ver</a>
                 {% endif %}
             </td>
             <td>
-                <a href="{% url 'salida_eliminar' salida.id %}">Eliminar</a>
+                <a href="{% url 'salida_eliminar' salida.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
             </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7">No hay registros.</td>
         </tr>
         {% endfor %}
     </tbody>

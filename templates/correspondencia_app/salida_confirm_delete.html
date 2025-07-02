@@ -1,16 +1,12 @@
 {% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2>¿Está seguro de que desea eliminar esta correspondencia de salida?</h2>
-
-<p><strong>Número:</strong> {{ salida.numero_documento }}</p>
-<p><strong>Asunto:</strong> {{ salida.asunto }}</p>
-<p><strong>Destinatario:</strong> {{ salida.destinatario }}</p>
+<h2>Confirmar eliminación</h2>
+<p>¿Estás seguro de que deseas eliminar la salida <strong>{{ salida.numero_documento }}</strong> - "{{ salida.asunto }}"?</p>
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Confirmar eliminación</button>
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a href="{% url 'salida_lista' %}" class="btn btn-secondary">Cancelar</a>
 </form>
-
-<a href="{% url 'salida_lista' %}">Cancelar</a>
 {% endblock %}
