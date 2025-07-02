@@ -1,44 +1,76 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends "correspondencia_app/base.html" %}
 {% load static %}
-
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard Estadísticas{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">Estadísticas de Correspondencia</h2>
+  <div class="container py-4">
+    <h2>Dashboard de Estadísticas</h2>
 
-  <div class="card">
-    <div class="card-body">
-      <canvas id="miGrafico" width="400" height="200"></canvas>
-    </div>
+    {% if not by_gestor and not by_estado %}
+      <div class="alert alert-info mt-4">
+        No hay datos disponibles. Crea algunas Entradas para ver las estadísticas.
+      </div>
+    {% else %}
+      <div class="row mt-4">
+        <!-- Entradas por Gestor -->
+        <div class="col-md-6">
+          <div class="card shadow-sm mb-4">
+            <div class="card-header">Entradas por Gestor</div>
+            <div class="card-body">
+              <canvas id="chartGestor" style="min-height:300px;"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- Entradas por Estado -->
+        <div class="col-md-6">
+          <div class="card shadow-sm mb-4">
+            <div class="card-header">Entradas por Estado</div>
+            <div class="card-body">
+              <canvas id="chartEstado" style="min-height:300px;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </div>
-</div>
-{% endblock %}
 
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx = document.getElementById('miGrafico').getContext('2d');
-  const miGrafico = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-      datasets: [{
-        label: 'Correspondencia Entrante',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+  {% if by_gestor or by_estado %}
+  <script>
+    // Comprueba primero en consola:
+    console.log("by_gestor =", {{ by_gestor|default:'[]'|safe }});
+    console.log("by_estado =", {{ by_estado|default:'[]'|safe }});
+
+    const dataGestor = {{ by_gestor|default:'[]'|safe }};
+    const dataEstado = {{ by_estado|default:'[]'|safe }};
+
+    // Etiquetas y totales
+    const labelsG = dataGestor.map(o => o['gestor__nombre'] || 'Sin gestor');
+    const valuesG = dataGestor.map(o => o.total);
+    const labelsE = dataEstado.map(o => o.estado);
+    const valuesE = dataEstado.map(o => o.total);
+
+    // Gráfico de barras
+    new Chart(document.getElementById('chartGestor'), {
+      type: 'bar',
+      data: {
+        labels: labelsG,
+        datasets: [{ label: 'Entradas', data: valuesG, borderWidth: 1 }]
+      },
+      options: {
+        scales: { y: { beginAtZero: true } },
+        plugins: { legend: { display: false } }
       }
-    }
-  });
-</script>
+    });
+
+    // Gráfico circular
+    new Chart(document.getElementById('chartEstado'), {
+      type: 'pie',
+      data: {
+        labels: labelsE,
+        datasets: [{ label: 'Entradas', data: valuesE, borderWidth: 1 }]
+      },
+      options: { plugins: { legend: { position: 'bottom' } } }
+    });
+  </script>
+  {% endif %}
 {% endblock %}

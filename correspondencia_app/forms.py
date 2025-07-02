@@ -4,14 +4,42 @@ from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 class CorrespondenciaEntradaForm(forms.ModelForm):
     class Meta:
         model = CorrespondenciaEntrada
-        fields = '__all__'
+        fields = [
+            'numero_documento',
+            'fecha_recepcion',
+            'remitente',
+            'destinatario',
+            'asunto',
+            'departamento_destino',
+            'estado',
+            'archivo_adjunto',
+            'observaciones',
+            'gestor',
+        ]
+        widgets = {
+            'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class CorrespondenciaSalidaForm(forms.ModelForm):
     class Meta:
         model = CorrespondenciaSalida
-        fields = '__all__'
+        fields = [
+            'numero_documento',
+            'fecha_envio',
+            'remitente',
+            'destinatario',
+            'asunto',
+            'departamento_origen',
+            'estado',
+            'archivo_adjunto',
+            'observaciones',
+            'gestor',
+        ]
+        widgets = {
+            'fecha_envio': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class GestorForm(forms.ModelForm):
     class Meta:
         model = Gestor
-        fields = ['nombre', 'departamento', 'telefono', 'correo']
+        fields = ['nombre', 'telefono', 'correo']
