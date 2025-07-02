@@ -36,7 +36,7 @@ WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'plantillas')],  # Asegúrate que apunte bien aquí
+        'DIRS': [BASE_DIR / 'templates'],  # 👈 importante: indica la ruta
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -48,7 +48,6 @@ TEMPLATES = [
         },
     },
 ]
-
 # ————— Base de datos —————
 DATABASES = {
     'default': {
