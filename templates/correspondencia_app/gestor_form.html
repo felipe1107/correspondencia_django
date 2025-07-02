@@ -1,16 +1,15 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}{{ form.instance.pk|yesno:"Editar Gestor,Nuevo Gestor" }}{% endblock %}
+{% block title %}Formulario de Gestor{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">{{ form.instance.pk|yesno:"Editar Gestor,Nuevo Gestor" }}</h1>
-
-<form method="post">
-  {% csrf_token %}
-  <div class="mb-3">
+<div class="container">
+  <h2>{{ form.instance.pk|yesno:"Editar Gestor,Nuevo Gestor" }}</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
     {{ form.as_p }}
-  </div>
-  <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
 {% endblock %}

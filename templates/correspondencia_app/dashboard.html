@@ -1,9 +1,55 @@
-{% extends "correspondencia_app/base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Panel Principal{% endblock %}
+
 {% block content %}
-<div class="dashboard-bg main-container">
-  <div class="content text-center">
-    <h1>Bienvenido, {{ user.username }}!</h1>
-    <p>Selecciona una opción del menú superior.</p>
+<h1 class="mb-4">Bienvenido al Sistema de Correspondencia</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Entradas Registradas</h5>
+        <p class="card-text display-6">{{ total_entradas }}</p>
+        <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-outline-primary">Ver Entradas</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Gestores</h5>
+        <p class="card-text display-6">{{ total_gestores }}</p>
+        <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-outline-primary">Ver Gestores</a>
+      </div>
+    </div>
   </div>
 </div>
+
+<h4 class="mt-5">Entradas recientes</h4>
+<table class="table table-bordered mt-3">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Documento</th>
+      <th>Fecha</th>
+      <th>Asunto</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entrada in recientes %}
+    <tr>
+      <td>{{ entrada.id }}</td>
+      <td>{{ entrada.numero_documento }}</td>
+      <td>{{ entrada.fecha_recepcion }}</td>
+      <td>{{ entrada.asunto }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" class="text-center">No hay entradas recientes.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

@@ -1,25 +1,21 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Gestores{% endblock %}
+{% block title %}Lista de Gestores{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Listado de Gestores</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Lista de Gestores</h2>
+  <a href="{% url 'correspondencia_app:gestor_create' %}" class="btn btn-primary">Nuevo Gestor</a>
+</div>
 
-<form method="get" class="mb-4">
-  <div class="input-group">
-    <input type="text" name="q" class="form-control" placeholder="Buscar gestor..." value="{{ q }}">
-    <button type="submit" class="btn btn-primary">Buscar</button>
-    <a href="{% url 'correspondencia_app:gestor_create' %}" class="btn btn-success ms-2">+ Nuevo Gestor</a>
-  </div>
+<form method="get" class="mb-3">
+  <input type="text" name="q" placeholder="Buscar por nombre..." value="{{ q }}" class="form-control">
 </form>
 
-<table class="table table-striped table-bordered">
-  <thead>
+<table class="table table-bordered table-hover">
+  <thead class="table-light">
     <tr>
       <th>Nombre</th>
-      <th>Correo</th>
-      <th>Teléfono</th>
       <th>Departamento</th>
       <th>Acciones</th>
     </tr>
@@ -28,17 +24,15 @@
     {% for gestor in gestores %}
     <tr>
       <td>{{ gestor.nombre }}</td>
-      <td>{{ gestor.correo }}</td>
-      <td>{{ gestor.telefono }}</td>
       <td>{{ gestor.departamento }}</td>
       <td>
-        <a href="{% url 'correspondencia_app:gestor_edit' gestor.id %}" class="btn btn-sm btn-warning">Editar</a>
-        <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+        <a href="{% url 'correspondencia_app:gestor_edit' gestor.pk %}" class="btn btn-sm btn-warning">Editar</a>
+        <a href="{% url 'correspondencia_app:gestor_delete' gestor.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
       </td>
     </tr>
     {% empty %}
     <tr>
-      <td colspan="5">No se encontraron gestores.</td>
+      <td colspan="3">No hay gestores registrados.</td>
     </tr>
     {% endfor %}
   </tbody>
