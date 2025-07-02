@@ -1,8 +1,7 @@
-# correspondencia_app/models.py
-
 from django.db import models
 from django.utils import timezone
 
+# Modelo de gestor de correspondencia
 class Gestor(models.Model):
     nombre = models.CharField("Nombre", max_length=100)
     correo = models.EmailField("Correo electrónico", blank=True)
@@ -10,7 +9,7 @@ class Gestor(models.Model):
     def __str__(self):
         return self.nombre
 
-
+# Modelo de correspondencia entrante
 class CorrespondenciaEntrada(models.Model):
     numero_documento = models.PositiveIntegerField("Número", unique=True)
     asunto = models.CharField("Asunto", max_length=200)
@@ -27,26 +26,25 @@ class CorrespondenciaEntrada(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        # Si es nueva entrada, auto-asigna número incrementando el último
         if not self.pk:
-            último = type(self).objects.order_by('-numero_documento').first()
-            self.numero_documento = (último.numero_documento + 1) if último else 1
+            ultimo = type(self).objects.order_by('-numero_documento').first()
+            self.numero_documento = (ultimo.numero_documento + 1) if ultimo else 1
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.numero_documento} – {self.asunto}"
 
-
+# Modelo de correspondencia saliente
 class CorrespondenciaSalida(models.Model):
-    numero_documento = models.CharField(max_length=20)
-    fecha_envio = models.DateField()
-    remitente = models.CharField(max_length=100)
-    destinatario = models.CharField(max_length=100)
-    asunto = models.TextField()
-    departamento_origen = models.CharField(max_length=100)
-    estado = models.CharField(max_length=50)
-    archivo_adjunto = models.FileField(upload_to='salidas/', blank=True, null=True)
-    observaciones = models.TextField(blank=True, null=True)
+    numero_documento = models.CharField("Número de documento", max_length=20)
+    fecha_envio = models.DateField("Fecha de envío")
+    remitente = models.CharField("Remitente", max_length=100)
+    destinatario = models.CharField("Destinatario", max_length=100)
+    asunto = models.TextField("Asunto")
+    departamento_origen = models.CharField("Departamento de origen", max_length=100)
+    estado = models.CharField("Estado", max_length=50)
+    archivo_adjunto = models.FileField("Archivo adjunto", upload_to='salidas/', blank=True, null=True)
+    observaciones = models.TextField("Observaciones", blank=True, null=True)
 
     def __str__(self):
         return f"{self.numero_documento} - {self.asunto}"

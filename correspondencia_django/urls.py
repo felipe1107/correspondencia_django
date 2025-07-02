@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('correspondencia_app.urls', namespace='correspondencia_app')),
 ]
 
+# Para servir archivos en desarrollo (como archivos adjuntos)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

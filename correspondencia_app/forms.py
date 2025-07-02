@@ -14,14 +14,5 @@ class EntradaForm(forms.ModelForm):
 class SalidaForm(forms.ModelForm):
     class Meta:
         model = CorrespondenciaSalida
-        fields = [
-            'numero_documento',
-            'fecha_envio',
-            'remitente',
-            'destinatario',
-            'asunto',
-            'departamento_origen',
-            'estado',
-            'archivo_adjunto',
-            'observaciones'
-        ]
+        fields = ['numero_documento', 'fecha_envio', 'remitente', 'destinatario',
+                  'asunto', 'departamento_origen', 'estado', 'archivo_adjunto', 'observaciones']
