@@ -1,12 +1,35 @@
 {% extends 'correspondencia_app/base.html' %}
-{% block title %}Salida de Correspondencia{% endblock %}
+{% block title %}Gestores{% endblock %}
 
 {% block content %}
-<h2>{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Salida</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+<h2>Gestores</h2>
+<a class="btn btn-primary mb-3" href="{% url 'correspondencia_app:gestor_create' %}">+ Nuevo Gestor</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gestor in gestores %}
+        <tr>
+            <td>{{ gestor.nombre }}</td>
+            <td>{{ gestor.departamento }}</td>
+            <td>{{ gestor.telefono }}</td>
+            <td>{{ gestor.correo }}</td>
+            <td>
+                <a class="btn btn-sm btn-secondary" href="{% url 'correspondencia_app:gestor_edit' gestor.id %}">Editar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay gestores registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
