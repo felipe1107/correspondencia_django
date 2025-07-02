@@ -36,7 +36,7 @@ WSGI_APPLICATION = 'correspondencia_django.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ],
+        'DIRS': [os.path.join(BASE_DIR, 'plantillas')],  # Asegúrate que apunte bien aquí
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
