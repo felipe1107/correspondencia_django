@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Gestores</h2>
+<table class="table table-striped">
+    <thead><tr><th>Nombre</th><th>Cargo</th><th>Correo</th></tr></thead>
+    <tbody>
+        {% for gestor in gestores %}
+        <tr>
+            <td>{{ gestor.nombre }}</td>
+            <td>{{ gestor.cargo }}</td>
+            <td>{{ gestor.correo }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'crear_gestor' %}" class="btn btn-success">Nuevo Gestor</a>
+{% endblock %}

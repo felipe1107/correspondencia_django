@@ -1,12 +1,9 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Entrada de Correspondencia{% endblock %}
-
+{% extends "base.html" %}
 {% block content %}
-<h2>{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Entrada</h2>
+<h2>Nueva Entrada</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 {% endblock %}
