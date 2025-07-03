@@ -14,10 +14,7 @@ class CorrespondenciaEntradaForm(forms.ModelForm):
             'estado',
             'archivo_adjunto',
             'observaciones',
-            ]
-        widgets = {
-            'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
-        }
+        ]
 
 class CorrespondenciaSalidaForm(forms.ModelForm):
     class Meta:
@@ -25,19 +22,15 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
         fields = [
             'numero_documento',
             'fecha_envio',
-            'remitente',
             'destinatario',
             'asunto',
-            'departamento_origen',
+            'departamento_destino',
             'estado',
             'archivo_adjunto',
             'observaciones',
-            ]
-        widgets = {
-            'fecha_envio': forms.DateInput(attrs={'type': 'date'}),
-        }
+        ]
 
 class GestorForm(forms.ModelForm):
     class Meta:
         model = Gestor
-        fields = ['nombre', 'telefono', 'correo']
+        fields = ['nombre']

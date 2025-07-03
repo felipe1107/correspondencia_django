@@ -1,25 +1,25 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
+
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
 
-# Vista personalizada para login
+# 1. Login personalizado
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
 
-# Dashboard principal luego de iniciar sesión
+# 2. Dashboard
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
 
-# Lista de correspondencia de entrada
+# 3. Correspondencia Entrada
 @login_required
 def entrada_list(request):
     entradas = CorrespondenciaEntrada.objects.all()
     return render(request, 'correspondencia_app/entrada_list.html', {'entradas': entradas})
 
-# Crear correspondencia de entrada
 @login_required
 def entrada_create(request):
     if request.method == 'POST':
@@ -31,7 +31,6 @@ def entrada_create(request):
         form = CorrespondenciaEntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-# Editar correspondencia de entrada
 @login_required
 def entrada_edit(request, pk):
     entrada = get_object_or_404(CorrespondenciaEntrada, pk=pk)
@@ -44,13 +43,12 @@ def entrada_edit(request, pk):
         form = CorrespondenciaEntradaForm(instance=entrada)
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-# Lista de correspondencia de salida
+# 4. Correspondencia Salida
 @login_required
 def salida_list(request):
     salidas = CorrespondenciaSalida.objects.all()
     return render(request, 'correspondencia_app/salida_list.html', {'salidas': salidas})
 
-# Crear correspondencia de salida
 @login_required
 def salida_create(request):
     if request.method == 'POST':
@@ -62,7 +60,6 @@ def salida_create(request):
         form = CorrespondenciaSalidaForm()
     return render(request, 'correspondencia_app/salida_form.html', {'form': form})
 
-# Editar correspondencia de salida
 @login_required
 def salida_edit(request, pk):
     salida = get_object_or_404(CorrespondenciaSalida, pk=pk)
@@ -75,13 +72,12 @@ def salida_edit(request, pk):
         form = CorrespondenciaSalidaForm(instance=salida)
     return render(request, 'correspondencia_app/salida_form.html', {'form': form})
 
-# Lista de gestores de correspondencia
+# 5. Gestores
 @login_required
 def gestor_list(request):
     gestores = Gestor.objects.all()
     return render(request, 'correspondencia_app/gestor_list.html', {'gestores': gestores})
 
-# Crear gestor
 @login_required
 def gestor_create(request):
     if request.method == 'POST':
@@ -93,7 +89,6 @@ def gestor_create(request):
         form = GestorForm()
     return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
 
-# Editar gestor
 @login_required
 def gestor_edit(request, pk):
     gestor = get_object_or_404(Gestor, pk=pk)
