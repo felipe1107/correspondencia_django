@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
 
-@login_required
-def dashboard(request):
-    return render(request, 'correspondencia_app/dashboard.html')
+class CustomLoginView(LoginView):
+    template_name = 'correspondencia_app/login.html'  # usamos tu plantilla existente
 
-# Vistas para Entradas
 @login_required
 def entrada_list(request):
     entradas = CorrespondenciaEntrada.objects.all()
@@ -24,7 +23,6 @@ def entrada_create(request):
         form = CorrespondenciaEntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
 
-# Vistas para Salidas
 @login_required
 def salida_list(request):
     salidas = CorrespondenciaSalida.objects.all()
@@ -41,7 +39,6 @@ def salida_create(request):
         form = CorrespondenciaSalidaForm()
     return render(request, 'correspondencia_app/salida_form.html', {'form': form})
 
-# Vistas para Gestores
 @login_required
 def gestor_list(request):
     gestores = Gestor.objects.all()

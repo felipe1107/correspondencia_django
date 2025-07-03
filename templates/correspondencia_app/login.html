@@ -1,23 +1,12 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="{% static 'correspondencia_app/css/estilos.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Ingresar</button>
-        </form>
-        {% if form.errors %}
-            <p style="color: red;">Usuario o contraseña incorrectos.</p>
-        {% endif %}
-    </div>
-</body>
-</html>
+{% block content %}
+  <div class="login-form" style="max-width: 400px; margin: auto; padding: 20px;">
+    <h2>Iniciar sesión</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+{% endblock %}
