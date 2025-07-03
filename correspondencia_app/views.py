@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
-from .models import CorrespondenciaEntrada, CorrespondenciaSalida, GestorCorrespondencia as Gestor
+from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
 
 # Vista personalizada para login

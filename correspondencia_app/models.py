@@ -5,6 +5,11 @@ class Departamento(models.Model):
 
     def __str__(self):
         return self.nombre
+class Gestor(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
 class CorrespondenciaEntrada(models.Model):
     numero_documento = models.CharField(max_length=50)
