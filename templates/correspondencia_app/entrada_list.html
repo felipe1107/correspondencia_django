@@ -1,35 +1,29 @@
 {% extends 'correspondencia_app/base.html' %}
-{% block title %}Entradas{% endblock %}
+
+{% block title %}Entradas de Correspondencia{% endblock %}
 
 {% block content %}
-<h2>Correspondencia Recibida</h2>
-<a class="btn btn-primary mb-3" href="{% url 'correspondencia_app:entrada_create' %}">+ Nueva Entrada</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>N° Documento</th>
-            <th>Fecha</th>
-            <th>Remitente</th>
-            <th>Asunto</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for entrada in entradas %}
-        <tr>
-            <td>{{ entrada.numero_documento }}</td>
-            <td>{{ entrada.fecha_recepcion }}</td>
-            <td>{{ entrada.remitente }}</td>
-            <td>{{ entrada.asunto }}</td>
-            <td>
-                <a class="btn btn-sm btn-secondary" href="{% url 'correspondencia_app:entrada_edit' entrada.id %}">Editar</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No hay entradas registradas.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<h2>Entradas</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Nº Documento</th>
+      <th>Fecha Recepción</th>
+      <th>Remitente</th>
+      <th>Asunto</th>
+      <th>Departamento</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entrada in entradas %}
+    <tr>
+      <td>{{ entrada.numero_documento }}</td>
+      <td>{{ entrada.fecha_recepcion }}</td>
+      <td>{{ entrada.remitente }}</td>
+      <td>{{ entrada.asunto }}</td>
+      <td>{{ entrada.departamento_destino }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

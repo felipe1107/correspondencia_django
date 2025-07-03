@@ -1,21 +1,29 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
+
+{% block title %}Salidas de Correspondencia{% endblock %}
 
 {% block content %}
-<h2>Correspondencia de Salida</h2>
-<table>
+<h2>Salidas</h2>
+<table class="table table-striped">
+  <thead>
     <tr>
-        <th>N° Documento</th>
-        <th>Fecha</th>
-        <th>Destinatario</th>
-        <th>Asunto</th>
+      <th>Nº Documento</th>
+      <th>Fecha Envío</th>
+      <th>Destinatario</th>
+      <th>Asunto</th>
+      <th>Departamento</th>
     </tr>
+  </thead>
+  <tbody>
     {% for salida in salidas %}
     <tr>
-        <td>{{ salida.numero_documento }}</td>
-        <td>{{ salida.fecha_envio }}</td>
-        <td>{{ salida.destinatario }}</td>
-        <td>{{ salida.asunto }}</td>
+      <td>{{ salida.numero_documento }}</td>
+      <td>{{ salida.fecha_envio }}</td>
+      <td>{{ salida.destinatario }}</td>
+      <td>{{ salida.asunto }}</td>
+      <td>{{ salida.departamento_origen }}</td>
     </tr>
     {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

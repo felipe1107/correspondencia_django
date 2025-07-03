@@ -1,17 +1,23 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
+
+{% block title %}Gestores de Correspondencia{% endblock %}
 
 {% block content %}
 <h2>Gestores</h2>
-<table>
+<table class="table">
+  <thead>
     <tr>
-        <th>Nombre</th>
-        <th>Departamento</th>
+      <th>Nombre</th>
+      <th>Departamento</th>
     </tr>
+  </thead>
+  <tbody>
     {% for gestor in gestores %}
     <tr>
-        <td>{{ gestor.nombre }}</td>
-        <td>{{ gestor.departamento.nombre }}</td>
+      <td>{{ gestor.nombre }}</td>
+      <td>{{ gestor.departamento }}</td>
     </tr>
     {% endfor %}
+  </tbody>
 </table>
 {% endblock %}
