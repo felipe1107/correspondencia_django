@@ -14,8 +14,7 @@ class CorrespondenciaEntradaForm(forms.ModelForm):
             'estado',
             'archivo_adjunto',
             'observaciones',
-            'gestor',
-        ]
+            ]
         widgets = {
             'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -33,8 +32,7 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
             'estado',
             'archivo_adjunto',
             'observaciones',
-            'gestor',
-        ]
+            ]
         widgets = {
             'fecha_envio': forms.DateInput(attrs={'type': 'date'}),
         }
