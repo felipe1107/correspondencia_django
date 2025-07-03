@@ -1,40 +1,23 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Panel Principal{% endblock %}
+{% extends "correspondencia_app/base.html" %}
+
 {% block content %}
-<div class="container text-center">
-    <h1 class="mt-4">Bienvenido al Sistema de Correspondencia</h1>
-    <p class="lead">Utilice el menú para gestionar entradas, salidas y gestores.</p>
+<div class="container mt-5">
+    <h2>Bienvenido al Sistema de Correspondencia</h2>
+    <hr>
 
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Entradas</h5>
-                    <p class="card-text">Ver o registrar correspondencia recibida.</p>
-                    <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-primary">Ir a Entradas</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mt-3 mt-md-0">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Salidas</h5>
-                    <p class="card-text">Ver o registrar correspondencia enviada.</p>
-                    <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-success">Ir a Salidas</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mt-3 mt-md-0">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gestores</h5>
-                    <p class="card-text">Ver y administrar los gestores del sistema.</p>
-                    <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-warning">Ir a Gestores</a>
-                </div>
-            </div>
-        </div>
+    <div class="list-group mt-4">
+        <a href="{% url 'correspondencia_app:entrada_list' %}" class="list-group-item list-group-item-action">
+            📥 Correspondencia de Entrada
+        </a>
+        <a href="{% url 'correspondencia_app:salida_list' %}" class="list-group-item list-group-item-action">
+            📤 Correspondencia de Salida
+        </a>
+        <a href="{% url 'correspondencia_app:gestor_list' %}" class="list-group-item list-group-item-action">
+            👥 Gestores de Correspondencia
+        </a>
+        <a href="{% url 'logout' %}" class="list-group-item list-group-item-action text-danger">
+            🚪 Cerrar Sesión
+        </a>
     </div>
 </div>
 {% endblock %}
