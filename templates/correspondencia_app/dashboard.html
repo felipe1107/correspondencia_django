@@ -1,38 +1,37 @@
-{% extends 'correspondencia_app/base.html' %}
-{% block title %}Inicio{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<h2>Bienvenido al Sistema de Correspondencia</h2>
+<div class="container mt-4">
+    <h1 class="text-center">Panel de Control</h1>
+    <div class="row mt-5">
 
-<div class="row mt-4">
-    <div class="col-md-4">
-        <div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Entradas</h5>
-                <p class="card-text">Registrar correspondencia entrante.</p>
-                <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-light">Ver entradas</a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5>Correspondencia Recibida</h5>
+                    <a href="{% url 'correspondencia_app:entradas_list' %}" class="btn btn-primary mt-2">Ver Entradas</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card text-white bg-success mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Salidas</h5>
-                <p class="card-text">Registrar correspondencia saliente.</p>
-                <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-light">Ver salidas</a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5>Correspondencia Enviada</h5>
+                    <a href="{% url 'correspondencia_app:salidas_list' %}" class="btn btn-success mt-2">Ver Salidas</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card text-white bg-dark mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Gestores</h5>
-                <p class="card-text">Administrar los gestores del sistema.</p>
-                <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-light">Ver gestores</a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5>Gestores</h5>
+                    <a href="{% url 'correspondencia_app:gestores_list' %}" class="btn btn-info mt-2">Ver Gestores</a>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}

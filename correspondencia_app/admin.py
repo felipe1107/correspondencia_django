@@ -1,17 +1,15 @@
 from django.contrib import admin
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 
-@admin.register(CorrespondenciaEntrada)
 class CorrespondenciaEntradaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'fecha_recepcion', 'remitente', 'destinatario', 'asunto', 'estado')
-    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
+    list_display = ('numero_documento', 'fecha_recepcion', 'remitente')
 
-@admin.register(CorrespondenciaSalida)
 class CorrespondenciaSalidaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'fecha_envio', 'remitente', 'destinatario', 'asunto', 'estado')
-    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
+    list_display = ('numero_documento', 'fecha_envio', 'destinatario')
 
-@admin.register(Gestor)
 class GestorAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'departamento')
-    search_fields = ('nombre', 'departamento')
+    list_display = ('nombre', 'telefono', 'correo')  # 'departamento' ha sido eliminado
+
+admin.site.register(CorrespondenciaEntrada, CorrespondenciaEntradaAdmin)
+admin.site.register(CorrespondenciaSalida, CorrespondenciaSalidaAdmin)
+admin.site.register(Gestor, GestorAdmin)
