@@ -7,7 +7,7 @@ class CorrespondenciaEntradaAdmin(admin.ModelAdmin):
 
 @admin.register(CorrespondenciaSalida)
 class CorrespondenciaSalidaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'fecha_salida', 'destinatario', 'asunto', 'departamento_origen', 'estado')
+    list_display = ('numero_documento', 'fecha', 'destinatario', 'asunto', 'departamento_origen', 'estado')
 
 @admin.register(Gestor)
 class GestorAdmin(admin.ModelAdmin):
