@@ -1,16 +1,18 @@
 from django.urls import path
-from .views import (
-    login_usuario,
-    cerrar_sesion,
-    registro_usuario,
-    vista_principal,
-    lista_usuarios,
-)
+from . import views
 
 urlpatterns = [
-    path('', vista_principal, name='inicio'),
-    path('login/', login_usuario, name='login'),
-    path('logout/', cerrar_sesion, name='logout'),
-    path('registro/', registro_usuario, name='registro'),
-    path('usuarios/', lista_usuarios, name='lista_usuarios'),
+    path('', views.vista_principal, name='vista_principal'),
+
+    # Usuarios
+    path('usuarios/', views.lista_usuarios, name='lista_usuarios'),
+
+    # Entradas
+    path('entradas/', views.lista_entradas, name='lista_entradas'),
+
+    # Salidas
+    path('salidas/', views.lista_salidas, name='lista_salidas'),
+
+    # Gestores
+    path('gestores/', views.lista_gestores, name='lista_gestores'),
 ]
