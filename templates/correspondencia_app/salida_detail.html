@@ -1,24 +1,30 @@
 {% extends 'correspondencia_app/base.html' %}
 
+{% block title %}Detalle de Correspondencia de Salida{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Detalle de Correspondencia de Salida</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Detalle de Correspondencia de Salida</h2>
     <ul class="list-group">
-        <li class="list-group-item"><strong>Número de documento:</strong> {{ salida.numero_documento }}</li>
-        <li class="list-group-item"><strong>Fecha de recepción:</strong> {{ salida.fecha_recepcion }}</li>
-        <li class="list-group-item"><strong>Remitente:</strong> {{ salida.remitente }}</li>
-        <li class="list-group-item"><strong>Destinatario:</strong> {{ salida.destinatario }}</li>
-        <li class="list-group-item"><strong>Asunto:</strong> {{ salida.asunto }}</li>
-        <li class="list-group-item"><strong>Departamento origen:</strong> {{ salida.departamento_origen }}</li>
-        <li class="list-group-item"><strong>Estado:</strong> {{ salida.estado }}</li>
-        <li class="list-group-item"><strong>Observaciones:</strong> {{ salida.observaciones }}</li>
-        {% if salida.archivo_adjunto %}
+        <li class="list-group-item"><strong>Número de documento:</strong> {{ correspondencia.numero_documento }}</li>
+        <li class="list-group-item"><strong>Fecha de recepción:</strong> {{ correspondencia.fecha_recepcion }}</li>
+        <li class="list-group-item"><strong>Remitente:</strong> {{ correspondencia.remitente }}</li>
+        <li class="list-group-item"><strong>Destinatario:</strong> {{ correspondencia.destinatario }}</li>
+        <li class="list-group-item"><strong>Asunto:</strong> {{ correspondencia.asunto }}</li>
+        <li class="list-group-item"><strong>Departamento origen:</strong> {{ correspondencia.departamento_origen }}</li>
+        <li class="list-group-item"><strong>Estado:</strong> {{ correspondencia.estado }}</li>
+        <li class="list-group-item"><strong>Observaciones:</strong> {{ correspondencia.observaciones }}</li>
         <li class="list-group-item">
             <strong>Archivo adjunto:</strong>
-            <a href="{{ salida.archivo_adjunto.url }}" target="_blank">Descargar</a>
+            {% if correspondencia.archivo_adjunto %}
+                <a href="{{ correspondencia.archivo_adjunto.url }}" download>Descargar archivo</a>
+            {% else %}
+                No hay archivo adjunto.
+            {% endif %}
         </li>
-        {% endif %}
     </ul>
-    <a href="{% url 'salida_list' %}" class="btn btn-primary mt-3">Volver a la lista</a>
+    <div class="mt-4">
+        <a href="{% url 'salida_list' %}" class="btn btn-secondary">Volver</a>
+    </div>
 </div>
 {% endblock %}

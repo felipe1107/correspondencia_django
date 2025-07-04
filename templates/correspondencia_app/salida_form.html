@@ -1,13 +1,25 @@
 {% extends 'correspondencia_app/base.html' %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Correspondencia de Salida</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">{{ title }}</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="row">
+            {% for field in form %}
+            <div class="mb-3 col-md-6">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
         <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="{% url 'lista_salidas' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'salida_list' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}

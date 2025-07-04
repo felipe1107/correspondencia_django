@@ -1,14 +1,25 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Correspondencia de Salida{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>¿Está seguro que desea eliminar esta correspondencia de salida?</h2>
-    <p><strong>Número de Documento:</strong> {{ salida.numero_documento }}</p>
-    <p><strong>Asunto:</strong> {{ salida.asunto }}</p>
+<div class="container mt-5">
+    <h2 class="mb-4">¿Estás seguro que deseas eliminar esta salida?</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Número de Documento:</strong> {{ object.numero_documento }}</p>
+            <p><strong>Remitente:</strong> {{ object.remitente }}</p>
+            <p><strong>Destinatario:</strong> {{ object.destinatario }}</p>
+            <p><strong>Asunto:</strong> {{ object.asunto }}</p>
+            <p><strong>Fecha de Envío:</strong> {{ object.fecha_envio }}</p>
+        </div>
+    </div>
+
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-        <a href="{% url 'lista_salidas' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'salida_list' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}
