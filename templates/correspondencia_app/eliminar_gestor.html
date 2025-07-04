@@ -1,0 +1,8 @@
+# VISTA: Eliminar gestor
+@login_required
+def eliminar_gestor(request, pk):
+    gestor = get_object_or_404(Gestor, pk=pk)
+    if request.method == 'POST':
+        gestor.delete()
+        return redirect('gestor_list')
+    return render(request, 'correspondencia_app/gestor_confirm_delete.html', {'gestor': gestor})

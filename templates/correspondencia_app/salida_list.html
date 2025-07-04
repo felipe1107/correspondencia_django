@@ -1,21 +1,23 @@
 {% extends 'correspondencia_app/base.html' %}
 
-{% block title %}Correspondencia Saliente{% endblock %}
-
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Correspondencias de Salida</h2>
-    <a href="{% url 'crear_salida' %}" class="btn btn-primary mb-3">Registrar Correspondencia de Salida</a>
-    <table class="table table-bordered table-striped">
-        <thead>
+    <h2 class="mb-4">Listado de Correspondencia de Salida</h2>
+
+    <a href="{% url 'crear_salida' %}" class="btn btn-success mb-3">Registrar nueva salida</a>
+
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
                 <th>N° Documento</th>
-                <th>Fecha Recepción</th>
+                <th>Fecha de recepción</th>
                 <th>Remitente</th>
                 <th>Destinatario</th>
                 <th>Asunto</th>
                 <th>Departamento Origen</th>
-                <th>Archivo</th>
+                <th>Estado</th>
+                <th>Archivo adjunto</th>
+                <th>Observaciones</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -28,21 +30,23 @@
                 <td>{{ salida.destinatario }}</td>
                 <td>{{ salida.asunto }}</td>
                 <td>{{ salida.departamento_origen.nombre }}</td>
+                <td>{{ salida.estado }}</td>
                 <td>
                     {% if salida.archivo_adjunto %}
-                        <a href="{{ salida.archivo_adjunto.url }}" target="_blank">Ver Archivo</a>
+                        <a href="{{ salida.archivo_adjunto.url }}" target="_blank">Ver archivo</a>
                     {% else %}
-                        No adjunto
+                        Sin archivo
                     {% endif %}
                 </td>
+                <td>{{ salida.observaciones }}</td>
                 <td>
-                    <a href="{% url 'editar_salida' salida.id %}" class="btn btn-sm btn-warning">Editar</a>
-                    <a href="{% url 'eliminar_salida' salida.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    <a href="{% url 'editar_salida' salida.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_salida' salida.id %}" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="8" class="text-center">No hay correspondencias registradas.</td>
+                <td colspan="10" class="text-center">No hay correspondencia de salida registrada.</td>
             </tr>
             {% endfor %}
         </tbody>

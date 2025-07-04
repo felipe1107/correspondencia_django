@@ -1,0 +1,15 @@
+{% extends 'correspondencia_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">¿Estás seguro de que deseas eliminar esta salida?</h2>
+    <p><strong>Número de documento:</strong> {{ salida.numero_documento }}</p>
+    <p><strong>Asunto:</strong> {{ salida.asunto }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a href="{% url 'salida_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
