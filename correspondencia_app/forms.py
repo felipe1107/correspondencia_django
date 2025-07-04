@@ -17,6 +17,11 @@ class CorrespondenciaEntradaForm(forms.ModelForm):
         ]
         widgets = {
             'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
+            'estado': forms.Select(choices=[
+                ('pendiente', 'Pendiente'),
+                ('procesado', 'Procesado'),
+                ('finalizado', 'Finalizado'),
+            ])
         }
 
 class CorrespondenciaSalidaForm(forms.ModelForm):
@@ -24,7 +29,7 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
         model = CorrespondenciaSalida
         fields = [
             'numero_documento',
-            'fecha_envio',
+            'fecha_recepcion',
             'remitente',
             'destinatario',
             'asunto',
@@ -34,10 +39,15 @@ class CorrespondenciaSalidaForm(forms.ModelForm):
             'observaciones'
         ]
         widgets = {
-            'fecha_envio': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
+            'estado': forms.Select(choices=[
+                ('pendiente', 'Pendiente'),
+                ('procesado', 'Procesado'),
+                ('finalizado', 'Finalizado'),
+            ])
         }
 
 class GestorForm(forms.ModelForm):
     class Meta:
         model = Gestor
-        fields = ['nombre', 'correo', 'telefono']
+        fields = ['nombre', 'correo']
