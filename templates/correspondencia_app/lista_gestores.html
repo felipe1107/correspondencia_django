@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Gestores</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Correo Electrónico</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gestor in gestores %}
+            <tr>
+                <td>{{ gestor.nombre }}</td>
+                <td>{{ gestor.cargo }}</td>
+                <td>{{ gestor.correo }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No hay gestores registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

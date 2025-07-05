@@ -9,6 +9,9 @@ urlpatterns = [
 
     # Entradas
     path('entradas/', views.lista_entradas, name='lista_entradas'),
+    path('entradas/nueva/', views.crear_entrada, name='crear_entrada'),
+    path('entradas/<int:pk>/editar/', views.editar_entrada, name='editar_entrada'),
+    path('entradas/<int:pk>/eliminar/', views.eliminar_entrada, name='eliminar_entrada'),
 
     # Salidas
     path('salidas/', views.lista_salidas, name='lista_salidas'),
