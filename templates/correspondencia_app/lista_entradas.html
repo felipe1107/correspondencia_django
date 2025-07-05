@@ -1,38 +1,48 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Correspondencia Entrante</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>N° Documento</th>
-                <th>Fecha Recepción</th>
-                <th>Remitente</th>
-                <th>Destinatario</th>
-                <th>Asunto</th>
-                <th>Departamento Destino</th>
-                <th>Estado</th>
-                <th>Observaciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entrada in entradas %}
-            <tr>
-                <td>{{ entrada.numero_documento }}</td>
-                <td>{{ entrada.fecha_recepcion }}</td>
-                <td>{{ entrada.remitente }}</td>
-                <td>{{ entrada.destinatario }}</td>
-                <td>{{ entrada.asunto }}</td>
-                <td>{{ entrada.departamento_destino }}</td>
-                <td>{{ entrada.estado }}</td>
-                <td>{{ entrada.observaciones }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8">No hay correspondencia registrada.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<h1>Lista de Correspondencia de Entrada</h1>
+
+<a href="{% url 'crear_entrada' %}" class="btn btn-primary mb-3">Registrar nueva entrada</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nº Documento</th>
+            <th>Fecha Recepción</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Asunto</th>
+            <th>Departamento Destino</th>
+            <th>Estado</th>
+            <th>Archivo Adjunto</th>
+            <th>Observaciones</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entrada in entradas %}
+        <tr>
+            <td>{{ entrada.numero_documento }}</td>
+            <td>{{ entrada.fecha_recepcion }}</td>
+            <td>{{ entrada.remitente }}</td>
+            <td>{{ entrada.destinatario }}</td>
+            <td>{{ entrada.asunto }}</td>
+            <td>{{ entrada.departamento_destino }}</td>
+            <td>{{ entrada.estado }}</td>
+            <td>
+                {% if entrada.archivo_adjunto %}
+                    <a href="{{ entrada.archivo_adjunto.url }}" target="_blank">Ver</a>
+                {% else %}
+                    No adjunto
+                {% endif %}
+            </td>
+            <td>{{ entrada.observaciones }}</td>
+            <td>
+                <a href="{% url 'editar_entrada' entrada.id %}" class="btn btn-sm btn-warning">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
