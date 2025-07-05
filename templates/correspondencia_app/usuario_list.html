@@ -1,27 +1,32 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Usuarios registrados</h2>
-    <table class="table">
-        <thead>
+    <h2>Listado de Usuarios</h2>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-dark">
             <tr>
-                <th>Nombre de usuario</th>
-                <th>Correo electrónico</th>
-                <th>Eliminar</th>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
             </tr>
         </thead>
         <tbody>
             {% for usuario in usuarios %}
             <tr>
-                <td>{{ usuario.username }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>
-                    <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.correo }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No hay usuarios registrados.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <a href="{% url 'inicio' %}" class="btn btn-secondary">Volver</a>
 </div>
 {% endblock %}

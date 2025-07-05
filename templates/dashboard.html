@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Bienvenido al Sistema de Correspondencia</h2>
+    <p>Desde aquí puedes acceder a los diferentes módulos:</p>
+
+    <div class="list-group mt-4">
+        <a href="{% url 'lista_entradas' %}" class="list-group-item list-group-item-action">📥 Entradas</a>
+        <a href="{% url 'lista_salidas' %}" class="list-group-item list-group-item-action">📤 Salidas</a>
+        <a href="{% url 'lista_gestores' %}" class="list-group-item list-group-item-action">👤 Gestores</a>
+        <a href="{% url 'lista_usuarios' %}" class="list-group-item list-group-item-action">👥 Usuarios</a>
+    </div>
+</div>
+{% endblock %}

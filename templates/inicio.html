@@ -1,15 +1,12 @@
 <!-- templates/inicio.html -->
-{% extends "base.html" %}
-
-{% block content %}
-<div class="container mt-4">
-    <h1>Bienvenido al Sistema de Correspondencia</h1>
-    <hr>
-    <ul>
-        <li><a href="{% url 'entrada_list' %}">Entradas de correspondencia</a></li>
-        <li><a href="{% url 'salida_list' %}">Salidas de correspondencia</a></li>
-        <li><a href="{% url 'gestor_list' %}">Gestores</a></li>
-        <li><a href="{% url 'usuario_list' %}">Usuarios</a></li>
-    </ul>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+</head>
+<body>
+    <h1>Bienvenido al sistema de correspondencia</h1>
+    <p>Desde aquí puedes acceder a las entradas, salidas, usuarios y más.</p>
+</body>
+</html>

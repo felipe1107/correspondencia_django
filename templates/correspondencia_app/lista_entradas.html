@@ -1,48 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Lista de Correspondencia de Entrada</h1>
+<div class="container mt-4">
+    <h2>Listado de Correspondencia Recibida</h2>
 
-<a href="{% url 'crear_entrada' %}" class="btn btn-primary mb-3">Registrar nueva entrada</a>
+    <div class="mb-3">
+        <a href="{% url 'crear_entrada' %}" class="btn btn-success">+ Nueva Entrada</a>
+    </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nº Documento</th>
-            <th>Fecha Recepción</th>
-            <th>Remitente</th>
-            <th>Destinatario</th>
-            <th>Asunto</th>
-            <th>Departamento Destino</th>
-            <th>Estado</th>
-            <th>Archivo Adjunto</th>
-            <th>Observaciones</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for entrada in entradas %}
-        <tr>
-            <td>{{ entrada.numero_documento }}</td>
-            <td>{{ entrada.fecha_recepcion }}</td>
-            <td>{{ entrada.remitente }}</td>
-            <td>{{ entrada.destinatario }}</td>
-            <td>{{ entrada.asunto }}</td>
-            <td>{{ entrada.departamento_destino }}</td>
-            <td>{{ entrada.estado }}</td>
-            <td>
-                {% if entrada.archivo_adjunto %}
-                    <a href="{{ entrada.archivo_adjunto.url }}" target="_blank">Ver</a>
-                {% else %}
-                    No adjunto
-                {% endif %}
-            </td>
-            <td>{{ entrada.observaciones }}</td>
-            <td>
-                <a href="{% url 'editar_entrada' entrada.id %}" class="btn btn-sm btn-warning">Editar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>N° Documento</th>
+                <th>Fecha de Recepción</th>
+                <th>Remitente</th>
+                <th>Destinatario</th>
+                <th>Asunto</th>
+                <th>Departamento</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrada in entradas %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ entrada.numero_documento }}</td>
+                <td>{{ entrada.fecha_recepcion }}</td>
+                <td>{{ entrada.remitente }}</td>
+                <td>{{ entrada.destinatario }}</td>
+                <td>{{ entrada.asunto }}</td>
+                <td>{{ entrada.departamento_destino }}</td>
+                <td>{{ entrada.estado }}</td>
+                <td>
+                    <a href="{% url 'editar_entrada' entrada.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'eliminar_entrada' entrada.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No hay entradas registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

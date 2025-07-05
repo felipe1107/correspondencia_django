@@ -1,50 +1,49 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Departamento(models.Model):
-    nombre = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nombre
-
-class CorrespondenciaEntrada(models.Model):
+class Entrada(models.Model):
     numero_documento = models.CharField(max_length=50)
     fecha_recepcion = models.DateField()
     remitente = models.CharField(max_length=100)
     destinatario = models.CharField(max_length=100)
     asunto = models.TextField()
-    departamento_destino = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-    estado = models.CharField(max_length=20, choices=[
-        ('pendiente', 'Pendiente'),
-        ('procesado', 'Procesado'),
-        ('finalizado', 'Finalizado')
-    ])
-    archivo_adjunto = models.FileField(upload_to='adjuntos_entrada/', blank=True, null=True)
+    departamento_destino = models.CharField(max_length=100)
+    estado = models.CharField(max_length=50)
+    archivo_adjunto = models.FileField(upload_to='entradas/', blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Entrada {self.numero_documento}"
+        return self.numero_documento
 
-class CorrespondenciaSalida(models.Model):
+
+class Salida(models.Model):
     numero_documento = models.CharField(max_length=50)
-    fecha_recepcion = models.DateField()
+    fecha_envio = models.DateField()
     remitente = models.CharField(max_length=100)
     destinatario = models.CharField(max_length=100)
     asunto = models.TextField()
-    departamento_origen = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-    estado = models.CharField(max_length=20, choices=[
-        ('pendiente', 'Pendiente'),
-        ('procesado', 'Procesado'),
-        ('finalizado', 'Finalizado')
-    ])
-    archivo_adjunto = models.FileField(upload_to='adjuntos_salida/', blank=True, null=True)
+    departamento_origen = models.CharField(max_length=100)
+    estado = models.CharField(max_length=50)
+    archivo_adjunto = models.FileField(upload_to='salidas/', blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Salida {self.numero_documento}"
+        return self.numero_documento
+
 
 class Gestor(models.Model):
     nombre = models.CharField(max_length=100)
-    correo = models.EmailField()
+    cargo = models.CharField(max_length=100, default="Sin cargo")
+    correo = models.EmailField(default="sin@correo.com")
+    telefono = models.CharField(max_length=20, default="0000-0000")
 
     def __str__(self):
         return self.nombre
+
+
+class Usuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    departamento = models.CharField(max_length=100, default="Sin departamento")
+
+    def __str__(self):
+        return self.user.username

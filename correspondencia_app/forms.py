@@ -1,9 +1,10 @@
 from django import forms
-from .models import CorrespondenciaEntrada
+from .models import Entrada, Salida, Gestor, Usuario
 
-class CorrespondenciaEntradaForm(forms.ModelForm):
+
+class EntradaForm(forms.ModelForm):
     class Meta:
-        model = CorrespondenciaEntrada
+        model = Entrada
         fields = [
             'numero_documento',
             'fecha_recepcion',
@@ -15,7 +16,19 @@ class CorrespondenciaEntradaForm(forms.ModelForm):
             'archivo_adjunto',
             'observaciones',
         ]
-        widgets = {
-            'fecha_recepcion': forms.DateInput(attrs={'type': 'date'}),
-            'observaciones': forms.Textarea(attrs={'rows': 3}),
-        }
+
+
+class SalidaForm(forms.ModelForm):
+    class Meta:
+        model = Salida
+        fields = [
+            'numero_documento',
+            'fecha_envio',
+            'remitente',
+            'destinatario',
+            'asunto',
+            'departamento_origen',
+            'estado',
+            'archivo_adjunto',
+            'observaciones',
+        ]
