@@ -1,34 +1,13 @@
+# correspondencia_app/forms.py
 from django import forms
-from .models import Entrada, Salida, Gestor, Usuario
-
+from .models import CorrespondenciaEntrada, CorrespondenciaSalida
 
 class EntradaForm(forms.ModelForm):
     class Meta:
-        model = Entrada
-        fields = [
-            'numero_documento',
-            'fecha_recepcion',
-            'remitente',
-            'destinatario',
-            'asunto',
-            'departamento_destino',
-            'estado',
-            'archivo_adjunto',
-            'observaciones',
-        ]
-
+        model = CorrespondenciaEntrada
+        fields = '__all__'
 
 class SalidaForm(forms.ModelForm):
     class Meta:
-        model = Salida
-        fields = [
-            'numero_documento',
-            'fecha_envio',
-            'remitente',
-            'destinatario',
-            'asunto',
-            'departamento_origen',
-            'estado',
-            'archivo_adjunto',
-            'observaciones',
-        ]
+        model = CorrespondenciaSalida
+        fields = '__all__'

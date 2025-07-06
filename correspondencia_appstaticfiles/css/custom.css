@@ -1,0 +1,22 @@
+/* static/css/custom.css */
+
+/* Fondo del dashboard (inicio) */
+.dashboard-bg {
+  background-image: url('/static/img/bg-dashboard.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Fondo de las páginas interiores (entradas, gestores, etc.) */
+.inner-bg {
+  background-image: url('/static/img/bg-inner.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Ajuste de la barra fija */
+.navbar {
+  margin-bottom: 1rem;
+}

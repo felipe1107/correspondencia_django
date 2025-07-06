@@ -1,25 +1,19 @@
 from django.contrib import admin
-from .models import Entrada, Salida, Gestor, Usuario
+from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor, Usuario
 
-@admin.register(Entrada)
-class EntradaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'fecha_recepcion', 'remitente', 'destinatario', 'departamento_destino', 'estado')
-    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
+class CorrespondenciaEntradaAdmin(admin.ModelAdmin):
+    list_display = ('numero_documento', 'fecha_recepcion', 'remitente', 'destinatario', 'asunto', 'departamento_destino', 'estado')
 
+class CorrespondenciaSalidaAdmin(admin.ModelAdmin):
+    list_display = ('numero_documento', 'fecha_envio', 'remitente', 'destinatario', 'asunto', 'departamento_origen', 'estado')
 
-@admin.register(Salida)
-class SalidaAdmin(admin.ModelAdmin):
-    list_display = ('numero_documento', 'fecha_envio', 'remitente', 'destinatario', 'departamento_origen', 'estado')
-    search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
-
-
-@admin.register(Gestor)
 class GestorAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'cargo', 'correo', 'telefono')
-    search_fields = ('nombre', 'cargo')
+    list_display = ('nombre', 'departamento', 'correo')
 
-
-@admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('user', 'departamento')
-    search_fields = ('user__username', 'departamento')
+    list_display = ('nombre', 'correo', 'rol')
+
+admin.site.register(CorrespondenciaEntrada, CorrespondenciaEntradaAdmin)
+admin.site.register(CorrespondenciaSalida, CorrespondenciaSalidaAdmin)
+admin.site.register(Gestor, GestorAdmin)
+admin.site.register(Usuario, UsuarioAdmin)
