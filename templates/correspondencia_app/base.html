@@ -3,80 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Sistema de Correspondencia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .navbar {
-            background-color: #003366;
-            color: #fff;
-            padding: 10px 20px;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        .container {
-            padding: 20px;
-        }
-
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        footer {
-            background-color: #003366;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            background-color: #003366;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #0055a5;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
 </head>
 <body>
-    <div class="navbar">
-        <a href="{% url 'dashboard' %}">Inicio</a>
-        <a href="{% url 'entrada_list' %}">Entradas</a>
-        <a href="{% url 'salida_list' %}">Salidas</a>
-        <a href="{% url 'gestor_list' %}">Gestores</a>
-        <a href="{% url 'logout' %}">Cerrar Sesión</a>
-    </div>
+    <header>
+        <h1>Sistema de Correspondencia</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Inicio</a></li>
+                <li><a href="{% url 'entrada_list' %}">Entradas</a></li>
+                <li><a href="{% url 'salida_list' %}">Salidas</a></li>
+                <li><a href="{% url 'gestor_list' %}">Gestores</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="container">
+    <main>
         {% block content %}
+        <!-- Aquí va el contenido de cada plantilla hija -->
         {% endblock %}
-    </div>
+    </main>
 
     <footer>
-        Sistema de Correspondencia – © {{ year }}
+        <p>&copy; 2025 JP Tech Solutions</p>
     </footer>
 </body>
 </html>
