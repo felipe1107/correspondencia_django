@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Salidas de Correspondencia</h2>
-    <a href="{% url 'crear_salida' %}" class="btn btn-primary mb-3">Registrar nueva salida</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Fecha</th>
-                <th>Destinatario</th>
-                <th>Asunto</th>
-                <th>Departamento</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ item.fecha_salida }}</td>
-                <td>{{ item.destinatario }}</td>
-                <td>{{ item.asunto }}</td>
-                <td>{{ item.departamento_destino }}</td>
-                <td>{{ item.estado }}</td>
-                <td>
-                    <a href="{% url 'editar_salida' item.id %}" class="btn btn-sm btn-warning">Editar</a>
-                    <a href="{% url 'eliminar_salida' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="7">No hay salidas registradas.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<h2 class="mb-4">Correspondencia Saliente</h2>
+
+<a href="{% url 'crear_salida' %}" class="btn btn-success mb-3">+ Nueva Salida</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Fecha</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Asunto</th>
+            <th>Departamento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.numero_documento }}</td>
+            <td>{{ item.fecha_recepcion }}</td>
+            <td>{{ item.remitente }}</td>
+            <td>{{ item.destinatario }}</td>
+            <td>{{ item.asunto }}</td>
+            <td>{{ item.departamento_destino }}</td>
+            <td>{{ item.estado }}</td>
+            <td>
+                <a href="{% url 'editar_salida' item.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'eliminar_salida' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="9">No hay registros de salida aún.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

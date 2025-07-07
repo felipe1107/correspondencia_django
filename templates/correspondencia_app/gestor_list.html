@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Gestores Registrados</h2>
-    <a href="{% url 'crear_gestor' %}" class="btn btn-success mb-3">Nuevo Gestor</a>
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Departamento</th>
-                <th>Correo Electrónico</th>
-                <th>Teléfono</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.departamento }}</td>
-                <td>{{ item.correo }}</td>
-                <td>{{ item.telefono }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<h2 class="mb-4">Gestores Registrados</h2>
+
+<a href="{% url 'crear_gestor' %}" class="btn btn-success mb-3">+ Nuevo Gestor</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Departamento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cargo }}</td>
+            <td>{{ item.correo }}</td>
+            <td>{{ item.telefono }}</td>
+            <td>{{ item.departamento }}</td>
+            <td>
+                <a href="{% url 'editar_gestor' item.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'eliminar_gestor' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7">No hay gestores registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
