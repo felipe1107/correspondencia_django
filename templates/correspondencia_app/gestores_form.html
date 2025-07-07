@@ -1,12 +1,15 @@
-{% extends "base.html" %}
-{% block title %}Gestor{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>{% if form.instance.pk %}Editar{% else %}Nuevo{% endif %} Gestor</h2>
-<form method="post">
+<h2 class="mb-4">Registrar Nuevo Gestor</h2>
+
+<form method="POST" class="card p-4 shadow-sm">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{% url 'gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
 </form>
 {% endblock %}

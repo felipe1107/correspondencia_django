@@ -2,34 +2,23 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Bienvenido al Sistema de Correspondencia</h2>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Entradas</h5>
-                    <p class="card-text">Ver correspondencia recibida.</p>
-                    <a href="{% url 'entrada_list' %}" class="btn btn-light">Ir a Entradas</a>
-                </div>
-            </div>
+    <h2 class="text-center mb-4">Bienvenido al Sistema de Correspondencia</h2>
+
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'entrada_list' %}" class="btn btn-outline-primary btn-block w-100 p-4">
+                <h4>📥 Entradas</h4>
+            </a>
         </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Salidas</h5>
-                    <p class="card-text">Ver correspondencia enviada.</p>
-                    <a href="{% url 'salida_list' %}" class="btn btn-light">Ir a Salidas</a>
-                </div>
-            </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'salida_list' %}" class="btn btn-outline-success btn-block w-100 p-4">
+                <h4>📤 Salidas</h4>
+            </a>
         </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-secondary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Gestores</h5>
-                    <p class="card-text">Ver listado de gestores registrados.</p>
-                    <a href="{% url 'gestor_list' %}" class="btn btn-light">Ir a Gestores</a>
-                </div>
-            </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'gestor_list' %}" class="btn btn-outline-info btn-block w-100 p-4">
+                <h4>👤 Gestores</h4>
+            </a>
         </div>
     </div>
 </div>
