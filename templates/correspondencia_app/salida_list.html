@@ -1,53 +1,40 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">Listado de Correspondencia de Salida</h2>
+<div class="container mt-4">
+    <h2>Salidas de Correspondencia</h2>
+    <a href="{% url 'crear_salida' %}" class="btn btn-primary mb-3">Nueva Salida</a>
 
-    <a href="{% url 'crear_salida' %}" class="btn btn-success mb-3">Registrar nueva salida</a>
-
-    <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
+    <table class="table table-striped">
+        <thead>
             <tr>
                 <th>N° Documento</th>
-                <th>Fecha de recepción</th>
+                <th>Fecha</th>
                 <th>Remitente</th>
                 <th>Destinatario</th>
                 <th>Asunto</th>
-                <th>Departamento Origen</th>
+                <th>Departamento</th>
                 <th>Estado</th>
-                <th>Archivo adjunto</th>
-                <th>Observaciones</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for salida in salidas %}
+            {% for item in items %}
             <tr>
-                <td>{{ salida.numero_documento }}</td>
-                <td>{{ salida.fecha_recepcion }}</td>
-                <td>{{ salida.remitente }}</td>
-                <td>{{ salida.destinatario }}</td>
-                <td>{{ salida.asunto }}</td>
-                <td>{{ salida.departamento_origen.nombre }}</td>
-                <td>{{ salida.estado }}</td>
+                <td>{{ item.numero_documento }}</td>
+                <td>{{ item.fecha_envio }}</td>
+                <td>{{ item.remitente }}</td>
+                <td>{{ item.destinatario }}</td>
+                <td>{{ item.asunto }}</td>
+                <td>{{ item.departamento_destino }}</td>
+                <td>{{ item.estado }}</td>
                 <td>
-                    {% if salida.archivo_adjunto %}
-                        <a href="{{ salida.archivo_adjunto.url }}" target="_blank">Ver archivo</a>
-                    {% else %}
-                        Sin archivo
-                    {% endif %}
-                </td>
-                <td>{{ salida.observaciones }}</td>
-                <td>
-                    <a href="{% url 'editar_salida' salida.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="{% url 'eliminar_salida' salida.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="{% url 'editar_salida' item.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'eliminar_salida' item.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </td>
             </tr>
             {% empty %}
-            <tr>
-                <td colspan="10" class="text-center">No hay correspondencia de salida registrada.</td>
-            </tr>
+            <tr><td colspan="8">No hay salidas registradas.</td></tr>
             {% endfor %}
         </tbody>
     </table>
