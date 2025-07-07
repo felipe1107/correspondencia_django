@@ -1,12 +1,13 @@
 {% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>¿Deseas eliminar el gestor "{{ gestor.nombre }}"?</h2>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a href="{% url 'gestor_list' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
+<h2>❌ Eliminar Gestor</h2>
+
+<p>¿Estás seguro que deseas eliminar al gestor <strong>{{ object.nombre }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">🗑️ Sí, eliminar</button>
+    <a href="{% url 'gestor_list' %}" class="btn btn-secondary">↩️ Cancelar</a>
+</form>
 {% endblock %}
