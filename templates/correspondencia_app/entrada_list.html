@@ -1,21 +1,20 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>Correspondencia Recibida</h2>
+<h1>Entradas de Correspondencia</h1>
 
-<a href="{% url 'crear_entrada' %}" class="btn">➕ Nueva Entrada</a>
+<a href="{% url 'crear_entrada' %}" class="btn btn-primary">Nueva Entrada</a>
 
-<table>
+<table class="table table-striped mt-3">
     <thead>
         <tr>
-            <th>N° Documento</th>
-            <th>Fecha Recepción</th>
+            <th>Nº Documento</th>
+            <th>Fecha</th>
             <th>Remitente</th>
             <th>Destinatario</th>
             <th>Asunto</th>
             <th>Departamento</th>
             <th>Estado</th>
-            <th>Archivo</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -30,21 +29,13 @@
             <td>{{ item.departamento_destino }}</td>
             <td>{{ item.estado }}</td>
             <td>
-                {% if item.archivo_adjunto %}
-                    <a href="{{ item.archivo_adjunto.url }}" target="_blank">📎 Ver</a>
-                {% else %}
-                    Sin archivo
-                {% endif %}
-            </td>
-            <td>
-                <a href="{% url 'editar_entrada' item.id %}">✏️ Editar</a>
-                |
-                <a href="{% url 'eliminar_entrada' item.id %}" onclick="return confirm('¿Estás seguro?')">🗑️ Eliminar</a>
+                <a href="{% url 'editar_entrada' item.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'eliminar_entrada' item.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="9">No hay entradas registradas.</td>
+            <td colspan="8">No hay entradas registradas.</td>
         </tr>
         {% endfor %}
     </tbody>
