@@ -2,24 +2,22 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Dashboard
-    path('dashboard/', views.dashboard, name='dashboard'),
-
-    # Entradas
+    path('', views.dashboard, name='dashboard'),
     path('entradas/', views.entrada_list, name='entrada_list'),
-    path('entradas/nueva/', views.crear_entrada, name='crear_entrada'),
-    path('entradas/editar/<int:pk>/', views.editar_entrada, name='editar_entrada'),
-    path('entradas/eliminar/<int:pk>/', views.eliminar_entrada, name='eliminar_entrada'),
+    path('entradas/nueva/', views.entrada_create, name='entrada_create'),
+    path('entradas/editar/<int:pk>/', views.entrada_update, name='entrada_update'),
+    path('entradas/eliminar/<int:pk>/', views.entrada_delete, name='entrada_delete'),
 
-    # Salidas
     path('salidas/', views.salida_list, name='salida_list'),
-    path('salidas/nueva/', views.crear_salida, name='crear_salida'),
-    path('salidas/editar/<int:pk>/', views.editar_salida, name='editar_salida'),
-    path('salidas/eliminar/<int:pk>/', views.eliminar_salida, name='eliminar_salida'),
+    path('salidas/nueva/', views.salida_create, name='salida_create'),
+    path('salidas/editar/<int:pk>/', views.salida_update, name='salida_update'),
+    path('salidas/eliminar/<int:pk>/', views.salida_delete, name='salida_delete'),
 
-    # Gestores
     path('gestores/', views.gestor_list, name='gestor_list'),
-    path('gestores/nuevo/', views.crear_gestor, name='crear_gestor'),
-    path('gestores/editar/<int:pk>/', views.editar_gestor, name='editar_gestor'),
-    path('gestores/eliminar/<int:pk>/', views.eliminar_gestor, name='eliminar_gestor'),
+    path('gestores/nuevo/', views.gestor_create, name='gestor_create'),
+    path('gestores/editar/<int:pk>/', views.gestor_update, name='gestor_update'),
+    path('gestores/eliminar/<int:pk>/', views.gestor_delete, name='gestor_delete'),
+
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]
