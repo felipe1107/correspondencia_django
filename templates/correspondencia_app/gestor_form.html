@@ -1,27 +1,25 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>{% if form.instance.pk %}✏️ Editar Gestor{% else %}➕ Agregar Gestor{% endif %}</h2>
-
-<form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="id_nombre">👤 Nombre:</label>
-        {{ form.nombre }}
-    </div>
-    <div class="form-group">
-        <label for="id_correo">📧 Correo:</label>
-        {{ form.correo }}
-    </div>
-    <div class="form-group">
-        <label for="id_telefono">☎️ Teléfono:</label>
-        {{ form.telefono }}
-    </div>
-    <div class="form-group">
-        <label for="id_departamento">🏢 Departamento:</label>
-        {{ form.departamento }}
-    </div>
-    <button type="submit" class="btn btn-success">💾 Guardar</button>
-    <a href="{% url 'gestor_list' %}" class="btn btn-secondary">↩️ Volver</a>
-</form>
+<div class="container mt-4">
+    <h2>Registrar Nuevo Gestor</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" name="correo" id="correo" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" name="telefono" id="telefono" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{% url 'gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

@@ -10,5 +10,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
 
     # Enlace a las demás URLs de la app
-    path('', include('correspondencia_app.urls')),
+    path('', include(('correspondencia_app.urls', 'correspondencia_app'), namespace='correspondencia_app')),
 ]

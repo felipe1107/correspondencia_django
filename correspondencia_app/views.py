@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
-from django.contrib import messages
 
 # -------------------- AUTENTICACIÓN --------------------
 def login_view(request):
@@ -25,6 +25,7 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
+
 
 # -------------------- ENTRADA --------------------
 @login_required
@@ -63,6 +64,7 @@ def entrada_delete(request, pk):
         return redirect('entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'item': item})
 
+
 # -------------------- SALIDA --------------------
 @login_required
 def salida_list(request):
@@ -99,6 +101,7 @@ def salida_delete(request, pk):
         item.delete()
         return redirect('salida_list')
     return render(request, 'correspondencia_app/salida_confirm_delete.html', {'item': item})
+
 
 # -------------------- GESTOR --------------------
 @login_required
