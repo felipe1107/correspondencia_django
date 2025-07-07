@@ -1,44 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Entradas de Correspondencia</h2>
-    <a href="{% url 'crear_entrada' %}" class="btn btn-primary mb-3">Nueva Entrada</a>
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>N° Documento</th>
-                <th>Fecha Recepción</th>
-                <th>Remitente</th>
-                <th>Destinatario</th>
-                <th>Asunto</th>
-                <th>Departamento</th>
-                <th>Estado</th>
-                <th>Archivo</th>
-                <th>Observaciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.numero_documento }}</td>
-                <td>{{ item.fecha_recepcion }}</td>
-                <td>{{ item.remitente }}</td>
-                <td>{{ item.destinatario }}</td>
-                <td>{{ item.asunto }}</td>
-                <td>{{ item.departamento_destino }}</td>
-                <td>{{ item.estado }}</td>
-                <td>
-                    {% if item.archivo_adjunto %}
-                        <a href="{{ item.archivo_adjunto.url }}" target="_blank">Ver</a>
-                    {% else %}
-                        No adjunto
-                    {% endif %}
-                </td>
-                <td>{{ item.observaciones }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<h2 class="mb-4">Correspondencia Entrante</h2>
+
+<a href="{% url 'crear_entrada' %}" class="btn btn-success mb-3">+ Nueva Entrada</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Fecha</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Asunto</th>
+            <th>Departamento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.numero_documento }}</td>
+            <td>{{ item.fecha_recepcion }}</td>
+            <td>{{ item.remitente }}</td>
+            <td>{{ item.destinatario }}</td>
+            <td>{{ item.asunto }}</td>
+            <td>{{ item.departamento_destino }}</td>
+            <td>{{ item.estado }}</td>
+            <td>
+                <a href="{% url 'editar_entrada' item.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'eliminar_entrada' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="9">No hay registros de entrada aún.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

@@ -1,13 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Panel Principal</title>
-</head>
-<body>
-    <h2>Bienvenido al Sistema de Correspondencia</h2>
-    <p>Total de Entradas: {{ total_entradas }}</p>
-    <p>Total de Salidas: {{ total_salidas }}</p>
-    <p>Total de Gestores: {{ total_gestores }}</p>
-    <p><a href="{% url 'logout' %}">Cerrar Sesión</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Bienvenido al Sistema de Correspondencia</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Entradas</h5>
+                    <p class="card-text">Ver correspondencia recibida.</p>
+                    <a href="{% url 'entrada_list' %}" class="btn btn-light">Ir a Entradas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Salidas</h5>
+                    <p class="card-text">Ver correspondencia enviada.</p>
+                    <a href="{% url 'salida_list' %}" class="btn btn-light">Ir a Salidas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gestores</h5>
+                    <p class="card-text">Ver listado de gestores registrados.</p>
+                    <a href="{% url 'gestor_list' %}" class="btn btn-light">Ir a Gestores</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
