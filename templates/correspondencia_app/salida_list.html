@@ -1,41 +1,42 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>📤 Salidas de Correspondencia</h2>
-
-<a href="{% url 'crear_salida' %}" class="btn">➕ Nueva Salida</a>
-
+<h2>Correspondencia de Salida</h2>
+<a href="{% url 'salida_create' %}">Registrar nueva salida</a>
 <table>
-    <thead>
-        <tr>
-            <th>Número</th>
-            <th>Fecha</th>
-            <th>Destinatario</th>
-            <th>Asunto</th>
-            <th>Departamento</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-            <td>{{ item.numero_documento }}</td>
-            <td>{{ item.fecha_envio }}</td>
-            <td>{{ item.destinatario }}</td>
-            <td>{{ item.asunto }}</td>
-            <td>{{ item.departamento_destino }}</td>
-            <td>{{ item.estado }}</td>
-            <td>
-                <a href="{% url 'editar_salida' item.id %}" class="btn btn-warning">✏️</a>
-                <a href="{% url 'eliminar_salida' item.id %}" class="btn btn-danger">🗑️</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7">No hay salidas registradas.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+    <tr>
+        <th>Número de documento</th>
+        <th>Fecha de envío</th>
+        <th>Remitente</th>
+        <th>Destinatario</th>
+        <th>Asunto</th>
+        <th>Departamento destino</th>
+        <th>Estado</th>
+        <th>Archivo</th>
+        <th>Opciones</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.numero_documento }}</td>
+        <td>{{ item.fecha_envio }}</td>
+        <td>{{ item.remitente }}</td>
+        <td>{{ item.destinatario }}</td>
+        <td>{{ item.asunto }}</td>
+        <td>{{ item.departamento_destino }}</td>
+        <td>{{ item.estado }}</td>
+        <td>
+            {% if item.archivo_adjunto %}
+            <a href="{{ item.archivo_adjunto.url }}" target="_blank">Ver</a>
+            {% else %}
+            No adjunto
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'salida_update' item.pk %}">Editar</a> |
+            <a href="{% url 'salida_delete' item.pk %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 {% endblock %}
