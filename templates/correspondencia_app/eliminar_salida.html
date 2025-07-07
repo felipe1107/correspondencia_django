@@ -1,20 +1,13 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-danger">¿Estás seguro que deseas eliminar esta salida?</h2>
-
-    <div class="alert alert-warning mt-4">
-        <p><strong>N° Documento:</strong> {{ salida.numero_documento }}</p>
-        <p><strong>Destinatario:</strong> {{ salida.destinatario }}</p>
-        <p><strong>Asunto:</strong> {{ salida.asunto }}</p>
-        <p><strong>Fecha de Envío:</strong> {{ salida.fecha_envio }}</p>
-    </div>
-
+    <h2>Confirmar Eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar esta salida?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-        <a href="{% url 'lista_salidas' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'salida_list' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}
