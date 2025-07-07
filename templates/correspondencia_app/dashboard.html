@@ -1,25 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Bienvenido al Sistema de Correspondencia</h2>
-
-    <div class="row text-center">
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'entrada_list' %}" class="btn btn-outline-primary btn-block w-100 p-4">
-                <h4>📥 Entradas</h4>
-            </a>
-        </div>
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'salida_list' %}" class="btn btn-outline-success btn-block w-100 p-4">
-                <h4>📤 Salidas</h4>
-            </a>
-        </div>
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'gestor_list' %}" class="btn btn-outline-info btn-block w-100 p-4">
-                <h4>👤 Gestores</h4>
-            </a>
-        </div>
+<div class="dashboard-container">
+    <h2>Bienvenido, {{ user.username }} 👋</h2>
+    <p>Selecciona una opción para gestionar la correspondencia:</p>
+    
+    <div class="dashboard-links">
+        <a href="{% url 'entrada_list' %}" class="dashboard-btn">📥 Entradas</a>
+        <a href="{% url 'salida_list' %}" class="dashboard-btn">📤 Salidas</a>
+        <a href="{% url 'gestor_list' %}" class="dashboard-btn">👤 Gestores</a>
     </div>
 </div>
 {% endblock %}

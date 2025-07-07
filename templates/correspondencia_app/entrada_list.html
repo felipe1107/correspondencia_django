@@ -1,28 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2 class="mb-4">Correspondencia Entrante</h2>
+<h2>Correspondencia Recibida</h2>
 
-<a href="{% url 'crear_entrada' %}" class="btn btn-success mb-3">+ Nueva Entrada</a>
+<a href="{% url 'crear_entrada' %}" class="btn">➕ Nueva Entrada</a>
 
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
+<table>
+    <thead>
         <tr>
-            <th>#</th>
-            <th>Documento</th>
-            <th>Fecha</th>
+            <th>N° Documento</th>
+            <th>Fecha Recepción</th>
             <th>Remitente</th>
             <th>Destinatario</th>
             <th>Asunto</th>
             <th>Departamento</th>
             <th>Estado</th>
+            <th>Archivo</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         {% for item in items %}
         <tr>
-            <td>{{ forloop.counter }}</td>
             <td>{{ item.numero_documento }}</td>
             <td>{{ item.fecha_recepcion }}</td>
             <td>{{ item.remitente }}</td>
@@ -31,12 +30,22 @@
             <td>{{ item.departamento_destino }}</td>
             <td>{{ item.estado }}</td>
             <td>
-                <a href="{% url 'editar_entrada' item.id %}" class="btn btn-sm btn-warning">Editar</a>
-                <a href="{% url 'eliminar_entrada' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                {% if item.archivo_adjunto %}
+                    <a href="{{ item.archivo_adjunto.url }}" target="_blank">📎 Ver</a>
+                {% else %}
+                    Sin archivo
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'editar_entrada' item.id %}">✏️ Editar</a>
+                |
+                <a href="{% url 'eliminar_entrada' item.id %}" onclick="return confirm('¿Estás seguro?')">🗑️ Eliminar</a>
             </td>
         </tr>
         {% empty %}
-        <tr><td colspan="9">No hay registros de entrada aún.</td></tr>
+        <tr>
+            <td colspan="9">No hay entradas registradas.</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>

@@ -1,7 +1,7 @@
 {% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2>Crear Entrada de Correspondencia</h2>
+<h2>Editar Entrada de Correspondencia</h2>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -9,7 +9,7 @@
         {{ form.as_table }}
     </table>
 
-    <button type="submit" class="btn">💾 Guardar</button>
+    <button type="submit" class="btn">💾 Actualizar</button>
     <a href="{% url 'entrada_list' %}" class="btn">🔙 Volver</a>
 </form>
 {% endblock %}

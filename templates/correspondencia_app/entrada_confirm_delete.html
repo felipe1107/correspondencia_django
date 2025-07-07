@@ -1,25 +1,15 @@
-{% extends 'base.html' %}
-
-{% block title %}Eliminar Correspondencia de Entrada{% endblock %}
+{% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">¿Estás seguro que deseas eliminar esta entrada?</h2>
-    
-    <div class="card mb-4">
-        <div class="card-body">
-            <p><strong>Número de Documento:</strong> {{ object.numero_documento }}</p>
-            <p><strong>Remitente:</strong> {{ object.remitente }}</p>
-            <p><strong>Destinatario:</strong> {{ object.destinatario }}</p>
-            <p><strong>Asunto:</strong> {{ object.asunto }}</p>
-            <p><strong>Fecha de Recepción:</strong> {{ object.fecha_recepcion }}</p>
-        </div>
-    </div>
+<h2>¿Estás seguro que deseas eliminar esta entrada?</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-        <a href="{% url 'entrada_list' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
+<p><strong>Asunto:</strong> {{ item.asunto }}</p>
+<p><strong>Remitente:</strong> {{ item.remitente }}</p>
+<p><strong>Fecha de recepción:</strong> {{ item.fecha_recepcion }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">🗑️ Eliminar</button>
+    <a href="{% url 'entrada_list' %}" class="btn">🔙 Cancelar</a>
+</form>
 {% endblock %}
