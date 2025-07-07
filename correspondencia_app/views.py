@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
 from .forms import EntradaForm, SalidaForm, GestorForm
-from django.contrib import messages
 
+# Vista de inicio de sesión
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -14,16 +14,20 @@ def login_view(request):
             login(request, user)
             return redirect('dashboard')
         else:
-            messages.error(request, 'Usuario o contraseña inválidos.')
+            return render(request, 'correspondencia_app/login.html', {'error': 'Credenciales inválidas'})
     return render(request, 'correspondencia_app/login.html')
 
+# Vista de cierre de sesión
 def logout_view(request):
     logout(request)
     return redirect('login')
 
+# Vista del panel principal
 @login_required
 def dashboard(request):
     return render(request, 'correspondencia_app/dashboard.html')
+
+# --- Vistas para Correspondencia de Entrada ---
 
 @login_required
 def entrada_list(request):
@@ -61,6 +65,8 @@ def entrada_delete(request, pk):
         return redirect('entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'entrada': entrada})
 
+# --- Vistas para Correspondencia de Salida ---
+
 @login_required
 def salida_list(request):
     salidas = CorrespondenciaSalida.objects.all()
@@ -96,6 +102,8 @@ def salida_delete(request, pk):
         salida.delete()
         return redirect('salida_list')
     return render(request, 'correspondencia_app/salida_confirm_delete.html', {'salida': salida})
+
+# --- Vistas para Gestores ---
 
 @login_required
 def gestor_list(request):

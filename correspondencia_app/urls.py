@@ -7,7 +7,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
 
     # Página principal (dashboard)
-    path('', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 
     # Entradas
     path('entradas/', views.entrada_list, name='entrada_list'),
