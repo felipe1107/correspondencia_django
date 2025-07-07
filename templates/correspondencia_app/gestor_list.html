@@ -2,31 +2,25 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Gestores de Correspondencia</h2>
-    <a href="{% url 'crear_gestor' %}" class="btn btn-primary mb-3">Nuevo Gestor</a>
-
-    <table class="table table-striped">
-        <thead>
+    <h2>Gestores Registrados</h2>
+    <a href="{% url 'crear_gestor' %}" class="btn btn-success mb-3">Nuevo Gestor</a>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Nombre</th>
-                <th>Correo Electrónico</th>
                 <th>Departamento</th>
-                <th>Acciones</th>
+                <th>Correo Electrónico</th>
+                <th>Teléfono</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
             <tr>
                 <td>{{ item.nombre }}</td>
-                <td>{{ item.correo }}</td>
                 <td>{{ item.departamento }}</td>
-                <td>
-                    <a href="{% url 'editar_gestor' item.pk %}" class="btn btn-sm btn-warning">Editar</a>
-                    <a href="{% url 'eliminar_gestor' item.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
+                <td>{{ item.correo }}</td>
+                <td>{{ item.telefono }}</td>
             </tr>
-            {% empty %}
-            <tr><td colspan="4">No hay gestores registrados.</td></tr>
             {% endfor %}
         </tbody>
     </table>
