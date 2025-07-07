@@ -80,7 +80,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # ————— Media (subida de archivos) —————
-MEDIA_URL = '/media/'
+MEDIA_URL = '/medias/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ————— Rutas de autenticación —————
