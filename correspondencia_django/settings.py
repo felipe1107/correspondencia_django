@@ -75,7 +75,7 @@ USE_TZ = True
 # ————— Archivos estáticos —————
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
-STATIC_ROOT = BASE_DIR /'correspondencia_app''staticfiles'
+STATIC_ROOT = BASE_DIR /'costaticfile'
 
 # ————— Media (subida de archivos) —————
 MEDIA_URL = '/media/'
