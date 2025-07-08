@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
-from .forms import CorrespondenciaEntradaForm, CorrespondenciaSalidaForm, GestorForm
-from django.contrib import messages
+from .models import EntradaCorrespondencia, SalidaCorrespondencia, Gestor
+from .forms import EntradaForm, SalidaForm, GestorForm
 
-# -------------------- AUTENTICACIÓN --------------------
+# --- Autenticación ---
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -15,44 +15,54 @@ def login_view(request):
             login(request, user)
             return redirect('correspondencia_app:dashboard')
         else:
-            messages.error(request, 'Usuario o contraseña incorrectos')
-    return render(request, 'correspondencia_app/login.html')
+            return render(request, 'login.html', {'error': 'Usuario o contraseña inválidos'})
+    return render(request, 'login.html')
+
 
 def logout_view(request):
     logout(request)
     return redirect('correspondencia_app:login')
 
+
+# --- Dashboard ---
+
 @login_required
 def dashboard(request):
-    return render(request, 'correspondencia_app/dashboard.html')
+    return render(request, 'dashboard.html')
 
-# -------------------- ENTRADA --------------------
+
+# --- Entradas ---
+
 @login_required
 def entrada_list(request):
-    items = CorrespondenciaEntrada.objects.all()
-    return render(request, 'correspondencia_app/entrada_list.html', {'items': items})
+    entradas = EntradaCorrespondencia.objects.all()
+    return render(request, 'correspondencia_app/entrada_list.html', {'entradas': entradas})
+
 
 @login_required
 def entrada_create(request):
     if request.method == 'POST':
-        form = CorrespondenciaEntradaForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('correspondencia_app:entrada_list')  # ✅ corregido con namespace
-    else:
-        form = CorrespondenciaEntradaForm()
-    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
-@login_required
-def entrada_update(request, pk):
-    item = get_object_or_404(CorrespondenciaEntrada, pk=pk)
-    if request.method == 'POST':
-        form = CorrespondenciaEntradaForm(request.POST, request.FILES, instance=item)
+        form = EntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('correspondencia_app:entrada_list')
     else:
-        form = CorrespondenciaEntradaForm(instance=item)
+        form = EntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
+
+
+@login_required
+def entrada_update(request, pk):
+    item = get_object_or_404(EntradaCorrespondencia, pk=pk)
+    if request.method == 'POST':
+        form = EntradaForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('correspondencia_app:entrada_list')
+    else:
+        form = EntradaForm(instance=item)
+    return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
+
 
 @login_required
 def entrada_delete(request, pk):
@@ -62,48 +72,56 @@ def entrada_delete(request, pk):
         return redirect('correspondencia_app:entrada_list')
     return render(request, 'correspondencia_app/entrada_confirm_delete.html', {'item': item})
 
-# -------------------- SALIDA --------------------
+
+# --- Salidas ---
+
 @login_required
 def salida_list(request):
-    items = CorrespondenciaSalida.objects.all()
-    return render(request, 'correspondencia_app/salida_list.html', {'items': items})
+    salidas = SalidaCorrespondencia.objects.all()
+    return render(request, 'correspondencia_app/salida_list.html', {'salidas': salidas})
+
 
 @login_required
 def salida_create(request):
     if request.method == 'POST':
-        form = CorrespondenciaSalidaForm(request.POST, request.FILES)
+        form = SalidaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('correspondencia_app:salida_list')
     else:
-        form = CorrespondenciaSalidaForm()
+        form = SalidaForm()
     return render(request, 'correspondencia_app/salida_form.html', {'form': form})
+
 
 @login_required
 def salida_update(request, pk):
-    item = get_object_or_404(CorrespondenciaSalida, pk=pk)
+    item = get_object_or_404(SalidaCorrespondencia, pk=pk)
     if request.method == 'POST':
-        form = CorrespondenciaSalidaForm(request.POST, request.FILES, instance=item)
+        form = SalidaForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
             return redirect('correspondencia_app:salida_list')
     else:
-        form = CorrespondenciaSalidaForm(instance=item)
+        form = SalidaForm(instance=item)
     return render(request, 'correspondencia_app/salida_form.html', {'form': form})
+
 
 @login_required
 def salida_delete(request, pk):
-    item = get_object_or_404(CorrespondenciaSalida, pk=pk)
+    item = get_object_or_404(SalidaCorrespondencia, pk=pk)
     if request.method == 'POST':
         item.delete()
         return redirect('correspondencia_app:salida_list')
     return render(request, 'correspondencia_app/salida_confirm_delete.html', {'item': item})
 
-# -------------------- GESTOR --------------------
+
+# --- Gestores ---
+
 @login_required
 def gestor_list(request):
-    items = Gestor.objects.all()
-    return render(request, 'correspondencia_app/gestor_list.html', {'items': items})
+    gestores = Gestor.objects.all()
+    return render(request, 'correspondencia_app/gestor_list.html', {'gestores': gestores})
+
 
 @login_required
 def gestor_create(request):
@@ -116,6 +134,7 @@ def gestor_create(request):
         form = GestorForm()
     return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
 
+
 @login_required
 def gestor_update(request, pk):
     item = get_object_or_404(Gestor, pk=pk)
@@ -127,6 +146,7 @@ def gestor_update(request, pk):
     else:
         form = GestorForm(instance=item)
     return render(request, 'correspondencia_app/gestor_form.html', {'form': form})
+
 
 @login_required
 def gestor_delete(request, pk):

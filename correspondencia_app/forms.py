@@ -1,14 +1,14 @@
 from django import forms
-from .models import CorrespondenciaEntrada, CorrespondenciaSalida, Gestor
+from .models import EntradaCorrespondencia, SalidaCorrespondencia, Gestor
 
-class CorrespondenciaEntradaForm(forms.ModelForm):
+class EntradaForm(forms.ModelForm):
     class Meta:
-        model = CorrespondenciaEntrada
+        model = EntradaCorrespondencia
         fields = '__all__'
 
-class CorrespondenciaSalidaForm(forms.ModelForm):
+class SalidaForm(forms.ModelForm):
     class Meta:
-        model = CorrespondenciaSalida
+        model = SalidaCorrespondencia
         fields = '__all__'
 
 class GestorForm(forms.ModelForm):
