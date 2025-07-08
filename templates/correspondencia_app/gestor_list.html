@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
   <h2>Gestores Registrados</h2>
   <a href="{% url 'correspondencia_app:gestor_create' %}">Nuevo Gestor</a>
@@ -19,7 +20,10 @@
           <td>{{ item.telefono }}</td>
           <td>
             <a href="{% url 'correspondencia_app:gestor_update' item.id %}">Editar</a> |
-            <a href="{% url 'correspondencia_app:gestor_delete' item.id %}">Eliminar</a>
+            <form action="{% url 'correspondencia_app:gestor_delete' item.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este gestor?')">Eliminar</button>
+            </form>
           </td>
         </tr>
       {% empty %}
