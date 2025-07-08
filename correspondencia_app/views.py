@@ -38,7 +38,7 @@ def entrada_create(request):
         form = CorrespondenciaEntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('correspondencia_app:entrada_list')
+            return redirect('entrada_list')
     else:
         form = CorrespondenciaEntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
