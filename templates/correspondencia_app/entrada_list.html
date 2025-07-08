@@ -1,48 +1,43 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Correspondencia Recibida</title>
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
-</head>
-<body>
-    <h1>Correspondencia Recibida</h1>
-    <a href="{% url 'entrada_create' %}">Registrar nueva entrada</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Fecha</th>
-                <th>Remitente</th>
-                <th>Destinatario</th>
-                <th>Asunto</th>
-                <th>Departamento</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.numero_documento }}</td>
-                <td>{{ item.fecha_recepcion }}</td>
-                <td>{{ item.remitente }}</td>
-                <td>{{ item.destinatario }}</td>
-                <td>{{ item.asunto }}</td>
-                <td>{{ item.departamento_destino }}</td>
-                <td>{{ item.estado }}</td>
-                <td>
-                    <a href="{% url 'entrada_update' item.id %}">Editar</a> |
-                    <a href="{% url 'entrada_delete' item.id %}">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="8">No hay entradas registradas.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <br>
-    <a href="{% url 'dashboard' %}">Volver al inicio</a>
-</body>
-</html>
+{% url 'correspondencia_app:dashboard' %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Correspondencia de Entrada</h2>
+  <a href="{% url 'correspondencia_app:entrada_create' %}">Nueva Entrada</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Número de Documento</th>
+        <th>Fecha de Recepción</th>
+        <th>Remitente</th>
+        <th>Destinatario</th>
+        <th>Asunto</th>
+        <th>Departamento</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item.numero_documento }}</td>
+          <td>{{ item.fecha_recepcion }}</td>
+          <td>{{ item.remitente }}</td>
+          <td>{{ item.destinatario }}</td>
+          <td>{{ item.asunto }}</td>
+          <td>{{ item.departamento_destino }}</td>
+          <td>{{ item.estado }}</td>
+          <td>
+            <a href="{% url 'correspondencia_app:entrada_update' item.id %}">Editar</a> |
+            <a href="{% url 'correspondencia_app:entrada_delete' item.id %}">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="8">No hay correspondencia registrada.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
