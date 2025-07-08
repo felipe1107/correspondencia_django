@@ -1,13 +1,22 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}Eliminar Gestor{% endblock %}
 
 {% block content %}
-<h2>❌ Eliminar Gestor</h2>
+<div class="container mt-4">
+  <h2 class="mb-4">¿Estás seguro de que deseas eliminar este gestor?</h2>
 
-<p>¿Estás seguro que deseas eliminar al gestor <strong>{{ object.nombre }}</strong>?</p>
+  <p><strong>Nombre:</strong> {{ item.nombre }}</p>
+  <p><strong>Correo:</strong> {{ item.correo }}</p>
+  <p><strong>Teléfono:</strong> {{ item.telefono }}</p>
 
-<form method="post">
+  <form method="post" action="{% url 'correspondencia_app:gestor_delete' item.pk %}">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">🗑️ Sí, eliminar</button>
-    <a href="{% url 'gestor_list' %}" class="btn btn-secondary">↩️ Cancelar</a>
-</form>
+    <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+  </form>
+</div>
 {% endblock %}

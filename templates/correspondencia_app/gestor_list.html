@@ -1,36 +1,32 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">Gestores</h1>
-    <a href="{% url 'gestor_create' %}" class="btn btn-primary mb-3">Nuevo Gestor</a>
-    <table class="table table-bordered">
-        <thead class="table-light">
-            <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.correo }}</td>
-                <td>{{ item.telefono }}</td>
-                <td>
-                    <a href="{% url 'gestor_update' item.id %}" class="btn btn-sm btn-warning">Editar</a>
-                    <a href="{% url 'gestor_delete' item.id %}" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No hay gestores registrados.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+  <h2>Gestores Registrados</h2>
+  <a href="{% url 'correspondencia_app:gestor_create' %}">Nuevo Gestor</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.correo }}</td>
+          <td>{{ item.telefono }}</td>
+          <td>
+            <a href="{% url 'correspondencia_app:gestor_update' item.id %}">Editar</a> |
+            <a href="{% url 'correspondencia_app:gestor_delete' item.id %}">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No hay gestores registrados.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
