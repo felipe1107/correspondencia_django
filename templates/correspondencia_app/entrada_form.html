@@ -1,13 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
 {% load static %}
 
 {% block content %}
-<h2>Nueva Entrada de Correspondencia</h2>
-
-<form method="post" enctype="multipart/form-data" class="mt-4">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="{% url 'entrada_list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+<div class="container mt-4">
+    <h2 class="mb-4">Nueva Correspondencia de Entrada</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

@@ -38,11 +38,10 @@ def entrada_create(request):
         form = CorrespondenciaEntradaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('entrada_list')
+            return redirect('correspondencia_app:entrada_list')  # ✅ corregido con namespace
     else:
         form = CorrespondenciaEntradaForm()
     return render(request, 'correspondencia_app/entrada_form.html', {'form': form})
-
 @login_required
 def entrada_update(request, pk):
     item = get_object_or_404(CorrespondenciaEntrada, pk=pk)
@@ -57,7 +56,7 @@ def entrada_update(request, pk):
 
 @login_required
 def entrada_delete(request, pk):
-    item = get_object_or_404(CorrespondenciaEntrada, pk=pk)
+    item = get_object_or_404(EntradaCorrespondencia, pk=pk)
     if request.method == 'POST':
         item.delete()
         return redirect('correspondencia_app:entrada_list')
