@@ -28,6 +28,5 @@ urlpatterns = [
     path('gestores/editar/<int:pk>/', views.gestor_update, name='gestor_edit'),
     path('gestores/eliminar/<int:pk>/', views.gestor_delete, name='gestor_delete'),
 
- path('logout/', views.custom_logout, name='logout'),
 ]
 
