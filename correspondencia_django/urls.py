@@ -1,14 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from correspondencia_app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # Vista de login personalizada
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-
-    # Enlace a las demás URLs de la app
-    path('', include(('correspondencia_app.urls', 'correspondencia_app'), namespace='correspondencia_app')),
+    path('', include('correspondencia_app.urls', namespace='correspondencia_app')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

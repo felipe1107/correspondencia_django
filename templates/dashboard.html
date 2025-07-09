@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1>Bienvenido al Sistema de Correspondencia</h1>
-  <p>Usa el menú de navegación para gestionar entradas, salidas y gestores.</p>
+<div class="container mt-5">
+    <h1 class="mb-4">Panel Principal del Sistema de Correspondencia</h1>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-primary btn-lg w-100">Entradas</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-success btn-lg w-100">Salidas</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-warning btn-lg w-100">Gestores</a>
+        </div>
+    </div>
+
+    <div class="mt-4 text-end">
+        <a href="{% url 'correspondencia_app:logout' %}" class="btn btn-danger">Cerrar sesión</a>
+    </div>
 </div>
 {% endblock %}

@@ -1,43 +1,47 @@
-
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
-<h2>Correspondencia de Salida</h2>
-<a href="{% url 'salida_create' %}">Registrar nueva salida</a>
-<table>
-    <tr>
-        <th>Número de documento</th>
-        <th>Fecha de envío</th>
-        <th>Remitente</th>
-        <th>Destinatario</th>
-        <th>Asunto</th>
-        <th>Departamento destino</th>
-        <th>Estado</th>
-        <th>Archivo</th>
-        <th>Opciones</th>
-    </tr>
-    {% for item in items %}
-    <tr>
-        <td>{{ item.numero_documento }}</td>
-        <td>{{ item.fecha_envio }}</td>
-        <td>{{ item.remitente }}</td>
-        <td>{{ item.destinatario }}</td>
-        <td>{{ item.asunto }}</td>
-        <td>{{ item.departamento_destino }}</td>
-        <td>{{ item.estado }}</td>
-        <td>
-            {% if item.archivo_adjunto %}
-            <a href="{{ item.archivo_adjunto.url }}" target="_blank">Ver</a>
-            {% else %}
-            No adjunto
-            {% endif %}
-        </td>
-        <td>
-            <a href="{% url 'salida_update' item.pk %}">Editar</a> |
-            <a href="{% url 'salida_delete' item.pk %}">Eliminar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="container mt-4">
+    <h2>Listado de Salidas de Correspondencia</h2>
+
+    <div class="mb-3">
+        <a href="{% url 'correspondencia_app:salida_create' %}" class="btn btn-success">Nueva Salida</a>
+        <a href="{% url 'correspondencia_app:dashboard' %}" class="btn btn-secondary">Volver al Dashboard</a>
+        <a href="{% url 'correspondencia_app:logout' %}" class="btn btn-danger float-end">Cerrar sesión</a>
+    </div>
+
+    {% if salidas %}
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Número</th>
+                <th>Fecha</th>
+                <th>Destinatario</th>
+                <th>Asunto</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salida in salidas %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ salida.numero_documento }}</td>
+                <td>{{ salida.fecha_envio }}</td>
+                <td>{{ salida.destinatario }}</td>
+                <td>{{ salida.asunto }}</td>
+                <td>{{ salida.estado }}</td>
+                <td>
+                    <a href="{% url 'correspondencia_app:salida_edit' salida.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'correspondencia_app:salida_delete' salida.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">No hay salidas registradas.</div>
+    {% endif %}
+</div>
 {% endblock %}
