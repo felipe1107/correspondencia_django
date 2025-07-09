@@ -8,7 +8,7 @@ urlpatterns = [
 
     # Login y logout
     path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('logout/', views.custom_logout, name='logout'),
 
     # Entradas
     path('entradas/', views.entrada_list, name='entrada_list'),
@@ -27,6 +27,4 @@ urlpatterns = [
     path('gestores/nuevo/', views.gestor_create, name='gestor_create'),
     path('gestores/editar/<int:pk>/', views.gestor_update, name='gestor_edit'),
     path('gestores/eliminar/<int:pk>/', views.gestor_delete, name='gestor_delete'),
-
 ]
-

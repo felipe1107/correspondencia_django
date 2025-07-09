@@ -1,4 +1,4 @@
-{% extends 'correspondencia_app/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <h2>📤 Registrar Nueva Salida</h2>
@@ -8,6 +8,6 @@
     {{ form.as_p }}
 
     <button type="submit" class="btn btn-success">💾 Guardar</button>
-    <a href="{% url 'salida_list' %}" class="btn btn-secondary">↩️ Cancelar</a>
+    <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-secondary">↩️ Cancelar</a>
 </form>
 {% endblock %}

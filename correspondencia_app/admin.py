@@ -14,7 +14,6 @@ class EntradaCorrespondenciaAdmin(admin.ModelAdmin):
     search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
     list_filter = ('estado', 'fecha_recepcion')
 
-
 @admin.register(SalidaCorrespondencia)
 class SalidaCorrespondenciaAdmin(admin.ModelAdmin):
     list_display = (
@@ -26,7 +25,6 @@ class SalidaCorrespondenciaAdmin(admin.ModelAdmin):
     )
     search_fields = ('numero_documento', 'remitente', 'destinatario', 'asunto')
     list_filter = ('medio_envio', 'fecha_envio')
-
 
 @admin.register(Gestor)
 class GestorAdmin(admin.ModelAdmin):
