@@ -1,23 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Eliminar Entrada{% endblock %}
-
 {% block content %}
-  <div class="container mt-5">
-    <h2>Confirmar eliminación</h2>
-    <p>¿Estás seguro de que deseas eliminar esta entrada de correspondencia?</p>
+<h2>¿Estás seguro que deseas eliminar esta entrada?</h2>
 
-    <ul>
-      <li><strong>Número de documento:</strong> {{ item.numero_documento }}</li>
-      <li><strong>Fecha de recepción:</strong> {{ item.fecha_recepcion }}</li>
-      <li><strong>Remitente:</strong> {{ item.remitente }}</li>
-      <li><strong>Asunto:</strong> {{ item.asunto }}</li>
-    </ul>
-
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-      <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-  </div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar</button>
+    <a href="{% url 'correspondencia_app:entrada_list' %}">Cancelar</a>
+</form>
 {% endblock %}

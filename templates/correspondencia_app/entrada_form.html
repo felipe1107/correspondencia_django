@@ -1,15 +1,12 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">Nueva Correspondencia de Entrada</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
+<h2>Nueva Entrada de Correspondencia</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+    <a href="{% url 'correspondencia_app:entrada_list' %}">Cancelar</a>
+</form>
 {% endblock %}
