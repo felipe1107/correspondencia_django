@@ -155,3 +155,7 @@ def gestor_delete(request, pk):
         item.delete()
         return redirect('correspondencia_app:gestor_list')
     return render(request, 'correspondencia_app/gestor_confirm_delete.html', {'item': item})
+
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
