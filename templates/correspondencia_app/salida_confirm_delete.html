@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>❌ Confirmar eliminación</h2>
-
-<p>¿Estás seguro de que deseas eliminar la salida: <strong>{{ item.asunto }}</strong>?</p>
-
-<form method="post">
+  <h2>¿Estás seguro de que deseas eliminar esta salida?</h2>
+  <p>{{ salida }}</p>
+  <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">🗑️ Sí, eliminar</button>
-    <a href="{% url 'salida_list' %}" class="btn btn-secondary">↩️ Cancelar</a>
-</form>
+    <button type="submit">Confirmar</button>
+    <a href="{% url 'correspondencia_app:salida_list' %}">Cancelar</a>
+  </form>
 {% endblock %}

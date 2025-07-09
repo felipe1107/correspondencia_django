@@ -6,25 +6,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-        <a class="navbar-brand" href="{% url 'correspondencia_app:dashboard' %}">Correspondencia</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:salida_list' %}">Salidas</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:gestor_list' %}">Gestores</a></li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a></li>
-                {% endif %}
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'correspondencia_app:index' %}">Correspondencia</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:salida_list' %}">Salidas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'correspondencia_app:gestor_list' %}">Gestores</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link" style="padding: 0; border: none; background: none;">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container">
         {% block content %}
         {% endblock %}
     </div>

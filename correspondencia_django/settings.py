@@ -81,7 +81,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ————— Media (subida de archivos) —————
 MEDIA_URL = '/medias/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ————— Rutas de autenticación —————
 # Redirección después de login
