@@ -4,16 +4,12 @@ from . import views
 app_name = 'correspondencia_app'
 
 urlpatterns = [
-    path('', views.dashboard, name='dashboard'),
-
-    # Login y logout
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.custom_logout, name='logout'),
-
+    path('', views.dashboard, name='index'),  # <- Esta línea define el "index"
+    
     # Entradas
     path('entradas/', views.entrada_list, name='entrada_list'),
     path('entradas/nueva/', views.entrada_create, name='entrada_create'),
-    path('entradas/editar/<int:pk>/', views.entrada_update, name='entrada_update'),
+    path('entradas/editar/<int:pk>/', views.entrada_update, name='entrada_edit'),
     path('entradas/eliminar/<int:pk>/', views.entrada_delete, name='entrada_delete'),
 
     # Salidas
