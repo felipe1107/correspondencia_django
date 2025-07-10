@@ -1,0 +1,21 @@
+<!-- correspondencia_app/templates/correspondencia_app/inicio.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - Sistema de Correspondencia</title>
+</head>
+<body>
+    <h1>Bienvenido al sistema de correspondencia</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'correspondencia_app:dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'correspondencia_app:entrada_list' %}">Entradas</a></li>
+            <li><a href="{% url 'correspondencia_app:salida_list' %}">Salidas</a></li>
+            <li><a href="{% url 'correspondencia_app:gestor_list' %}">Gestores</a></li>
+            <li><a href="{% url 'correspondencia_app:login' %}">Login</a></li>
+            <li><a href="{% url 'correspondencia_app:logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

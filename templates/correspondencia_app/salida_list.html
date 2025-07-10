@@ -1,39 +1,48 @@
-{% extends 'base.html' %}
+{% extends "correspondencia_app/base.html" %}
+
+
+{% block title %}Salidas de Correspondencia{% endblock %}
 
 {% block content %}
-<h2>Salidas de Correspondencia</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Listado de Salidas de Correspondencia</h2>
 
-<a href="{% url 'correspondencia_app:salida_create' %}">Nueva Salida</a>
+    <a href="{% url 'correspondencia_app:salida_create' %}" class="btn btn-success mb-3">Registrar nueva salida</a>
 
-<table>
-    <thead>
-        <tr>
-            <th>Número de Documento</th>
-            <th>Fecha de Envío</th>
-            <th>Remitente</th>
-            <th>Destinatario</th>
-            <th>Asunto</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for salida in salidas %}
-        <tr>
-            <td>{{ salida.numero_documento }}</td>
-            <td>{{ salida.fecha_envio }}</td>
-            <td>{{ salida.remitente }}</td>
-            <td>{{ salida.destinatario }}</td>
-            <td>{{ salida.asunto }}</td>
-            <td>
-                <a href="{% url 'correspondencia_app:salida_edit' salida.id %}">Editar</a> |
-                <a href="{% url 'correspondencia_app:salida_delete' salida.id %}">Eliminar</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="6">No hay salidas registradas.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Número de Documento</th>
+                <th>Fecha de Recepción</th>
+                <th>Remitente</th>
+                <th>Destinatario</th>
+                <th>Asunto</th>
+                <th>Departamento Origen</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salida in salidas %}
+                <tr>
+                    <td>{{ salida.numero_documento }}</td>
+                    <td>{{ salida.fecha_recepcion }}</td>
+                    <td>{{ salida.remitente }}</td>
+                    <td>{{ salida.destinatario }}</td>
+                    <td>{{ salida.asunto }}</td>
+                    <td>{{ salida.departamento_origen }}</td>
+                    <td>{{ salida.estado }}</td>
+                    <td>
+                        <a href="{% url 'correspondencia_app:salida_update' salida.pk %}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{% url 'correspondencia_app:salida_delete' salida.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta salida?');">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">No hay salidas registradas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

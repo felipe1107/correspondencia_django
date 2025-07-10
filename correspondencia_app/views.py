@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,8 +16,9 @@ def login_view(request):
             login(request, user)
             return redirect('correspondencia_app:dashboard')
         else:
-            return render(request, 'login.html', {'error': 'Usuario o contraseña inválidos'})
-    return render(request, 'login.html')
+            return render(request, 'correspondencia_app/login.html', {'error': 'Usuario o contraseña inválidos'})
+    return render(request, 'correspondencia_app/login.html')
+
 
 def logout_view(request):
     logout(request)
@@ -26,7 +28,7 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'correspondencia_app/dashboard.html')
 
 # --- Entradas ---
 
@@ -104,6 +106,18 @@ def salida_delete(request, pk):
         return redirect('correspondencia_app:salida_list')
     return render(request, 'correspondencia_app/salida_confirm_delete.html', {'item': item})
 
+@login_required
+def salida_edit(request, pk):
+    salida = get_object_or_404(SalidaCorrespondencia, pk=pk)
+    if request.method == 'POST':
+        form = SalidaForm(request.POST, request.FILES, instance=salida)
+        if form.is_valid():
+            form.save()
+            return redirect('correspondencia_app:salida_list')
+    else:
+        form = SalidaForm(instance=salida)
+    return render(request, 'correspondencia_app/salida_form.html', {'form': form})
+
 # --- Gestores ---
 
 @login_required
@@ -141,3 +155,5 @@ def gestor_delete(request, pk):
         item.delete()
         return redirect('correspondencia_app:gestor_list')
     return render(request, 'correspondencia_app/gestor_confirm_delete.html', {'item': item})
+def index(request):
+    return render(request, 'correspondencia_app/inicio.html')

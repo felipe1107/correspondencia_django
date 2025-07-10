@@ -1,20 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
+
+{% block title %}Panel Principal{% endblock %}
 
 {% block content %}
-  <div class="container text-center">
-    <h1>Bienvenido al Sistema de Correspondencia</h1>
-    <p>Selecciona una opción del menú para comenzar.</p>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Bienvenido, {{ request.user.username }}</h4>
+        </div>
+        <div class="card-body">
+            <p>Este es el panel principal del sistema de correspondencia.</p>
 
-    <div class="row justify-content-center mt-4">
-      <div class="col-md-3">
-        <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-primary w-100">Ver Entradas</a>
-      </div>
-      <div class="col-md-3">
-        <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-success w-100">Ver Salidas</a>
-      </div>
-      <div class="col-md-3">
-        <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary w-100">Gestores</a>
-      </div>
+            <div class="list-group">
+                <a href="{% url 'correspondencia_app:entrada_list' %}" class="list-group-item list-group-item-action">
+                    📥 Gestionar Entradas de Correspondencia
+                </a>
+                <a href="{% url 'correspondencia_app:salida_list' %}" class="list-group-item list-group-item-action">
+                    📤 Gestionar Salidas de Correspondencia
+                </a>
+                <a href="{% url 'correspondencia_app:gestor_list' %}" class="list-group-item list-group-item-action">
+                    👥 Gestión de Gestores
+                </a>
+                <a href="{% url 'correspondencia_app:logout' %}" class="list-group-item list-group-item-action text-danger">
+                    🚪 Cerrar Sesión
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %}

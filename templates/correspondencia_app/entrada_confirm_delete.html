@@ -1,11 +1,23 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
 
 {% block content %}
-<h2>¿Estás seguro que deseas eliminar esta entrada?</h2>
+<div class="card border-danger mb-3">
+    <div class="card-header bg-danger text-white">
+        Confirmación de Eliminación
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">¿Estás seguro de que deseas eliminar esta entrada?</h5>
+        <p class="card-text"><strong>Asunto:</strong> {{ item.asunto }}</p>
+        <p class="card-text"><strong>Remitente:</strong> {{ item.remitente }}</p>
+        <p class="card-text"><strong>Fecha de recepción:</strong> {{ item.fecha_recepcion }}</p>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirmar</button>
-    <a href="{% url 'correspondencia_app:entrada_list' %}">Cancelar</a>
-</form>
+        <form method="post">
+            {% csrf_token %}
+            <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
