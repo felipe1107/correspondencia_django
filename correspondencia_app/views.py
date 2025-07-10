@@ -122,8 +122,8 @@ def salida_edit(request, pk):
 
 @login_required
 def gestor_list(request):
-    gestores = Gestor.objects.all()
-    return render(request, 'correspondencia_app/gestor_list.html', {'gestores': gestores})
+    items = Gestor.objects.all()
+    return render(request, 'correspondencia_app/gestor_list.html', {'items': items})
 
 @login_required
 def gestor_create(request):

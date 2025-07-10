@@ -1,37 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'correspondencia_app/base.html' %}
 
 {% block content %}
-<h2>Gestores</h2>
+  <h2>Lista de Gestores</h2>
 
-<a href="{% url 'correspondencia_app:gestor_create' %}">Nuevo Gestor</a>
+  <a href="{% url 'correspondencia_app:gestor_create' %}" class="btn btn-primary">+ Nuevo Gestor</a>
 
-<table>
-    <thead>
+  {% if items %}
+    <table border="1" cellpadding="10" cellspacing="0">
+      <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Departamento</th>
-            <th>Correo Electrónico</th>
-            <th>Teléfono</th>
-            <th>Acciones</th>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Departamento</th>
+          <th>Acciones</th>
         </tr>
-    </thead>
-    <tbody>
-        {% for gestor in gestores %}
-        <tr>
-            <td>{{ gestor.nombre }}</td>
-            <td>{{ gestor.departamento }}</td>
-            <td>{{ gestor.email }}</td>
-            <td>{{ gestor.telefono }}</td>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.correo }}</td>
+            <td>{{ item.departamento }}</td>
             <td>
-                <a href="{% url 'correspondencia_app:gestor_edit' gestor.id %}">Editar</a> |
-                <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}">Eliminar</a>
+              <a href="{% url 'correspondencia_app:gestor_update' item.id %}">Editar</a> |
+              <form method="post" action="{% url 'correspondencia_app:gestor_delete' item.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este gestor?');">Eliminar</button>
+              </form>
             </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No hay gestores registrados.</td>
-        </tr>
+          </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  {% else %}
+    <p>No hay gestores registrados.</p>
+  {% endif %}
+
 {% endblock %}

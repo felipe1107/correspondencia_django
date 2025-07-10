@@ -1,11 +1,33 @@
-{% extends 'base.html' %}
+{% extends "correspondencia_app/base.html" %}
+
+{% block title %}Eliminar Salida de Correspondencia{% endblock %}
 
 {% block content %}
-<h2>¿Estás seguro que deseas eliminar esta salida?</h2>
-
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirmar</button>
-    <a href="{% url 'correspondencia_app:salida_list' %}">Cancelar</a>
-</form>
+<div class="card shadow">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">¿Estás seguro que deseas eliminar esta salida de correspondencia?</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Número de documento:</strong> {{ item.numero_documento }}</p>
+        <p><strong>Fecha de salida:</strong> {{ item.fecha_salida }}</p>
+        <p><strong>Remitente:</strong> {{ item.remitente }}</p>
+        <p><strong>Destinatario:</strong> {{ item.destinatario }}</p>
+        <p><strong>Asunto:</strong> {{ item.asunto }}</p>
+        <p><strong>Departamento origen:</strong> {{ item.departamento_origen }}</p>
+        <p><strong>Estado:</strong> {{ item.estado }}</p>
+        {% if item.archivo_adjunto %}
+            <p><strong>Archivo adjunto:</strong> 
+                <a href="{{ item.archivo_adjunto.url }}" target="_blank" class="btn btn-outline-primary btn-sm">Ver archivo</a>
+            </p>
+        {% endif %}
+        <p><strong>Observaciones:</strong> {{ item.observaciones }}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
 {% endblock %}

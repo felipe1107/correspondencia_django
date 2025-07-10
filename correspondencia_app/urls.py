@@ -1,19 +1,15 @@
-# correspondencia_app/urls.py
-
 from django.urls import path
 from . import views
 
 app_name = 'correspondencia_app'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-
-    # Login y Logout
+    # Autenticación
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
 
     # Dashboard
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('', views.dashboard, name='dashboard'),
 
     # Entradas
     path('entradas/', views.entrada_list, name='entrada_list'),
