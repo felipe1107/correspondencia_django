@@ -1,12 +1,23 @@
-templates/correspondencia_app/base.html
-
+{% extends 'correspondencia_app/base.html' %}
 {% block content %}
-<h2>Nueva Entrada de Correspondencia</h2>
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">
+    <i class="bi bi-box-arrow-in-down"></i> Registrar Entrada de Correspondencia
+  </h2>
 
-<form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" class="row g-3">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-    <a href="{% url 'correspondencia_app:entrada_list' %}">Cancelar</a>
-</form>
+    <div class="col-md-6">{{ form.remitente.label_tag }} {{ form.remitente }}</div>
+    <div class="col-md-6">{{ form.destinatario.label_tag }} {{ form.destinatario }}</div>
+    <div class="col-md-6">{{ form.asunto.label_tag }} {{ form.asunto }}</div>
+    <div class="col-md-6">{{ form.departamento_destino.label_tag }} {{ form.departamento_destino }}</div>
+    <div class="col-md-6">{{ form.estado.label_tag }} {{ form.estado }}</div>
+    <div class="col-md-6">{{ form.archivo_adjunto.label_tag }} {{ form.archivo_adjunto }}</div>
+    <div class="col-12">{{ form.observaciones.label_tag }} {{ form.observaciones }}</div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <a href="{% url 'correspondencia_app:entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

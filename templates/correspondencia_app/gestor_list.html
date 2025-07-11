@@ -1,36 +1,56 @@
 {% extends 'correspondencia_app/base.html' %}
-{% block content %}
-  <h2>Gestores Registrados</h2>
-  <a href="{% url 'correspondencia_app:gestor_create' %}">Nuevo Gestor</a>
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-        <tr>
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.correo }}</td>
-          <td>{{ item.telefono }}</td>
-          <td>
-            <a href="{% url 'correspondencia_app:gestor_update' item.id %}">Editar</a> |
 
-            <form action="{% url 'correspondencia_app:gestor_delete' item.id %}" method="post" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit" onclick="return confirm('¿Estás seguro que deseas eliminar este gestor?');">Eliminar</button>
-            </form>
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="4">No hay gestores registrados.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center"><i class="fas fa-clipboard-list"></i> Gestores Registrados</h2>
+
+    <form method="GET" class="d-flex mb-3">
+        <input type="text" name="q" class="form-control me-2" placeholder="Buscar por nombre o departamento..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="fas fa-search"></i> Buscar
+        </button>
+    </form>
+
+    <a href="{% url 'correspondencia_app:gestor_create' %}" class="btn btn-success mb-3">
+        <i class="fas fa-plus"></i> Nuevo Gestor
+    </a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Departamento</th>
+                    <th>Cargo</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gestor in gestores %}
+                <tr class="text-center align-middle">
+                    <td>{{ gestor.nombre }}</td>
+                    <td>{{ gestor.departamento }}</td>
+                    <td>{{ gestor.cargo }}</td>
+                    <td>{{ gestor.telefono }}</td>
+                    <td>{{ gestor.correo }}</td>
+                    <td>
+                        <a href="{% url 'correspondencia_app:gestor_update' gestor.pk %}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-pen"></i> ✏️
+                        </a>
+                        <a href="{% url 'correspondencia_app:gestor_delete' gestor.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este gestor?');">
+                            <i class="fas fa-trash"></i> 🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay gestores registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'correspondencia_app/base.html' %}
 
-
 {% block content %}
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Formulario de Gestor</h2>
@@ -16,8 +15,16 @@
                 {{ form.correo }}
             </div>
             <div class="mb-3">
+                <label for="id_telefono" class="form-label">Teléfono:</label>
+                {{ form.telefono }}
+            </div>
+            <div class="mb-3">
                 <label for="id_departamento" class="form-label">Departamento:</label>
                 {{ form.departamento }}
+            </div>
+            <div class="mb-3">
+                <label for="id_cargo" class="form-label">Cargo:</label>
+                {{ form.cargo }}
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>

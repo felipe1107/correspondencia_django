@@ -1,31 +1,72 @@
 {% extends 'correspondencia_app/base.html' %}
 
-{% block title %}Panel Principal{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h4>Bienvenido, {{ request.user.username }}</h4>
-        </div>
-        <div class="card-body">
-            <p>Este es el panel principal del sistema de correspondencia.</p>
+<h2 style="margin-bottom: 20px;">Panel Principal</h2>
 
-            <div class="list-group">
-                <a href="{% url 'correspondencia_app:entrada_list' %}" class="list-group-item list-group-item-action">
-                    📥 Gestionar Entradas de Correspondencia
-                </a>
-                <a href="{% url 'correspondencia_app:salida_list' %}" class="list-group-item list-group-item-action">
-                    📤 Gestionar Salidas de Correspondencia
-                </a>
-                <a href="{% url 'correspondencia_app:gestor_list' %}" class="list-group-item list-group-item-action">
-                    👥 Gestión de Gestores
-                </a>
-                <a href="{% url 'correspondencia_app:logout' %}" class="list-group-item list-group-item-action text-danger">
-                    🚪 Cerrar Sesión
-                </a>
-            </div>
-        </div>
-    </div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
+  <div style="flex: 1; min-width: 250px; background: #e0f7fa; padding: 20px; border-radius: 10px;">
+    <h3>Total de Entradas</h3>
+    <p style="font-size: 24px; font-weight: bold;">{{ total_entradas }}</p>
+  </div>
+
+  <div style="flex: 1; min-width: 250px; background: #fce4ec; padding: 20px; border-radius: 10px;">
+    <h3>Total de Salidas</h3>
+    <p style="font-size: 24px; font-weight: bold;">{{ total_salidas }}</p>
+  </div>
+
+  <div style="flex: 1; min-width: 250px; background: #e8f5e9; padding: 20px; border-radius: 10px;">
+    <h3>Total de Gestores</h3>
+    <p style="font-size: 24px; font-weight: bold;">{{ total_gestores }}</p>
+  </div>
 </div>
+
+<hr>
+
+<h3>Últimas Entradas</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; margin-bottom: 40px;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>Número</th>
+      <th>Remitente</th>
+      <th>Asunto</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entrada in ultimas_entradas %}
+    <tr>
+      <td>{{ entrada.numero_documento }}</td>
+      <td>{{ entrada.remitente }}</td>
+      <td>{{ entrada.asunto }}</td>
+      <td>{{ entrada.fecha_recepcion }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No hay entradas recientes.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Últimas Salidas</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>Número</th>
+      <th>Destinatario</th>
+      <th>Asunto</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for salida in ultimas_salidas %}
+    <tr>
+      <td>{{ salida.numero_documento }}</td>
+      <td>{{ salida.destinatario }}</td>
+      <td>{{ salida.asunto }}</td>
+      <td>{{ salida.fecha_envio }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No hay salidas recientes.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

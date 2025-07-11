@@ -1,12 +1,52 @@
-templates/correspondencia_app/base.html
+{% extends 'correspondencia_app/base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Nueva Salida de Correspondencia</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">✉️ Nueva Salida de Correspondencia</h2>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-    <a href="{% url 'correspondencia_app:salida_list' %}">Cancelar</a>
-</form>
+    <form method="POST" enctype="multipart/form-data" class="row g-4">
+        {% csrf_token %}
+
+        <div class="col-md-6">
+            <label for="{{ form.remitente.id_for_label }}" class="form-label">Remitente:</label>
+            {{ form.remitente }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.destinatario.id_for_label }}" class="form-label">Destinatario:</label>
+            {{ form.destinatario }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.asunto.id_for_label }}" class="form-label">Asunto:</label>
+            {{ form.asunto }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.departamento_origen.id_for_label }}" class="form-label">Departamento origen:</label>
+            {{ form.departamento_origen }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.estado.id_for_label }}" class="form-label">Estado:</label>
+            {{ form.estado }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.archivo_adjunto.id_for_label }}" class="form-label">Archivo adjunto:</label>
+            {{ form.archivo_adjunto }}
+        </div>
+
+        <div class="col-12">
+            <label for="{{ form.observaciones.id_for_label }}" class="form-label">Observaciones:</label>
+            {{ form.observaciones }}
+        </div>
+
+        <div class="col-12 d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">💾 Guardar</button>
+            <a href="{% url 'correspondencia_app:salida_list' %}" class="btn btn-secondary">❌ Cancelar</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

@@ -1,9 +1,18 @@
-<!-- correspondencia_app/templates/correspondencia_app/gestor_confirm_delete.html -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Eliminar Gestor</title>
+{% extends 'correspondencia_app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Eliminar Gestor</h2>
+    <p>¿Estás seguro que deseas eliminar este gestor?</p>
+    <p>{{ item }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        <a href="{% url 'correspondencia_app:gestor_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
+
 </head>
 <body>
     <h2>¿Estás seguro que deseas eliminar este gestor?</h2>
